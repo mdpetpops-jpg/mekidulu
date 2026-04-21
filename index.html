@@ -3,56 +3,123 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mekidulu Official | Premium Wood Cat Trees & Towers</title>
+    <title>Mekidulu Official | Elevate Your Pet's Lifestyle</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        .product-card img { aspect-ratio: 1/1; object-fit: contain; padding: 1rem; }
+        html { scroll-behavior: smooth; }
+        .nav-link { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: white; }
+        .nav-link:hover { color: #f97316; }
+        /* 弹窗样式 */
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); overflow-y: auto; }
+        .modal-content { background: white; margin: 2% auto; padding: 2rem; width: 90%; max-width: 900px; border-radius: 24px; }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-900">
+<body class="bg-white text-gray-900 font-sans">
 
-    <nav class="bg-white sticky top-0 z-50 shadow-sm px-6 py-4 flex justify-between items-center">
-        <img src="https://raw.githubusercontent.com/mdpetpops-jpg/mekidulu/main/mekidululogo.png" alt="Mekidulu Logo" class="h-10 w-auto">
-        <div class="space-x-4 text-xs font-bold uppercase">
-            <a href="#products" class="hover:text-orange-600">Products</a>
-            <a href="mailto:support@mekidulu.com" class="hover:text-orange-600">Support</a>
+    <nav class="absolute top-0 left-0 w-full z-50 px-8 py-6 flex justify-between items-center bg-gradient-to-b from-black/50 to-transparent">
+        <a href="#home">
+            <img src="img/logo.png" alt="Mekidulu" class="h-10 w-auto" onerror="this.src='https://raw.githubusercontent.com/mdpetpops-jpg/mekidulu/main/mekidululogo.png'">
+        </a>
+        <div class="hidden md:flex space-x-8">
+            <a href="#products" class="nav-link">Collections</a>
+            <a href="#about" class="nav-link">Our Story</a>
+            <a href="#philosophy" class="nav-link">Philosophy</a>
+            <a href="mailto:support@mekidulu.com" class="nav-link">Support</a>
         </div>
     </nav>
 
-    <section id="products" class="max-w-7xl mx-auto py-12 px-6">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            
-            <script>
-                const pData = [
-                    {id: "18084473706", name: "Floor to Ceiling Cat Tree (95-108\")", img: "3e7208d0-c65d-4592-8091-88f58d20387b.94b8e2b86134a696228514168c156f2d"},
-                    {id: "13440405409", name: "Sisal Wood Climbing Tower", img: "4b8a788c-9a4d-4e9f-9f7a-8f5b4f2c5d4f.8e6b2b8d6b6e4e8a8b8b8b8b8b8b8b8b"},
-                    {id: "13438662845", name: "Wooden Tower with Spaceship", img: "7d8c5b8a-9e4a-4d7f-9b5c-4f2c5d4f2c5d.8e6b2b8d6b6e4e8a8b8b8b8b8b8b8b8b"},
-                    {id: "13009415698", name: "59in Green Wood Tower", img: "3e6f989f-8898-4c8a-9f5b-17c385215c0e.21e8d47b59e3557e0e7a2b0e7a2b0e7a"},
-                    {id: "18142757038", name: "76\" Tall Wooden Cat Tree", img: "44070a7b-8394-406a-a28d-1906a6c9867c.71261a8a8b8b8b8b8b8b8b8b8b8b8b8b"},
-                    {id: "20066208481", name: "54in Modern Spaceship Pod", img: "28e35f8c-987d-4c8d-8a6c-9f5b5f5b5f5b"},
-                    {id: "12978917259", name: "61in Wooden Tree with Bed", img: "9e9e9e9e-9e9e-9e9e-9e9e-9e9e9e9e9e9e"},
-                    {id: "15071754753", name: "67in 7-Level Climbing Tower", img: "7d7d7d7d-7d7d-7d7d-7d7d-7d7d7d7d7d7d"},
-                    {id: "18117358261", name: "72in Tower with 4 Bowls", img: "8e8e8e8e-8e8e-8e8e-8e8e-8e8e8e8e8e8e"},
-                    {id: "13434120188", name: "Adjustable Floor-to-Ceiling Wood", img: "a1a1a1a1-a1a1-a1a1-a1a1-a1a1a1a1a1a1"},
-                    {id: "13403373913", name: "Slim Tower with Spaceship Pod", img: "b2b2b2b2-b2b2-b2b2-b2b2-b2b2b2b2b2b2"}
-                ];
+    <header id="home" class="relative h-screen flex items-center justify-center text-center px-6 overflow-hidden">
+        <img src="img/hero-banner.jpg" alt="Mekidulu Modern Cat Furniture Scene" class="absolute inset-0 w-full h-full object-cover z-10" onerror="this.src='https://via.placeholder.com/1920x1080?text=Upload+img/hero-banner.jpg'">
+        
+        <div class="absolute inset-0 bg-black/40 z-20"></div>
 
-                document.write(pData.map(p => `
-                    <div class="product-card bg-white rounded-2xl shadow-sm border border-gray-100 hover:shadow-lg transition">
-                        <img src="https://i5.walmartimages.com/asr/${p.img}.jpeg" class="w-full" onerror="this.src='https://raw.githubusercontent.com/mdpetpops-jpg/mekidulu/main/mekidululogo.png'">
-                        <div class="p-4">
-                            <h3 class="text-xs font-bold mb-4 h-8 overflow-hidden">${p.name}</h3>
-                            <a href="https://www.walmart.com/ip/${p.id}" target="_blank" class="block w-full bg-[#0071CE] text-white text-center py-2 rounded-lg text-xs font-bold hover:bg-blue-700">View on Walmart</a>
-                        </div>
-                    </div>
-                `).join(''));
-            </script>
+        <div class="relative z-30 max-w-5xl text-white">
+            <h1 class="text-6xl md:text-8xl font-black mb-6 leading-tight tracking-tighter">Better Space,<br><span class="text-orange-500">Happier Cats.</span></h1>
+            <p class="text-xl md:text-2xl text-gray-100 mb-12 max-w-3xl mx-auto leading-relaxed">Discover Mekidulu's premium, adjustable wooden cat towers. Designed to blend seamlessly into your modern home.</p>
+            <div class="flex gap-4 justify-center">
+                <a href="#products" class="bg-white text-black px-10 py-4 rounded-full font-bold hover:bg-orange-600 hover:text-white transition duration-300">Explore Collections</a>
+                <a href="#about" class="bg-transparent border-2 border-white text-white px-10 py-4 rounded-full font-bold hover:bg-white hover:text-black transition duration-300">Our Story</a>
+            </div>
+        </div>
+    </header>
+
+    <section id="products" class="py-24 px-8 bg-stone-50">
+        <div class="max-w-7xl mx-auto text-center mb-16">
+            <h2 class="text-4xl font-black mb-4">Premium Collections</h2>
+            <p class="text-gray-400">Click on products to see details and installation videos.</p>
+        </div>
+        <div class="max-w-7xl mx-auto grid grid-cols-2 lg:grid-cols-4 gap-8" id="productGrid">
+            </div>
+    </section>
+
+    <section id="about" class="py-24 px-8 max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-center">
+        <div>
+            <h2 class="text-4xl font-black mb-6 leading-tight">Born from Love,<br>Driven by Design.</h2>
+            <p class="text-gray-600 mb-6 leading-relaxed text-lg">Mekidulu started with a simple question: Why can't cat furniture be as beautiful as our own? We are a team of pet lovers and designers dedicated to creating sturdy, vertical spaces that respect both your cat's natural instincts and your interior design.</p>
+            <a href="mailto:support@mekidulu.com" class="text-orange-600 font-bold hover:underline">Contact our design team →</a>
+        </div>
+        <div class="bg-gray-100 rounded-3xl aspect-[4/3] overflow-hidden shadow-inner">
+            <img src="img/about-story.jpg" alt="Our Team" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/800x600?text=Upload+img/about-story.jpg'">
         </div>
     </section>
 
-    <footer class="py-12 border-t text-center text-gray-400 text-[10px] tracking-widest">
-        © 2026 MEKIDULU GLOBAL
+    <footer class="bg-stone-900 text-white py-20 px-8 text-center">
+        <img src="img/logo.png" class="h-8 mx-auto mb-8 filter invert" onerror="this.src='https://raw.githubusercontent.com/mdpetpops-jpg/mekidulu/main/mekidululogo.png'">
+        <p class="text-[10px] text-gray-500 uppercase tracking-widest mb-12">© 2026 Mekidulu Global | Your Premium Pet Partner</p>
     </footer>
 
+    <div id="detailModal" class="modal" onclick="closeModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div id="modalBody"></div>
+        </div>
+    </div>
+
+    <script>
+        // 产品数据库 (示例：p1 和 p2)
+        const products = [
+            { id: 'p1', name: '59" Green Wood Climbing Tower', img: 'img/p1-main.jpg', video: 'https://www.youtube.com/embed/dQw4w9WgXcQ', walmart: 'https://www.walmart.com/ip/13009415698', amazon: '#', desc: 'Six-level premium wood construction with built-in scratching posts and eco-friendly green finish.' },
+            { id: 'p2', name: '76" Tall Wooden Luxury Tower', img: 'img/p2-main.jpg', video: '#', walmart: 'https://www.walmart.com/ip/18142757038', amazon: '#', desc: 'Features double space capsules and premium plush hammock for maximum comfort.' }
+        ];
+
+        // 生成产品格
+        const grid = document.getElementById('productGrid');
+        grid.innerHTML = products.map(p => `
+            <div class="bg-white p-4 rounded-3xl shadow-sm hover:shadow-xl transition cursor-pointer" onclick="openModal('${p.id}')">
+                <img src="${p.img}" class="w-full aspect-square object-cover rounded-2xl mb-4" onerror="this.src='https://via.placeholder.com/300?text=Mekidulu+Product'">
+                <h3 class="text-sm font-bold h-10 overflow-hidden">${p.name}</h3>
+                <p class="text-orange-600 text-[10px] font-bold mt-2 uppercase tracking-widest">Click for Details</p>
+            </div>
+        `).join('');
+
+        function openModal(id) {
+            const p = products.find(i => i.id === id);
+            document.getElementById('modalBody').innerHTML = `
+                <div class="grid md:grid-cols-2 gap-8 relative p-4">
+                    <span class="absolute top-0 right-0 text-3xl cursor-pointer" onclick="closeModal()">&times;</span>
+                    <div class="rounded-2xl overflow-hidden bg-gray-50 aspect-square">
+                        <img src="${p.img}" class="w-full h-full object-contain" onerror="this.src='https://via.placeholder.com/500?text=Detail+View'">
+                    </div>
+                    <div>
+                        <h2 class="text-3xl font-black mb-4">${p.name}</h2>
+                        <p class="text-gray-600 mb-6 leading-relaxed">${p.desc}</p>
+                        <div class="aspect-video bg-black rounded-xl mb-6 overflow-hidden">
+                            <iframe class="w-full h-full" src="${p.video}" frameborder="0" allowfullscreen></iframe>
+                        </div>
+                        <div class="flex flex-col gap-3">
+                            <a href="${p.walmart}" target="_blank" class="bg-[#0071CE] text-white py-4 rounded-xl font-bold text-center hover:bg-blue-700">View on Walmart</a>
+                            <a href="${p.amazon}" target="_blank" class="bg-[#FF9900] text-white py-4 rounded-xl font-bold text-center hover:bg-orange-600">View on Amazon</a>
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.getElementById('detailModal').style.display = 'block';
+            document.body.style.overflow = 'hidden'; // 弹窗时禁止页面滚动
+        }
+
+        function closeModal() {
+            document.getElementById('detailModal').style.display = 'none';
+            document.body.style.overflow = 'auto'; // 恢复页面滚动
+        }
+    </script>
 </body>
 </html>
