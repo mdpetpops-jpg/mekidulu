@@ -3,97 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mekidulu Official | Premium Wooden Cat Trees & Towers</title>
-    <meta name="description" content="Shop Mekidulu's adjustable floor-to-ceiling cat trees, modern spaceship condos, and multi-level towers. Quality for cats, peace for you.">
+    <title>Mekidulu Official | Premium Wooden Cat Trees</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* 强制图片比例统一，防止错位 */
+        .product-img { aspect-ratio: 1/1; object-fit: contain; background: #fff; }
+    </style>
 </head>
-<body class="bg-stone-50 text-gray-900">
+<body class="bg-stone-50 text-gray-900 font-sans">
 
-    <nav class="bg-white sticky top-0 z-50 shadow-sm px-8 py-4 flex justify-between items-center">
-        <a href="/"><img src="https://raw.githubusercontent.com/mdpetpops-jpg/mekidulu/main/mekidululogo.png" alt="Mekidulu Logo" class="h-10 w-auto"></a>
-        <div class="hidden md:flex space-x-6 text-xs font-bold uppercase tracking-widest">
-            <a href="#products" class="hover:text-orange-600 transition">Walmart Shop</a>
-            <a href="#manuals" class="hover:text-orange-600 transition">Manuals</a>
+    <nav class="bg-white/90 backdrop-blur-md sticky top-0 z-50 shadow-sm px-8 py-4 flex justify-between items-center">
+        <a href="/">
+            <img src="https://raw.githubusercontent.com/mdpetpops-jpg/mekidulu/main/mekidululogo.png" alt="Mekidulu Logo" class="h-10 w-auto">
+        </a>
+        <div class="hidden md:flex space-x-8 font-bold text-xs uppercase tracking-widest">
+            <a href="#products" class="hover:text-orange-600 transition">Walmart Collections</a>
+            <a href="https://www.facebook.com/groups/yourgroup" class="bg-black text-white px-4 py-2 rounded-full hover:bg-orange-600 transition">Join Community</a>
         </div>
     </nav>
 
-    <header class="bg-white py-16 px-6 text-center border-b border-stone-100">
-        <h1 class="text-4xl md:text-5xl font-black mb-4">Elevate Your Pet's Lifestyle</h1>
-        <p class="text-stone-400 max-w-xl mx-auto">Explore our collection of modern, sturdy, and aesthetic cat furniture.</p>
+    <header class="bg-white pt-20 pb-16 px-6 text-center border-b border-stone-100">
+        <h1 class="text-5xl font-black mb-6 tracking-tight">Elevate Your Pet's Lifestyle</h1>
+        <p class="text-lg text-stone-400 max-w-2xl mx-auto leading-relaxed">Modern, sturdy, and aesthetic cat furniture designed for your furry friends. Shop our official Walmart store.</p>
     </header>
 
-    <section id="products" class="max-w-7xl mx-auto py-16 px-6">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+    <section id="products" class="max-w-7xl mx-auto py-20 px-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
 
-            <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition">
-                <img src="https://i5.walmartimages.com/asr/3e6f989f-8898-4c8a-9f5b-17c385215c0e.21e8d47b59e3557e0e7a2b0e7a2b0e7a.jpeg" class="w-full h-64 object-cover">
-                <div class="p-5">
-                    <h3 class="text-sm font-bold h-10 overflow-hidden mb-4">59" Green Wood Climbing Tower with Scratching Post</h3>
-                    <a href="https://www.walmart.com/ip/Mekidulu-59in-6-Level-Large-Cat-Tree-Climbing-Tower-with-Scratching-Post-Green-Wood/13009415698" target="_blank" class="block w-full bg-[#0071CE] text-white text-center py-2 rounded-lg font-bold text-xs hover:opacity-90">Shop on Walmart</a>
-                </div>
-            </div>
+            <script>
+                // 自动生成产品的脚本，方便你以后维护
+                const products = [
+                    { name: "59in Green Wood Climbing Tower", link: "13009415698", img: "3e6f989f-8898-4c8a-9f5b-17c385215c0e.21e8d47b59e3557e0e7a2b0e7a2b0e7a.jpeg" },
+                    { name: "76in Tall Wooden Cat Tree with 2 Capsules", link: "18142757038", img: "44070a7b-8394-406a-a28d-1906a6c9867c.71261a8a8b8b8b8b8b8b8b8b8b8b8b8b.jpeg" },
+                    { name: "54in Modern Wood Cat Tree Spaceship Pod", link: "20066208481", img: "28e35f8c-987d-4c8d-8a6c-9f5b5f5b5f5b.jpeg" },
+                    { name: "61in Wooden Cat Tree with Bed & Hammock", link: "12978917259", img: "3e7208d0-c65d-4592-8091-88f58d20387b.94b8e2b86134a696228514168c156f2d.jpeg" },
+                    { name: "67in 7-Level Climbing Tower", link: "15071754753", img: "4b8a788c-9a4d-4e9f-9f7a-8f5b4f2c5d4f.8e6b2b8d6b6e4e8a8b8b8b8b8b8b8b8b.jpeg" },
+                    { name: "72in Tower with 4 Feeding Bowls", link: "18117358261", img: "7d8c5b8a-9e4a-4d7f-9b5c-4f2c5d4f2c5d.8e6b2b8d6b6e4e8a8b8b8b8b8b8b8b8b.jpeg" },
+                    { name: "Adjustable Floor-to-Ceiling (95-108in)", link: "18084473706", img: "a1a1a1a1-a1a1-a1a1-a1a1-a1a1a1a1a1a1.jpeg" },
+                    { name: "Slim Floor-to-Ceiling with Spaceship", link: "13403373913", img: "b2b2b2b2-b2b2-b2b2-b2b2-b2b2b2b2b2b2.jpeg" }
+                    // ... 后续可以继续在这里添加
+                ];
 
-            <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition">
-                <img src="https://i5.walmartimages.com/asr/44070a7b-8394-406a-a28d-1906a6c9867c.71261a8a8b8b8b8b8b8b8b8b8b8b8b8b.jpeg" class="w-full h-64 object-cover">
-                <div class="p-5">
-                    <h3 class="text-sm font-bold h-10 overflow-hidden mb-4">76" Multi-Level Cat Condo with 2 Space Capsules</h3>
-                    <a href="https://www.walmart.com/ip/MEKIDULU-76-Tall-Wooden-Cat-Tree-Tower-for-Large-Cats-Multi-Level-Cat-Condo-with-2-Space-Capsules-Plush-Hammock-and-16-Sisal-Scratching-Posts/18142757038" target="_blank" class="block w-full bg-[#0071CE] text-white text-center py-2 rounded-lg font-bold text-xs hover:opacity-90">Shop on Walmart</a>
-                </div>
-            </div>
-
-            <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition">
-                <img src="https://i5.walmartimages.com/asr/28e35f8c-987d-4c8d-8a6c-9f5b5f5b5f5b.jpeg" class="w-full h-64 object-cover">
-                <div class="p-5">
-                    <h3 class="text-sm font-bold h-10 overflow-hidden mb-4">54" Modern Wood Cat Tree with Spaceship Pod</h3>
-                    <a href="https://www.walmart.com/ip/Mekidulu-54in-Modern-Wood-Cat-Tree-6-Tier-Cat-Tower-Spaceship-Pod-Condo-Multi-Level-Cat-Furniture-Sisal-Scratching-Posts-Large-Cats/20066208481" target="_blank" class="block w-full bg-[#0071CE] text-white text-center py-2 rounded-lg font-bold text-xs hover:opacity-90">Shop on Walmart</a>
-                </div>
-            </div>
-
-            <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition">
-                <img src="https://i5.walmartimages.com/asr/9e9e9e9e-9e9e-9e9e-9e9e-9e9e9e9e9e9e.jpeg" class="w-full h-64 object-cover">
-                <div class="p-5">
-                    <h3 class="text-sm font-bold h-10 overflow-hidden mb-4">61" Wooden Cat Tree with Bed & Hammock - Brown</h3>
-                    <a href="https://www.walmart.com/ip/Mekidulu-6-Level-61-Wooden-Cat-Tree-with-Bed-Hammock-Scratching-Dangling-Ball-Bowl-Brown/12978917259" target="_blank" class="block w-full bg-[#0071CE] text-white text-center py-2 rounded-lg font-bold text-xs hover:opacity-90">Shop on Walmart</a>
-                </div>
-            </div>
-
-            <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition">
-                <img src="https://i5.walmartimages.com/asr/7d7d7d7d-7d7d-7d7d-7d7d-7d7d7d7d7d7d.jpeg" class="w-full h-64 object-cover">
-                <div class="p-5">
-                    <h3 class="text-sm font-bold h-10 overflow-hidden mb-4">67" 7-Level Wooden Climbing Tower with Bowl</h3>
-                    <a href="https://www.walmart.com/ip/Mekidulu-7-Level-67-Wooden-Cat-Tree-Climbing-Tower-with-Scratching-Posts-Bed-Ball-Bowl-Brown/15071754753" target="_blank" class="block w-full bg-[#0071CE] text-white text-center py-2 rounded-lg font-bold text-xs hover:opacity-90">Shop on Walmart</a>
-                </div>
-            </div>
-
-            <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition">
-                <img src="https://i5.walmartimages.com/asr/8e8e8e8e-8e8e-8e8e-8e8e-8e8e8e8e8e8e.jpeg" class="w-full h-64 object-cover">
-                <div class="p-5">
-                    <h3 class="text-sm font-bold h-10 overflow-hidden mb-4">72" Wooden Cat Tree with 4 Feeding Bowls & Cage</h3>
-                    <a href="https://www.walmart.com/ip/MEKIDULU-72-Wooden-Cat-Tree-Tower-for-Large-Cats-Multi-Level-Cat-Condo-with-4-Feeding-Bowls-12-Sisal-Scratching-Posts-and-Cat-Cage/18117358261" target="_blank" class="block w-full bg-[#0071CE] text-white text-center py-2 rounded-lg font-bold text-xs hover:opacity-90">Shop on Walmart</a>
-                </div>
-            </div>
-
-            <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition">
-                <img src="https://i5.walmartimages.com/asr/a1a1a1a1-a1a1-a1a1-a1a1-a1a1a1a1a1a1.jpeg" class="w-full h-64 object-cover">
-                <div class="p-5">
-                    <h3 class="text-sm font-bold h-10 overflow-hidden mb-4">Adjustable Floor-to-Ceiling Tower (Up to 108")</h3>
-                    <a href="https://www.walmart.com/ip/Mekidulu-Floor-to-Ceiling-Cat-Tree-Tower-Adjustable-94-5-100-4in-104-3-108-3in-Wood/13434120188" target="_blank" class="block w-full bg-[#0071CE] text-white text-center py-2 rounded-lg font-bold text-xs hover:opacity-90">Shop on Walmart</a>
-                </div>
-            </div>
-
-            <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition">
-                <img src="https://i5.walmartimages.com/asr/b2b2b2b2-b2b2-b2b2-b2b2-b2b2b2b2b2b2.jpeg" class="w-full h-64 object-cover">
-                <div class="p-5">
-                    <h3 class="text-sm font-bold h-10 overflow-hidden mb-4">Slim Floor-to-Ceiling Tower with Spaceship Pod</h3>
-                    <a href="https://www.walmart.com/ip/Mekidulu-Wooden-Slim-Floor-to-Ceiling-Cat-Tree-Tower-Adjustable-94-4-98-8-inches-with-Spaceship-Full-Rope-Wrap-Wood-Color/13403373913" target="_blank" class="block w-full bg-[#0071CE] text-white text-center py-2 rounded-lg font-bold text-xs hover:opacity-90">Shop on Walmart</a>
-                </div>
-            </div>
+                document.write(products.map(p => `
+                    <div class="group bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-2xl transition duration-500 border border-stone-100">
+                        <div class="overflow-hidden bg-white p-4">
+                            <img src="https://images.weserv.nl/?url=i5.walmartimages.com/asr/${p.img}" alt="${p.name}" class="product-img w-full group-hover:scale-105 transition duration-700">
+                        </div>
+                        <div class="p-6">
+                            <h3 class="font-bold text-sm h-10 overflow-hidden mb-4 line-clamp-2">${p.name}</h3>
+                            <a href="https://www.walmart.com/ip/${p.link}" target="_blank" class="block w-full bg-[#0071CE] text-white text-center py-3 rounded-xl font-bold text-xs hover:bg-blue-700 transition">Shop on Walmart</a>
+                        </div>
+                    </div>
+                `).join(''));
+            </script>
 
         </div>
     </section>
 
-    <footer class="py-12 border-t text-center text-stone-300 text-[10px] tracking-widest uppercase">
-        <p>© 2026 Mekidulu. Powered by GitHub Pages.</p>
+    <section class="bg-stone-900 text-white py-20 px-6">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-3xl font-black mb-8">Professional Cat Furniture</h2>
+            <p class="text-stone-400 mb-12">Mekidulu specializes in adjustable floor-to-ceiling cat trees, heavy-duty scratching posts, and modern cat condos. Our products are designed for durability, safety, and aesthetic integration into modern homes.</p>
+            <div class="flex flex-col md:flex-row justify-center gap-4">
+                <a href="#" class="border border-stone-700 px-8 py-3 rounded-full hover:bg-white hover:text-black transition text-sm font-bold">Download Installation Manuals</a>
+                <a href="mailto:support@mekidulu.com" class="border border-stone-700 px-8 py-3 rounded-full hover:bg-white hover:text-black transition text-sm font-bold">Customer Support</a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-10 text-center text-stone-400 text-[10px] tracking-[0.2em] uppercase">
+        © 2026 Mekidulu Global | Official Brand Site
     </footer>
 
 </body>
