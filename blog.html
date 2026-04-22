@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog | Mekidulu Modern Cat Living</title>
+    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/mdpetpops-jpg/mekidulu/main/img/logo.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background-color: #FCFAF7; font-family: 'Inter', sans-serif; }
+        .nav-link { position: relative; }
+        .nav-link::after { content: ''; position: absolute; width: 0; height: 2px; bottom: -4px; left: 0; background-color: #ea580c; transition: width 0.3s; }
+        .nav-link:hover::after { width: 100%; }
+    </style>
+</head>
+<body>
+
+    <nav class="w-full py-6 px-10 flex justify-between items-center bg-white shadow-sm sticky top-0 z-50">
+        <a href="index.html"><img src="https://raw.githubusercontent.com/mdpetpops-jpg/mekidulu/main/img/logo.png" class="h-8 object-contain"></a>
+        <div class="hidden md:flex space-x-8 text-sm font-bold tracking-wide">
+            <a href="index.html#products" class="nav-link">Collections</a>
+            <a href="blog.html" class="nav-link text-orange-600">Blog</a>
+            <a href="index.html#contact" class="nav-link">Contact</a>
+        </div>
+    </nav>
+
+    <header class="max-w-7xl mx-auto pt-20 pb-10 px-6">
+        <h1 class="text-5xl font-extrabold text-slate-900 tracking-tight">The Feline Journal</h1>
+        <p class="text-slate-500 mt-4 text-xl">Expert tips on cat furniture, care, and interior design.</p>
+    </header>
+
+    <main class="max-w-7xl mx-auto py-10 px-6">
+        <div id="blogGrid" class="grid grid-cols-1 md:grid-cols-2 gap-12">
+            </div>
+    </main>
+
+    <script>
+        fetch('blog.json')
+            .then(res => res.json())
+            .then(posts => {
+                const grid = document.getElementById('blogGrid');
+                grid.innerHTML = posts.map(post => `
+                    <article class="group cursor-pointer">
+                        <div class="aspect-video overflow-hidden rounded-[32px] mb-6">
+                            <img src="${post.image}" class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
+                        </div>
+                        <div class="px-2">
+                            <span class="text-xs font-bold text-orange-600 uppercase tracking-widest">${post.date}</span>
+                            <h2 class="text-2xl font-bold mt-2 mb-3 group-hover:text-orange-600 transition">${post.title}</h2>
+                            <p class="text-slate-600 leading-relaxed line-clamp-3">${post.excerpt}</p>
+                            <div class="mt-6 flex items-center text-sm font-bold">
+                                <span>Read Full Story</span>
+                                <svg class="w-4 h-4 ml-2 group-hover:translate-x-2 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                            </div>
+                        </div>
+                    </article>
+                `).join('');
+            });
+    </script>
+</body>
+</html>
