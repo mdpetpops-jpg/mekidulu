@@ -1,60 +1,18 @@
 [
   {
-    "id": "meki-001",
-    "name": "Floor-to-Ceiling Adjustable Wood Cat Tower (95\"-108\")",
-    "price": "$149.99",
-    "img": "img/product-fc-01.png",
-    "walmart": "https://www.walmart.com/ip/18084473706",
-    "amazon": "#",
-    "video": "https://www.youtube.com/embed/dQw4w9WgXcQ",
-    "tag": "Best Seller",
-    "features": [
-      "Height Adjustable: Fits ceilings from 95 to 108 inches",
-      "Heavy Duty: 4.3\" ultra-thick scratching posts",
-      "Material: Premium solid wood & natural sisal",
-      "Design: Minimalist floor-to-ceiling space saver"
-    ],
-    "reviews": [
-      {"user": "Emily R.", "rating": 5, "comment": "Perfect for my high-energy Bengal! Very stable."},
-      {"user": "Mark T.", "rating": 5, "comment": "The wood finish matches my living room furniture perfectly."}
-    ]
+    "id": 1,
+    "name": "Classic Solid Wood Tree",
+    "price": "189.00",
+    "img": "img/product-01.png",
+    "link": "https://www.walmart.com",
+    "tag": "Best Seller"
   },
   {
-    "id": "meki-002",
-    "name": "Sisal Wood Climbing Tower - Adjustable Floor-to-Ceiling Pole",
-    "price": "$129.99",
-    "img": "img/product-fc-02.png",
-    "walmart": "https://www.walmart.com/ip/13440405409",
-    "amazon": "#",
-    "video": "https://www.youtube.com/embed/dQw4w9WgXcQ",
-    "tag": "Modern Style",
-    "features": [
-      "Tension-mount design - No drilling required",
-      "Natural Wood Color: Blends into modern home aesthetics",
-      "Eco-friendly sisal wrapped posts for endless scratching",
-      "Slim footprint: Ideal for apartments and small spaces"
-    ],
-    "reviews": [
-      {"user": "Jessica W.", "rating": 5, "comment": "Simple to install and my cat was on it within minutes!"}
-    ]
-  },
-  {
-    "id": "meki-003",
-    "name": "72.8\" Wooden Luxury Tower with Triple Spaceships",
-    "price": "$189.99",
-    "img": "img/product-luxury-03.png",
-    "walmart": "https://www.walmart.com/ip/13438662845",
-    "amazon": "#",
-    "video": "https://www.youtube.com/embed/dQw4w9WgXcQ",
-    "tag": "Premium Choice",
-    "features": [
-      "Triple Transparent Spaceships: See your cat's paws from below",
-      "Elegant Slim Design: Sophisticated wood & white finish",
-      "Includes plush hammock for cozy afternoon naps",
-      "Sturdy 72.8-inch multi-level activity center"
-    ],
-    "reviews": [
-      {"user": "Liam P.", "rating": 5, "comment": "The spaceship capsules are hilarious and cute. Great quality."}
-    ]
+    "id": 2,
+    "name": "Luxury Wall Mount Set",
+    "price": "129.00",
+    "img": "img/product-02.png",
+    "link": "https://www.walmart.com",
+    "tag": "Designer Choice"
   }
 ]
