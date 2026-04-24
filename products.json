@@ -18,8 +18,14 @@
       "Easy Assembly: Modular parts with clear, illustrated step-by-step instructions."
     ],
     "gallery": [
-      "img/product-yn105-01.avif", "img/product-yn105-02.avif", "img/product-yn105-03.avif", "img/product-yn105-04.avif", "img/product-yn105-05.avif", "img/product-yn105-06.avif"
-    {
+      "img/product-yn105-01.avif", "img/product-yn105-02.avif", "img/product-yn105-03.avif", 
+      "img/product-yn105-04.avif", "img/product-yn105-05.avif", "img/product-yn105-06.avif",
+      "img/product-yn105-07.avif", "img/product-yn105-08.avif", "img/product-yn105-09.avif",
+      "img/product-yn105-10.avif", "img/product-yn105-11.avif", "img/product-yn105-12.avif",
+      "img/product-yn105-13.avif"
+    ]
+  },
+  {
     "id": "meki-y18",
     "name": "Mekidulu Y18 | The \"Emerald Forest\" 59\" Modern Wood Cat Tower",
     "basePrice": 145.00,
@@ -38,18 +44,10 @@
       "Moisture-Resistant: Built with premium materials to ensure long-lasting durability in any home environment."
     ],
     "gallery": [
-      "img/product-y18-01.avif",
-      "img/product-y18-02.avif",
-      "img/product-y18-03.avif",
-      "img/product-y18-04.avif",
-      "img/product-y18-05.avif",
-      "img/product-y18-06.avif",
-      "img/product-y18-07.avif",
-      "img/product-y18-08.avif",
-      "img/product-y18-09.avif",
-      "img/product-y18-10.avif",
-      "img/product-y18-11.avif"
+      "img/product-y18-01.avif", "img/product-y18-02.avif", "img/product-y18-03.avif",
+      "img/product-y18-04.avif", "img/product-y18-05.avif", "img/product-y18-06.avif",
+      "img/product-y18-07.avif", "img/product-y18-08.avif", "img/product-y18-09.avif",
+      "img/product-y18-10.avif", "img/product-y18-11.avif"
     ]
-  }]
   }
 ]
