@@ -18,7 +18,38 @@
       "Easy Assembly: Modular parts with clear, illustrated step-by-step instructions."
     ],
     "gallery": [
-      "img/product-yn105-01.avif", "img/product-yn105-02.avif", "img/product-yn105-03.avif"
+      "img/product-yn105-01.avif", "img/product-yn105-02.avif", "img/product-yn105-03.avif", "img/product-yn105-04.avif", "img/product-yn105-05.avif", "img/product-yn105-06.avif"
+    {
+    "id": "meki-y18",
+    "name": "Mekidulu Y18 | The \"Emerald Forest\" 59\" Modern Wood Cat Tower",
+    "basePrice": 145.00,
+    "img": "img/product-y18-01.avif",
+    "walmart": "https://www.walmart.com/ip/YOUR_Y18_LINK",
+    "tag": "Emerald Series",
+    "features": [
+      "Emerald Forest Aesthetic: Exclusive botanical green accents that harmonize with modern indoor plants.",
+      "6-Level Sanctuary: Standing at 59 inches, designed for vertical exploration and healthy climbing.",
+      "Engineered for Large Breeds: High-density wood frame and thickened pillars ensure zero wobble for Maine Coons.",
+      "Hygienic & Hair-Free: 100% hair-free wood surfaces that can be wiped clean in seconds.",
+      "Furniture-Grade Stability: Extra-wide weighted base combined with an anti-topple wall security strap.",
+      "Heavy-Duty Sisal: 100% natural scratching surface to redirect instincts away from your furniture.",
+      "Sky-High Perch: Features an ultra-soft top deck for cats to survey their territory in comfort.",
+      "Extreme Cost-Performance: Bridging high-end design with China's factory-direct supply chain power.",
+      "Moisture-Resistant: Built with premium materials to ensure long-lasting durability in any home environment."
+    ],
+    "gallery": [
+      "img/product-y18-01.avif",
+      "img/product-y18-02.avif",
+      "img/product-y18-03.avif",
+      "img/product-y18-04.avif",
+      "img/product-y18-05.avif",
+      "img/product-y18-06.avif",
+      "img/product-y18-07.avif",
+      "img/product-y18-08.avif",
+      "img/product-y18-09.avif",
+      "img/product-y18-10.avif",
+      "img/product-y18-11.avif"
     ]
+  }]
   }
 ]
