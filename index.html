@@ -3,98 +3,99 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mekidulu | Designed for Modern Cat Living</title>
+    <title>Mekidulu | Premium Cat Furniture | Designed by Hapen Wu</title>
+    <meta name="description" content="Mekidulu provides high-end modern cat trees and furniture. Founded by Hapen Wu, focusing on quality and design.">
     <link rel="icon" type="image/png" href="img/logo.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Plus Jakarta Sans', sans-serif; scroll-behavior: smooth; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
-        .modal-scroll { overflow-y: auto; max-height: 75vh; padding-right: 10px; }
+        .modal-scroll { overflow-y: auto; max-height: 60vh; }
     </style>
 </head>
 <body class="bg-[#FCFAF7] text-slate-900">
 
     <nav class="fixed w-full z-50 py-4 px-6 md:px-10 flex justify-between items-center bg-white/90 backdrop-blur-md border-b border-slate-100">
-        <a href="index.html"><img src="img/logo.png" alt="Mekidulu" class="h-8 md:h-10"></a>
+        <a href="index.html"><img src="img/logo.png" alt="Mekidulu Logo" class="h-8 md:h-10"></a>
         <div class="hidden md:flex space-x-8 text-sm font-bold items-center">
             <a href="products.html" class="hover:text-orange-600 transition">Collections</a>
             <a href="catalog.html" class="hover:text-orange-600 transition">B2B Catalog</a>
-            <a href="blog.html" class="hover:text-orange-600 transition">Journal</a>
             <a href="https://tally.so/r/D4XBBj" target="_blank" class="bg-orange-600 text-white px-6 py-2 rounded-full hover:bg-orange-700 shadow-lg transition">Inquiry</a>
         </div>
     </nav>
 
     <section class="relative pt-28 pb-12 px-6">
         <div class="max-w-7xl mx-auto rounded-[40px] overflow-hidden aspect-[21/9] relative shadow-2xl bg-slate-200">
-            <img src="img/hero-banner.png" class="w-full h-full object-cover">
-            <div class="absolute inset-0 bg-black/30 flex items-center px-12 text-white">
+            <img src="img/hero-banner.png" class="w-full h-full object-cover" alt="Mekidulu Cat Tree Banner">
+            <div class="absolute inset-0 bg-black/20 flex items-center px-12 text-white">
                 <div class="max-w-xl">
-                    <h1 class="text-4xl md:text-6xl font-extrabold mb-4 leading-tight">Designed for Homes, <span class="text-orange-400">Loved by Cats.</span></h1>
-                    <p class="text-lg opacity-90 mb-8">Premium cat furniture bridging sophisticated design with factory-scale value.</p>
-                    <a href="products.html" class="bg-white text-black px-8 py-3 rounded-xl font-bold hover:bg-orange-600 hover:text-white transition">Shop Collections</a>
+                    <h1 class="text-4xl md:text-6xl font-extrabold mb-4 leading-tight">Designed for Homes, Loved by Cats.</h1>
+                    <a href="#products" class="bg-white text-black px-8 py-3 rounded-xl font-bold hover:bg-orange-600 hover:text-white transition">Explore Collection</a>
                 </div>
             </div>
         </div>
     </section>
 
     <section id="products" class="py-20 px-6 max-w-7xl mx-auto">
-        <div class="flex justify-between items-end mb-12">
-            <div>
-                <h2 class="text-3xl font-extrabold tracking-tight">Flagship Collection</h2>
-                <p class="text-slate-500 mt-2">Mekidulu Original: Modern, Stable, and Functional.</p>
+        <h2 class="text-3xl font-extrabold mb-12">Flagship Products</h2>
+        <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
             </div>
-            <a href="products.html" class="text-orange-600 font-bold border-b-2 border-orange-600 pb-1">View All →</a>
-        </div>
-        <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10"></div>
     </section>
 
-    <section class="py-20 px-6 max-w-7xl mx-auto border-t border-slate-100">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
-            <img src="img/brand-story.jpg" class="rounded-[40px] shadow-xl" onerror="this.src='img/hero-banner.png'">
+    <section id="story" class="py-20 bg-white px-6">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+            <div class="relative rounded-[40px] overflow-hidden shadow-xl">
+                <img src="img/brand-story.jpg" alt="Hapen Wu Mekidulu Founder" onerror="this.src='img/hero-banner.png'">
+            </div>
             <div class="space-y-6">
-                <h2 class="text-3xl font-extrabold leading-tight">Female-Led Innovation.<br>Western Home Aesthetics.</h2>
-                <p class="text-slate-600 leading-relaxed italic italic text-justify">"We bridge the gap between sophisticated design and massive manufacturing scale."</p>
-                <p class="text-slate-600 leading-relaxed text-justify">Our management team focuses on real-world family scenarios, ensuring every piece is safe, durable, and cost-effective. OEM/ODM ready for global partners.</p>
-                <div class="pt-4"><a href="catalog.html" class="text-orange-600 font-bold border-b-2 border-orange-600 pb-1">Learn More About Our Factory →</a></div>
+                <h2 class="text-4xl font-extrabold text-slate-900 leading-tight">Our Story: <br><span class="text-orange-600">Bridging Quality and Design</span></h2>
+                <p class="text-lg text-slate-600 leading-relaxed text-justify">Founded by Hapen Wu (MBA), Mekidulu was born from a simple realization: cat furniture should complement your home's aesthetic without compromising on feline instinctual needs.</p>
+                <p class="text-slate-600 leading-relaxed text-justify">We utilize advanced manufacturing and rigorous quality control to deliver premium, factory-direct products to families worldwide. Every Mekidulu piece is a commitment to stability, safety, and modern style.</p>
             </div>
         </div>
     </section>
 
-    <div id="productModal" class="fixed inset-0 z-[100] bg-black/90 hidden items-center justify-center p-4 backdrop-blur-md">
-        <div class="bg-white w-full max-w-5xl rounded-[40px] overflow-hidden flex flex-col md:flex-row relative">
-            <button onclick="closeModal()" class="absolute top-6 right-6 z-10 bg-slate-100 p-2 rounded-full hover:bg-white transition"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>
-            <div class="md:w-3/5 bg-slate-50 h-72 md:h-auto relative" id="modalMedia"></div>
-            <div class="md:w-2/5 p-8 md:p-12 flex flex-col">
-                <div id="modalTag" class="text-[10px] font-bold uppercase tracking-widest text-orange-600 mb-2"></div>
-                <h2 id="modalTitle" class="text-2xl font-bold mb-4"></h2>
-                <div id="modalPrice" class="text-3xl font-light mb-6 text-orange-600"></div>
-                <div class="modal-scroll no-scrollbar">
-                    <ul id="modalFeatures" class="text-sm text-slate-600 space-y-4 mb-8 list-none"></ul>
-                </div>
-                <div class="mt-auto pt-6 border-t"><a id="walmartLink" href="#" target="_blank" class="block w-full bg-[#0071dc] text-white text-center py-4 rounded-xl font-bold hover:bg-[#005fb8] transition shadow-lg">Buy on Walmart</a></div>
+    <footer class="bg-slate-900 text-white py-20 px-6">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12">
+            <div class="col-span-1">
+                <img src="img/logo.png" class="h-8 mb-6 brightness-0 invert" alt="Mekidulu White Logo">
+                <p class="text-slate-400 text-sm leading-relaxed">Sophisticated furniture for the modern feline home. Quality you can trust, design you can love.</p>
             </div>
-        </div>
-    </div>
-
-    <footer class="py-20 bg-slate-900 text-white px-6">
-        <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16">
-            <div>
-                <h3 class="text-2xl font-bold mb-6 italic">Connect with Hapen Wu (MBA)</h3>
-                <div class="space-y-3 text-slate-400 font-medium text-sm">
-                    <p>Email: mekidulu.us@gmail.com</p>
-                    <p>WeChat: wu10550167</p>
-                    <p>QQ: 2121565185</p>
-                    <p>LinkedIn: <a href="https://www.linkedin.com/in/hapen-wu-b444782b6" target="_blank" class="text-orange-400 underline underline-offset-4">Founder Profile</a></p>
-                </div>
+            <div class="col-span-1">
+                <h4 class="text-lg font-bold mb-6">Contact Us</h4>
+                <ul class="text-slate-400 space-y-3 text-sm">
+                    <li>Email: mekidulu.us@gmail.com</li>
+                    <li>WeChat: wu10550167</li>
+                    <li>QQ: 2121565185</li>
+                    <li>LinkedIn: <a href="https://www.linkedin.com/in/hapen-wu-b444782b6" class="text-orange-400 hover:underline">Hapen Wu</a></li>
+                </ul>
             </div>
-            <div class="bg-white/5 p-8 rounded-3xl border border-white/10 text-center">
-                <h4 class="font-bold mb-4">Ready for Partnership?</h4>
-                <p class="text-slate-400 text-sm mb-6">Inquire for bulk orders, OEM, or distribution.</p>
-                <a href="https://tally.so/r/D4XBBj" target="_blank" class="block w-full bg-orange-600 py-4 rounded-xl font-bold hover:bg-orange-700 transition">Open Official Inquiry Form</a>
+            <div class="col-span-1">
+                <h4 class="text-lg font-bold mb-6">Partnership</h4>
+                <p class="text-slate-400 text-sm mb-6">For OEM/ODM or bulk inquiry, please fill out our official form.</p>
+                <a href="https://tally.so/r/D4XBBj" target="_blank" class="inline-block bg-orange-600 text-white px-6 py-3 rounded-xl font-bold hover:bg-orange-700 transition">Open Inquiry Form</a>
             </div>
         </div>
     </footer>
+
+    <div id="productModal" class="fixed inset-0 z-[100] bg-black/90 hidden items-center justify-center p-4 backdrop-blur-md">
+        <div class="bg-white w-full max-w-5xl rounded-[40px] overflow-hidden flex flex-col md:flex-row relative">
+            <button onclick="closeModal()" class="absolute top-6 right-6 z-10 bg-slate-100 p-2 rounded-full hover:bg-white transition">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            <div class="md:w-3/5 bg-slate-100 h-72 md:h-auto relative" id="modalMedia"></div>
+            <div class="md:w-2/5 p-8 md:p-12 flex flex-col h-full">
+                <div id="modalTag" class="text-[10px] font-bold uppercase tracking-widest text-orange-600 mb-2"></div>
+                <h2 id="modalTitle" class="text-2xl font-bold mb-4"></h2>
+                <div id="modalPrice" class="text-3xl font-light mb-6 text-orange-600"></div>
+                <div class="modal-scroll no-scrollbar mb-8">
+                    <ul id="modalFeatures" class="text-sm text-slate-600 space-y-4 list-none"></ul>
+                </div>
+                <div class="mt-auto pt-6 border-t"><a id="walmartLink" href="#" target="_blank" class="block w-full bg-[#0071dc] text-white text-center py-4 rounded-xl font-bold">Buy on Walmart</a></div>
+            </div>
+        </div>
+    </div>
 
     <script>
         let productsData = [];
@@ -103,26 +104,29 @@
         async function init() {
             const res = await fetch('products.json');
             productsData = await res.json();
+            renderGrid();
+            // 自动识别 URL 参数 ?id=xxx 并打开弹窗
+            const productId = new URLSearchParams(window.location.search).get('id');
+            if (productId) openModal(productId);
+        }
+
+        function renderGrid() {
             const grid = document.getElementById('productGrid');
-            grid.innerHTML = productsData.slice(0, 3).map(p => `
-                <div class="group cursor-pointer bg-white p-4 rounded-[32px] shadow-sm hover:shadow-xl transition" onclick="openModal('${p.id}')">
+            grid.innerHTML = productsData.map(p => `
+                <div class="bg-white p-4 rounded-[32px] shadow-sm hover:shadow-xl transition cursor-pointer" onclick="openModal('${p.id}')">
                     <img src="${p.img}" class="w-full aspect-square object-cover rounded-[24px]">
                     <div class="mt-6 px-2">
-                        <h3 class="font-bold text-lg leading-tight group-hover:text-orange-600 transition">${p.name}</h3>
+                        <h3 class="font-bold text-lg">${p.name}</h3>
                         <p class="text-slate-400 mt-2 font-medium">$${(parseFloat(p.basePrice) + ADD_PRICE).toFixed(2)}</p>
                     </div>
                 </div>
             `).join('');
-
-            // 独立链接跳转
-            const urlParams = new URLSearchParams(window.location.search);
-            const productId = urlParams.get('id');
-            if (productId) openModal(productId);
         }
 
         function openModal(id) {
             const p = productsData.find(item => item.id === id);
             if(!p) return;
+            // 关键：自动修改地址栏链接
             window.history.pushState({}, '', `?id=${id}`);
             document.getElementById('modalTitle').innerText = p.name;
             document.getElementById('modalPrice').innerText = "$" + (parseFloat(p.basePrice) + ADD_PRICE).toFixed(2);
@@ -145,7 +149,6 @@
             document.body.style.overflow = 'auto';
             window.history.pushState({}, '', window.location.pathname);
         }
-
         init();
     </script>
 </body>
