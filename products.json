@@ -1,21 +1,46 @@
 [
   {
+    "id": "meki-8782",
+    "name": "Mekidulu 8782 | The \"Galaxy View\" 73\" Multi-Capsule Wood Cat Empire",
+    "basePrice": 225.00,
+    "img": "img/product-8782-01.png",
+    "walmart": "https://www.walmart.com/ip/YOUR_8782_LINK",
+    "tag": "Galaxy Series",
+    "features": [
+      "🚀 Triple Space Capsule Experience: Featuring 3 high-clarity acrylic pods that provide a 'weightless' 360-degree panoramic view for multiple cats.",
+      "🏗️ 7 Levels of Vertical Mastery: A majestic 73-inch tall empire with a staggered layout that encourages active climbing and healthy joint mobility.",
+      "💎 Modern Furniture Aesthetic: Replaces dated carpet towers with a sleek, moisture-resistant wood finish that complements mid-century and minimalist home decor.",
+      "🛡️ Rock-Solid Stability: Engineered with a widened heavy-duty base and precision joints to absorb the shock of high-energy leaps and sprints.",
+      "🛋️ Total Furniture Protection: Integrated with multiple premium natural sisal-wrapped pillars to redirect scratching instincts and save your sofas.",
+      "✨ Hygienic & Anti-Microbial: The hair-free wood surfaces prevent dander buildup and odors; simply wipe clean in seconds for a pristine home.",
+      "🏰 Private Luxury Condo: Includes a secluded, spacious wooden hideaway for uninterrupted naps and a sense of security.",
+      "🐾 Universal Accessibility: Intentionally designed platform spacing ensures that both high-energy kittens and senior cats can navigate all 7 tiers safely.",
+      "📈 Extreme Cost-Performance: A masterpiece of 'China's Power Supply Chain,' delivering elite architectural design at an unbeatable factory-direct price."
+    ],
+    "gallery": [
+      "img/product-8782-01.png", "img/product-8782-02.png", "img/product-8782-03.png",
+      "img/product-8782-04.jpeg", "img/product-8782-05.avif", "img/product-8782-06.avif",
+      "img/product-8782-07.avif", "img/product-8782-08.avif", "img/product-8782-09.avif",
+      "img/product-8782-10.avif"
+    ]
+  },
+  {
     "id": "meki-yn105",
-    "name": "Mekidulu 72\" Modern Wood Cat Tree - Horizon Series Sky-Dining Tower",
+    "name": "Mekidulu 72\" Modern Wood Cat Tree - Horizon Series Vertical Jungle",
     "basePrice": 180.00,
     "img": "img/product-yn105-01.avif",
     "walmart": "https://www.walmart.com/ip/18117358261",
     "tag": "Flagship Choice",
     "features": [
-      "Sky-Dining Experience: 4 integrated elevated stainless steel feeding stations.",
-      "Architectural Stability: 72.1\" tall with reinforced high-density wood.",
-      "12 Natural Sisal Posts: 360-degree scratching surface for healthy claws.",
-      "8 Levels of Exploration: Includes Space Pod, Private Condo, and multi-level Decks.",
-      "Hygienic Wood Finish: Moisture-resistant, smooth surface, and easy to sanitize.",
-      "Extreme Cost-Performance: Factory-direct value with premium Western aesthetics.",
-      "Modern Aesthetics: Minimalist design that seamlessly integrates with Western home decor.",
-      "Professional Grade: Built for multi-cat households and high-frequency usage.",
-      "Easy Assembly: Modular parts with clear, illustrated step-by-step instructions."
+      "🌳 12 Natural Sisal Pillars: A massive 360-degree scratching sanctuary with 12 reinforced posts to redirect instincts away from your furniture.",
+      "🏰 8 Levels of Exploration: A complex vertical jungle standing at 72.1 inches, featuring a Space Pod, Private Condo, and multi-level observation decks.",
+      "🔝 Alpha Vantage Point: Designed for multi-cat households to provide high-altitude security and clear territorial hierarchy.",
+      "💎 Architectural Stability: Built with high-density, furniture-grade wood to ensure a zero-wobble experience for large or active breeds.",
+      "✨ Hygienic Wood Finish: Moisture-resistant, smooth surfaces that stay fur-free and are easily sanitized with a quick wipe.",
+      "🏗️ Modular Precision: Engineered for easy assembly with high-quality hardware and clear, illustrated step-by-step instructions.",
+      "🌿 Modern Minimalist Design: A sophisticated aesthetic that integrates seamlessly with high-end Western home interiors.",
+      "📈 Factory-Direct Advantage: Premium scale and materials delivered at an aggressive price point through optimized supply chain management.",
+      "🐾 Long-Term Durability: Professional-grade materials built to withstand high-frequency usage in active feline households."
     ],
     "gallery": [
       "img/product-yn105-01.avif", "img/product-yn105-02.avif", "img/product-yn105-03.avif", 
@@ -24,6 +49,8 @@
       "img/product-yn105-10.avif", "img/product-yn105-11.avif", "img/product-yn105-12.avif",
       "img/product-yn105-13.avif"
     ]
+  }
+]
   },
   {
     "id": "meki-8782",
