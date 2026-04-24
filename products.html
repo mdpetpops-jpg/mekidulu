@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Collections | Mekidulu Modern Cat Living</title>
+    <title>Our Collections | Mekidulu Modern Cat Furniture</title>
     <link rel="icon" type="image/png" href="img/logo.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
@@ -49,8 +49,15 @@
     <script>
         let productsData = [];
         async function init() {
-            const res = await fetch('products.json');
-            productsData = await res.json();
+            try {
+                const res = await fetch('products.json');
+                productsData = await res.json();
+                renderGrid();
+                const urlId = new URLSearchParams(window.location.search).get('id');
+                if (urlId) setTimeout(()=>openModal(urlId), 300);
+            } catch(e) { console.error("Error", e); }
+        }
+        function renderGrid() {
             document.getElementById('productGrid').innerHTML = productsData.map(p => `
                 <div class="bg-white p-6 rounded-[32px] shadow-sm hover:shadow-2xl transition cursor-pointer group" onclick="openModal('${p.id}')">
                     <img src="${p.img}" class="w-full aspect-square object-cover rounded-2xl mb-6 transition duration-500 group-hover:scale-105">
@@ -59,8 +66,6 @@
                     <span class="inline-block w-full bg-slate-900 text-white py-3 rounded-xl text-center text-xs font-bold transition group-hover:bg-orange-600 shadow-md">View Details</span>
                 </div>
             `).join('');
-            const urlId = new URLSearchParams(window.location.search).get('id');
-            if (urlId) setTimeout(()=>openModal(urlId), 200);
         }
         function openModal(id) {
             const p = productsData.find(item => item.id === id);
@@ -68,6 +73,7 @@
             window.history.pushState({}, '', `?id=${id}`);
             document.getElementById('modalTitle').innerText = p.name;
             document.getElementById('modalPrice').innerText = "$" + (parseFloat(p.basePrice) + 15).toFixed(2);
+            document.getElementById('modalTag').innerText = p.tag || "Mekidulu Catalog";
             document.getElementById('walmartLink').href = p.walmart;
             document.getElementById('modalMedia').innerHTML = `<img src="${p.img}" class="w-full h-full object-cover">`;
             document.getElementById('modalFeatures').innerHTML = p.features.map(f => `<li class="flex items-start text-sm text-slate-600 bg-slate-50 p-3 rounded-xl mb-2"><span class="text-orange-500 mr-3 font-bold">✦</span>${f}</li>`).join('');
