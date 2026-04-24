@@ -2,20 +2,16 @@
   {
     "id": "meki-yn105",
     "name": "Mekidulu 72\" Modern Wood Cat Tree - Horizon Series Sky-Dining Tower",
-    "price": "$199.99",
+    "basePrice": 180.00,
     "img": "img/product-yn105-01.png",
     "walmart": "https://www.walmart.com/ip/18117358261",
     "tag": "Flagship Choice",
-    "video": "https://www.youtube.com/embed/dQw4w9WgXcQ", 
     "features": [
       "Sky-Dining Experience: 4 integrated elevated stainless steel feeding stations.",
       "Architectural Stability: 72.1\" tall with reinforced high-density wood.",
       "12 Natural Sisal Posts: 360-degree scratching surface.",
       "8 Levels of Exploration: Includes Space Pod, Private Condo, and Decks.",
       "Hygienic Wood Finish: Moisture-resistant and easy to sanitize."
-    ],
-    "reviews": [
-      {"user": "Cathy L.", "rating": 5, "comment": "The feeding bowls are a game changer!"}
     ],
     "gallery": [
       "img/product-yn105-01.png", "img/product-yn105-02.png", "img/product-yn105-03.png", 
@@ -28,7 +24,7 @@
   {
     "id": "meki-001",
     "name": "Classic Solid Wood Tree",
-    "price": "$189.00",
+    "basePrice": 174.00,
     "img": "img/product-01.png",
     "walmart": "https://www.walmart.com",
     "tag": "Best Seller",
@@ -38,7 +34,7 @@
   {
     "id": "meki-002",
     "name": "Luxury Wall Mount Set",
-    "price": "$129.00",
+    "basePrice": 114.00,
     "img": "img/product-02.png",
     "walmart": "https://www.walmart.com",
     "tag": "Designer Choice",
