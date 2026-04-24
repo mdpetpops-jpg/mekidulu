@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Collections | Mekidulu</title>
+    <title>Our Collections | Mekidulu</title>
     <link rel="icon" type="image/png" href="img/logo.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body { font-family: 'Plus Jakarta Sans', sans-serif; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
-        .modal-scroll { overflow-y: auto; max-height: 75vh; }
+        .modal-scroll { overflow-y: auto; max-height: 60vh; }
     </style>
 </head>
 <body class="bg-[#FCFAF7] p-6 text-slate-900">
@@ -26,13 +26,13 @@
     <div id="productModal" class="fixed inset-0 z-[100] bg-black/90 hidden items-center justify-center p-4 backdrop-blur-md">
         <div class="bg-white w-full max-w-5xl rounded-[40px] overflow-hidden flex flex-col md:flex-row relative">
             <button onclick="closeModal()" class="absolute top-6 right-6 z-10 bg-slate-100 p-2 rounded-full hover:bg-white transition"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>
-            <div class="md:w-3/5 bg-slate-50 h-72 md:h-auto relative" id="modalMedia"></div>
-            <div class="md:w-2/5 p-8 md:p-12 flex flex-col">
+            <div class="md:w-3/5 bg-slate-100 h-72 md:h-auto relative" id="modalMedia"></div>
+            <div class="md:w-2/5 p-8 md:p-12 flex flex-col h-full">
                 <div id="modalTag" class="text-[10px] font-bold uppercase tracking-widest text-orange-600 mb-2"></div>
-                <h2 id="modalTitle" class="text-2xl font-bold mb-4 leading-tight"></h2>
+                <h2 id="modalTitle" class="text-2xl font-bold mb-4"></h2>
                 <div id="modalPrice" class="text-3xl font-light mb-6 text-orange-600"></div>
-                <div class="modal-scroll no-scrollbar">
-                    <ul id="modalFeatures" class="text-sm text-slate-600 space-y-4 mb-8 list-none"></ul>
+                <div class="modal-scroll no-scrollbar mb-8">
+                    <ul id="modalFeatures" class="text-sm text-slate-600 space-y-4 list-none"></ul>
                 </div>
                 <div class="mt-auto pt-6 border-t"><a id="walmartLink" href="#" target="_blank" class="block w-full bg-[#0071dc] text-white text-center py-4 rounded-xl font-bold">Buy on Walmart</a></div>
             </div>
@@ -46,6 +46,12 @@
         async function init() {
             const res = await fetch('products.json');
             productsData = await res.json();
+            renderGrid();
+            const productId = new URLSearchParams(window.location.search).get('id');
+            if (productId) openModal(productId);
+        }
+
+        function renderGrid() {
             const grid = document.getElementById('productGrid');
             grid.innerHTML = productsData.map(p => `
                 <div class="bg-white p-6 rounded-[32px] shadow-sm hover:shadow-2xl transition cursor-pointer group" onclick="openModal('${p.id}')">
@@ -55,9 +61,6 @@
                     <span class="inline-block w-full bg-slate-900 text-white py-3 rounded-xl text-center text-xs font-bold group-hover:bg-orange-600 transition">View Details</span>
                 </div>
             `).join('');
-
-            const urlParams = new URLSearchParams(window.location.search);
-            if (urlParams.get('id')) openModal(urlParams.get('id'));
         }
 
         function openModal(id) {
