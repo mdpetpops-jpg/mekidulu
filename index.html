@@ -44,7 +44,36 @@
             </div>
         </div>
     </section>
+<section id="products" class="py-20 px-6 max-w-7xl mx-auto border-t border-slate-100">
+        <div class="flex justify-between items-end mb-12">
+            <div>
+                <h2 class="text-3xl font-extrabold tracking-tight">Our Flagship Collection</h2>
+                <p class="text-slate-500 mt-2 text-lg">Mekidulu Original Design: Modern, Stable, and Functional.</p>
+            </div>
+        </div>
+        
+        <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+            <p class="text-slate-400">Loading catalog...</p>
+        </div>
+    </section>
 
+    <div id="productModal" class="fixed inset-0 z-[100] bg-black/90 hidden items-center justify-center p-4 backdrop-blur-md">
+        <div class="bg-white w-full max-w-5xl max-h-[90vh] rounded-[40px] overflow-hidden flex flex-col md:flex-row relative">
+            <button onclick="closeModal()" class="absolute top-6 right-6 z-10 bg-slate-100 p-2 rounded-full hover:bg-white transition">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            <div class="md:w-3/5 bg-slate-50 h-72 md:h-auto relative" id="modalMedia"></div>
+            <div class="md:w-2/5 p-8 md:p-12 overflow-y-auto flex flex-col">
+                <div id="modalTag" class="text-[10px] font-bold uppercase tracking-widest text-orange-600 mb-2"></div>
+                <h2 id="modalTitle" class="text-2xl font-bold mb-4"></h2>
+                <div id="modalPrice" class="text-3xl font-light mb-6"></div>
+                <ul id="modalFeatures" class="text-sm text-slate-600 space-y-3 mb-8 list-none"></ul>
+                <div class="mt-auto">
+                    <a id="walmartLink" href="#" target="_blank" class="block w-full bg-[#0071dc] text-white text-center py-4 rounded-xl font-bold hover:bg-[#005fb8] transition shadow-lg">Buy on Walmart</a>
+                </div>
+            </div>
+        </div>
+    </div>
     <footer class="py-20 bg-slate-900 text-white px-6">
         <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16">
             <div>
