@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mekidulu | Modern Feline Design & Global Supply Chain</title>
+    <title>Mekidulu | Modern Design & Premium Supply Chain</title>
     <link rel="icon" type="image/png" href="img/logo.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
@@ -11,7 +11,7 @@
         body { font-family: 'Plus Jakarta Sans', sans-serif; scroll-behavior: smooth; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
         
-        /* 弹窗核心逻辑：锁定高度 */
+        /* 弹窗核心逻辑：锁定高度，强制内部滚动 */
         #productModal {
             display: none;
             position: fixed;
@@ -27,7 +27,7 @@
             background: white;
             width: 100%;
             max-width: 1100px;
-            height: 85vh; /* 强制锁定高度 */
+            height: 85vh; /* 锁定窗口高度 */
             border-radius: 40px;
             display: flex;
             flex-direction: column;
@@ -39,12 +39,11 @@
         .modal-left { width: 100%; height: 40%; background: #f8fafc; position: relative; flex-shrink: 0; }
         @media (min-width: 768px) { .modal-left { width: 60%; height: 100%; } }
 
-        /* 关键：只有右侧详情区允许内部独立滑动 */
         .modal-right { 
             width: 100%; 
             height: 60%; 
             padding: 40px; 
-            overflow-y: auto; 
+            overflow-y: auto; /* 文字区独立滑动 */
             display: flex; 
             flex-direction: column; 
             background: white;
@@ -71,8 +70,7 @@
             <div class="absolute inset-0 bg-black/20 flex items-center px-12 text-white">
                 <div class="max-w-xl">
                     <h1 class="text-4xl md:text-6xl font-extrabold mb-4 leading-tight tracking-tighter">Sophisticated Design.<br><span class="text-orange-400">Unbeatable Value.</span></h1>
-                    <p class="text-lg opacity-90 mb-8">Premium cat furniture bridging Western home aesthetics with world-class supply chains.</p>
-                    <a href="#products" class="inline-block bg-white text-black px-8 py-3 rounded-xl font-bold hover:bg-orange-600 hover:text-white transition shadow-lg">Shop Collection</a>
+                    <a href="#products" class="inline-block bg-white text-black px-8 py-3 rounded-xl font-bold hover:bg-orange-600 hover:text-white transition shadow-lg">Shop Now</a>
                 </div>
             </div>
         </div>
@@ -80,8 +78,8 @@
 
     <section id="products" class="py-20 px-6 max-w-7xl mx-auto">
         <div class="flex justify-between items-end mb-12">
-            <h2 class="text-3xl font-extrabold">Best Sellers</h2>
-            <a href="products.html" class="text-orange-600 font-bold border-b-2 border-orange-600">Explore All →</a>
+            <h2 class="text-3xl font-extrabold">Featured Collection</h2>
+            <a href="products.html" class="text-orange-600 font-bold border-b-2 border-orange-600">View All →</a>
         </div>
         <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10"></div>
     </section>
@@ -89,20 +87,13 @@
     <section id="story" class="py-24 bg-white px-6 border-t border-slate-50">
         <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
             <div class="rounded-[40px] overflow-hidden shadow-2xl">
-                <img src="img/brand-story.jpg" alt="Mekidulu Story" onerror="this.src='img/hero-banner.png'">
+                <img src="img/brand-story.jpg" alt="Mekidulu Supply Chain" onerror="this.src='img/hero-banner.png'">
             </div>
             <div class="space-y-8">
                 <h2 class="text-4xl font-extrabold text-slate-900 leading-tight">Our Story: <br><span class="text-orange-600">Bridging the Gap.</span></h2>
                 <p class="text-lg text-slate-700 font-bold">Female-Led Innovation | Western Aesthetics | China's Power Supply Chain</p>
-                <p class="text-slate-600 leading-relaxed text-justify">
-                    Mekidulu is a female-led brand dedicated to harmonizing pet furniture with the modern <b>Western home aesthetic</b>. We don't believe you should choose between a stylish home and a happy cat. 
-                </p>
-                <p class="text-slate-600 leading-relaxed text-justify">
-                    By leveraging the depth of <b>China's world-class supply chain</b>, we strip away the traditional retail markup. Our mission is to provide premium-grade, architecturally stable cat furniture with <b>extreme cost-performance</b> (极致性价比), delivering factory-direct value to families worldwide.
-                </p>
-                <div class="pt-4 flex space-x-4">
-                    <a href="catalog.html" class="text-orange-600 font-bold border-b-2 border-orange-600 pb-1 italic">Hapen Wu (MBA) | Supply Chain Lead →</a>
-                </div>
+                <p class="text-slate-600 leading-relaxed text-justify">Mekidulu is a female-led brand dedicated to harmonizing pet furniture with modern home aesthetics. By leveraging China's world-class supply chain, we provide premium-grade cat furniture with extreme cost-performance, delivering factory-direct value to families worldwide.</p>
+                <div class="pt-4"><a href="catalog.html" class="text-orange-600 font-bold border-b-2 border-orange-600 pb-1 italic">Hapen Wu (MBA) | Supply Chain Lead →</a></div>
             </div>
         </div>
     </section>
@@ -111,21 +102,17 @@
         <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-16">
             <div>
                 <img src="img/logo.png" class="h-8 mb-8 brightness-0 invert">
-                <p class="text-slate-400 text-sm leading-relaxed">Sophisticated furniture for the modern feline home. Bridging design with unprecedented value.</p>
+                <p class="text-slate-400 text-sm leading-relaxed">Sophisticated furniture for the modern feline home.</p>
             </div>
             <div>
-                <h4 class="text-lg font-bold mb-8">Connect with Us</h4>
+                <h4 class="text-lg font-bold mb-8">Contact</h4>
                 <div class="space-y-4 text-slate-400 text-sm">
-                    <p>Business Email: mekidulu.us@gmail.com</p>
+                    <p>mekidulu.us@gmail.com</p>
                     <p>WeChat: wu10550167</p>
-                    <p>QQ: 2121565185</p>
-                    <p>LinkedIn: <a href="https://www.linkedin.com/in/hapen-wu-b444782b6" target="_blank" class="text-orange-400 underline">Professional Profile</a></p>
                 </div>
             </div>
             <div class="bg-white/5 p-8 rounded-[32px] border border-white/10 text-center">
-                <h4 class="font-bold mb-4 italic">B2B & OEM Inquiry</h4>
-                <p class="text-slate-400 text-sm mb-6">Direct factory pricing for bulk orders.</p>
-                <a href="https://tally.so/r/D4XBBj" target="_blank" class="block w-full bg-orange-600 py-4 rounded-xl font-bold hover:bg-orange-700 transition shadow-lg tracking-wide">Open Inquiry Form</a>
+                <a href="https://tally.so/r/D4XBBj" target="_blank" class="block w-full bg-orange-600 py-4 rounded-xl font-bold hover:bg-orange-700 transition shadow-lg">B2B Inquiry</a>
             </div>
         </div>
     </footer>
@@ -140,9 +127,7 @@
                 <div id="modalTag" class="text-[10px] font-bold uppercase tracking-widest text-orange-600 mb-2"></div>
                 <h2 id="modalTitle" class="text-2xl font-bold mb-4 leading-tight"></h2>
                 <div id="modalPrice" class="text-3xl font-light mb-8 text-orange-600"></div>
-                <div class="flex-1">
-                    <ul id="modalFeatures" class="space-y-4 mb-10 list-none p-0"></ul>
-                </div>
+                <div class="flex-1"><ul id="modalFeatures" class="space-y-4 mb-10 list-none p-0"></ul></div>
                 <div class="mt-auto pt-6 border-t border-slate-100">
                     <a id="walmartLink" href="#" target="_blank" class="block w-full bg-[#0071dc] text-white text-center py-4 rounded-2xl font-bold shadow-xl hover:bg-[#005fb8] transition">Buy on Walmart</a>
                 </div>
@@ -158,17 +143,51 @@
                 productsData = await res.json();
                 renderGrid();
                 const urlId = new URLSearchParams(window.location.search).get('id');
-                if (urlId) setTimeout(()=>openModal(urlId), 200);
-            } catch(e) { console.error("Data Load Fail", e); }
+                if (urlId) setTimeout(()=>openModal(urlId), 300);
+            } catch(e) { console.error("Load Error", e); }
         }
 
         function renderGrid() {
             const grid = document.getElementById('productGrid');
+            if(!grid) return;
             grid.innerHTML = productsData.slice(0,3).map(p => `
                 <div class="bg-white p-4 rounded-[32px] shadow-sm hover:shadow-xl transition cursor-pointer group" onclick="openModal('${p.id}')">
-                    <div class="overflow-hidden rounded-[24px] aspect-square">
-                        <img src="${p.img}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-                    </div>
-                    <div class="mt-6 px-2">
-                        <h3 class="font-bold text-lg leading-tight group-hover:text-orange-600 transition">${p.name}</h3>
-                        <p class="text-slate-400 mt-2 font-medium">$${(
+                    <div class="overflow-hidden rounded-[24px] aspect-square"><img src="${p.img}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500"></div>
+                    <div class="mt-6 px-2"><h3 class="font-bold text-lg leading-tight group-hover:text-orange-600 transition">${p.name}</h3><p class="text-slate-400 mt-2 font-medium">$${(parseFloat(p.basePrice) + 15).toFixed(2)}</p></div>
+                </div>
+            `).join('');
+        }
+
+        function openModal(id) {
+            const p = productsData.find(item => item.id === id);
+            if(!p) return;
+            window.history.pushState({}, '', `?id=${id}`);
+            document.getElementById('modalTitle').innerText = p.name;
+            document.getElementById('modalPrice').innerText = "$" + (parseFloat(p.basePrice) + 15).toFixed(2);
+            document.getElementById('modalTag').innerText = p.tag || "Mekidulu Original";
+            document.getElementById('walmartLink').href = p.walmart;
+            
+            let mediaHtml = `<img src="${p.img}" class="w-full h-full object-cover">`;
+            if (p.gallery) {
+                mediaHtml += `<div class="absolute bottom-6 left-6 right-6 flex space-x-3 overflow-x-auto p-2 bg-black/10 backdrop-blur-md rounded-2xl no-scrollbar">
+                    ${p.gallery.map(g => `<img src="${g}" onclick="event.stopPropagation(); document.querySelector('.modal-left img').src='${g}'" class="w-16 h-16 object-cover rounded-xl cursor-pointer border-2 border-transparent hover:border-white shrink-0">`).join('')}
+                </div>`;
+            }
+            document.getElementById('modalMedia').innerHTML = mediaHtml;
+            document.getElementById('modalFeatures').innerHTML = p.features.map(f => `<li class="flex items-start text-sm text-slate-600 bg-slate-50 p-3 rounded-xl"><span class="text-orange-500 mr-3 font-bold">✦</span>${f}</li>`).join('');
+            
+            document.getElementById('productModal').style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('productModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+            window.history.pushState({}, '', window.location.pathname);
+        }
+
+        document.addEventListener('keydown', (e) => { if(e.key === "Escape") closeModal(); });
+        init();
+    </script>
+</body>
+</html>
