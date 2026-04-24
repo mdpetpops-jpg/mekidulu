@@ -3,7 +3,7 @@
     "id": "meki-yn105",
     "name": "Mekidulu 72\" Modern Wood Cat Tree - Horizon Series Sky-Dining Tower",
     "basePrice": 180.00,
-    "img": "img/product-yn105-01.png",
+    "img": "img/product-yn105-01.avif",
     "walmart": "https://www.walmart.com/ip/18117358261",
     "tag": "Flagship Choice",
     "features": [
@@ -14,11 +14,11 @@
       "Hygienic Wood Finish: Moisture-resistant and easy to sanitize."
     ],
     "gallery": [
-      "img/product-yn105-01.png", "img/product-yn105-02.png", "img/product-yn105-03.png", 
-      "img/product-yn105-04.png", "img/product-yn105-05.png", "img/product-yn105-06.png",
-      "img/product-yn105-07.png", "img/product-yn105-08.png", "img/product-yn105-09.png",
-      "img/product-yn105-10.png", "img/product-yn105-11.png", "img/product-yn105-12.png",
-      "img/product-yn105-13.png"
+      "img/product-yn105-01.avif", "img/product-yn105-02.avif", "img/product-yn105-03.avif", 
+      "img/product-yn105-04.avif", "img/product-yn105-05.avif", "img/product-yn105-06.avif",
+      "img/product-yn105-07.avif", "img/product-yn105-08.avif", "img/product-yn105-09.avif",
+      "img/product-yn105-10.avif", "img/product-yn105-11.avif", "img/product-yn105-12.avif",
+      "img/product-yn105-13.avif"
     ]
   },
   {
@@ -30,15 +30,5 @@
     "tag": "Best Seller",
     "features": ["100% Solid Wood", "Natural Sisal Rope", "Stable Base Design"],
     "gallery": ["img/product-01.png"]
-  },
-  {
-    "id": "meki-002",
-    "name": "Luxury Wall Mount Set",
-    "basePrice": 114.00,
-    "img": "img/product-02.png",
-    "walmart": "https://www.walmart.com",
-    "tag": "Designer Choice",
-    "features": ["Space Saving", "Modern Aesthetic", "Easy Installation"],
-    "gallery": ["img/product-02.png"]
   }
 ]
