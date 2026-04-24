@@ -3,13 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Our Collections | Mekidulu</title>
+    <title>Collections | Mekidulu</title>
     <link rel="icon" type="image/png" href="img/logo.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body { font-family: 'Plus Jakarta Sans', sans-serif; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
-        .modal-scroll { overflow-y: auto; max-height: 60vh; }
+        .modal-scroll-area { overflow-y: auto; max-height: calc(90vh - 120px); padding-right: 12px; }
+        #productModal.hidden { display: none; }
+        #productModal.flex { display: flex; }
     </style>
 </head>
 <body class="bg-[#FCFAF7] p-6 text-slate-900">
@@ -18,23 +20,25 @@
         <a href="index.html" class="text-sm font-bold text-orange-600 underline">Back to Home</a>
     </nav>
 
-    <main class="max-w-7xl mx-auto">
+    <main class="max-w-7xl mx-auto pb-20">
         <h1 class="text-4xl font-black mb-12">Mekidulu Catalog</h1>
         <div id="productGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10"></div>
     </main>
 
     <div id="productModal" class="fixed inset-0 z-[100] bg-black/90 hidden items-center justify-center p-4 backdrop-blur-md">
-        <div class="bg-white w-full max-w-5xl rounded-[40px] overflow-hidden flex flex-col md:flex-row relative">
-            <button onclick="closeModal()" class="absolute top-6 right-6 z-10 bg-slate-100 p-2 rounded-full hover:bg-white transition"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>
-            <div class="md:w-3/5 bg-slate-100 h-72 md:h-auto relative" id="modalMedia"></div>
-            <div class="md:w-2/5 p-8 md:p-12 flex flex-col h-full">
+        <div class="bg-white w-full max-w-5xl rounded-[40px] overflow-hidden flex flex-col md:flex-row relative max-h-[90vh]">
+            <button onclick="closeModal()" class="absolute top-6 right-6 z-[110] bg-slate-100 p-2 rounded-full hover:bg-white shadow-md">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            <div class="md:w-3/5 bg-slate-100 h-64 md:h-auto relative" id="modalMedia"></div>
+            <div class="md:w-2/5 p-8 md:p-12 flex flex-col h-full bg-white">
                 <div id="modalTag" class="text-[10px] font-bold uppercase tracking-widest text-orange-600 mb-2"></div>
-                <h2 id="modalTitle" class="text-2xl font-bold mb-4"></h2>
+                <h2 id="modalTitle" class="text-2xl font-bold mb-4 leading-tight"></h2>
                 <div id="modalPrice" class="text-3xl font-light mb-6 text-orange-600"></div>
-                <div class="modal-scroll no-scrollbar mb-8">
+                <div class="modal-scroll-area no-scrollbar mb-6">
                     <ul id="modalFeatures" class="text-sm text-slate-600 space-y-4 list-none"></ul>
                 </div>
-                <div class="mt-auto pt-6 border-t"><a id="walmartLink" href="#" target="_blank" class="block w-full bg-[#0071dc] text-white text-center py-4 rounded-xl font-bold">Buy on Walmart</a></div>
+                <div class="mt-auto pt-6 border-t"><a id="walmartLink" href="#" target="_blank" class="block w-full bg-[#0071dc] text-white text-center py-4 rounded-xl font-bold shadow-lg">Buy on Walmart</a></div>
             </div>
         </div>
     </div>
@@ -42,52 +46,41 @@
     <script>
         let productsData = [];
         const ADD_PRICE = 15.00;
-
         async function init() {
             const res = await fetch('products.json');
             productsData = await res.json();
-            renderGrid();
-            const productId = new URLSearchParams(window.location.search).get('id');
-            if (productId) openModal(productId);
-        }
-
-        function renderGrid() {
-            const grid = document.getElementById('productGrid');
-            grid.innerHTML = productsData.map(p => `
+            document.getElementById('productGrid').innerHTML = productsData.map(p => `
                 <div class="bg-white p-6 rounded-[32px] shadow-sm hover:shadow-2xl transition cursor-pointer group" onclick="openModal('${p.id}')">
                     <img src="${p.img}" class="w-full aspect-square object-cover rounded-2xl mb-6 group-hover:scale-105 transition duration-500">
                     <h3 class="font-bold text-xl mb-2 group-hover:text-orange-600 transition">${p.name}</h3>
-                    <p class="text-2xl font-light text-slate-900 mb-4">$${(parseFloat(p.basePrice) + ADD_PRICE).toFixed(2)}</p>
-                    <span class="inline-block w-full bg-slate-900 text-white py-3 rounded-xl text-center text-xs font-bold group-hover:bg-orange-600 transition">View Details</span>
+                    <p class="text-2xl font-light mb-4 text-slate-900">$${(parseFloat(p.basePrice) + ADD_PRICE).toFixed(2)}</p>
+                    <span class="inline-block w-full bg-slate-900 text-white py-3 rounded-xl text-center text-xs font-bold group-hover:bg-orange-600 transition shadow-md">View Details</span>
                 </div>
             `).join('');
+            const productId = new URLSearchParams(window.location.search).get('id');
+            if (productId) setTimeout(() => openModal(productId), 100);
         }
-
         function openModal(id) {
             const p = productsData.find(item => item.id === id);
             if(!p) return;
             window.history.pushState({}, '', `?id=${id}`);
             document.getElementById('modalTitle').innerText = p.name;
             document.getElementById('modalPrice').innerText = "$" + (parseFloat(p.basePrice) + ADD_PRICE).toFixed(2);
-            document.getElementById('modalTag').innerText = p.tag || "Mekidulu Original";
+            document.getElementById('modalTag').innerText = p.tag || "Mekidulu Catalog";
             document.getElementById('walmartLink').href = p.walmart;
-            let mediaHtml = `<img src="${p.img}" class="w-full h-full object-cover" id="mainModalImg">`;
-            if (p.gallery) {
-                mediaHtml += `<div class="absolute bottom-4 left-4 right-4 flex space-x-2 overflow-x-auto p-2 bg-black/20 backdrop-blur-md rounded-xl no-scrollbar">
-                    ${p.gallery.map(g => `<img src="${g}" onclick="event.stopPropagation(); document.getElementById('mainModalImg').src='${g}'" class="w-12 h-12 object-cover rounded-lg cursor-pointer border-2 border-transparent hover:border-white shrink-0">`).join('')}
-                </div>`;
-            }
-            document.getElementById('modalMedia').innerHTML = mediaHtml;
+            document.getElementById('modalMedia').innerHTML = `<img src="${p.img}" class="w-full h-full object-cover">`;
             document.getElementById('modalFeatures').innerHTML = p.features.map(f => `<li class="flex items-start"><span class="text-orange-500 mr-2 font-bold">✦</span> ${f}</li>`).join('');
-            document.getElementById('productModal').style.display = 'flex';
-            document.body.style.overflow = 'hidden';
+            const modal = document.getElementById('productModal');
+            modal.classList.remove('hidden'); modal.classList.add('flex');
+            document.body.style.overflow = 'hidden'; 
         }
-
         function closeModal() {
-            document.getElementById('productModal').style.display = 'none';
+            const modal = document.getElementById('productModal');
+            modal.classList.add('hidden'); modal.classList.remove('flex');
             document.body.style.overflow = 'auto';
             window.history.pushState({}, '', window.location.pathname);
         }
+        window.onclick = e => { if (e.target === document.getElementById('productModal')) closeModal(); }
         init();
     </script>
 </body>
