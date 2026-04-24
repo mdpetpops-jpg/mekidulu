@@ -3,15 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Collections | Mekidulu</title>
+    <title>Collections | Mekidulu Modern Cat Living</title>
     <link rel="icon" type="image/png" href="img/logo.png">
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Plus Jakarta Sans', sans-serif; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
-        .modal-scroll-area { overflow-y: auto; max-height: calc(90vh - 120px); padding-right: 12px; }
-        #productModal.hidden { display: none; }
-        #productModal.flex { display: flex; }
+        #productModal { display: none; position: fixed; inset: 0; z-index: 100; background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); align-items: center; justify-content: center; padding: 20px; }
+        .modal-box { background: white; width: 100%; max-width: 1100px; height: 85vh; border-radius: 40px; display: flex; flex-direction: column; overflow: hidden; position: relative; }
+        @media (min-width: 768px) { .modal-box { flex-direction: row; } }
+        .modal-left { width: 100%; height: 40%; background: #f8fafc; flex-shrink: 0; position: relative; }
+        @media (min-width: 768px) { .modal-left { width: 60%; height: 100%; } }
+        .modal-right { width: 100%; height: 60%; padding: 40px; overflow-y: auto; background: white; }
+        @media (min-width: 768px) { .modal-right { width: 40%; height: 100%; } }
+        .modal-right::-webkit-scrollbar { width: 4px; }
+        .modal-right::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 10px; }
     </style>
 </head>
 <body class="bg-[#FCFAF7] p-6 text-slate-900">
@@ -20,67 +27,58 @@
         <a href="index.html" class="text-sm font-bold text-orange-600 underline">Back to Home</a>
     </nav>
 
-    <main class="max-w-7xl mx-auto pb-20">
-        <h1 class="text-4xl font-black mb-12">Mekidulu Catalog</h1>
+    <main class="max-w-7xl mx-auto pb-32">
+        <h1 class="text-4xl font-black mb-12 italic">Mekidulu Catalog</h1>
         <div id="productGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10"></div>
     </main>
 
-    <div id="productModal" class="fixed inset-0 z-[100] bg-black/90 hidden items-center justify-center p-4 backdrop-blur-md">
-        <div class="bg-white w-full max-w-5xl rounded-[40px] overflow-hidden flex flex-col md:flex-row relative max-h-[90vh]">
-            <button onclick="closeModal()" class="absolute top-6 right-6 z-[110] bg-slate-100 p-2 rounded-full hover:bg-white shadow-md">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-            </button>
-            <div class="md:w-3/5 bg-slate-100 h-64 md:h-auto relative" id="modalMedia"></div>
-            <div class="md:w-2/5 p-8 md:p-12 flex flex-col h-full bg-white">
-                <div id="modalTag" class="text-[10px] font-bold uppercase tracking-widest text-orange-600 mb-2"></div>
+    <div id="productModal" onclick="if(event.target===this)closeModal()">
+        <div class="modal-box shadow-2xl">
+            <button onclick="closeModal()" class="absolute top-6 right-6 z-[110] bg-white/90 p-2 rounded-full shadow-md hover:bg-white"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>
+            <div class="modal-left" id="modalMedia"></div>
+            <div class="modal-right">
+                <div id="modalTag" class="text-[10px] font-bold tracking-widest text-orange-600 mb-2 uppercase"></div>
                 <h2 id="modalTitle" class="text-2xl font-bold mb-4 leading-tight"></h2>
-                <div id="modalPrice" class="text-3xl font-light mb-6 text-orange-600"></div>
-                <div class="modal-scroll-area no-scrollbar mb-6">
-                    <ul id="modalFeatures" class="text-sm text-slate-600 space-y-4 list-none"></ul>
-                </div>
-                <div class="mt-auto pt-6 border-t"><a id="walmartLink" href="#" target="_blank" class="block w-full bg-[#0071dc] text-white text-center py-4 rounded-xl font-bold shadow-lg">Buy on Walmart</a></div>
+                <div id="modalPrice" class="text-3xl font-light mb-8 text-orange-600"></div>
+                <ul id="modalFeatures" class="space-y-4 mb-10 list-none p-0"></ul>
+                <div class="mt-auto pt-6 border-t"><a id="walmartLink" href="#" target="_blank" class="block w-full bg-[#0071dc] text-white text-center py-4 rounded-2xl font-bold shadow-lg">Buy on Walmart</a></div>
             </div>
         </div>
     </div>
 
     <script>
         let productsData = [];
-        const ADD_PRICE = 15.00;
         async function init() {
             const res = await fetch('products.json');
             productsData = await res.json();
             document.getElementById('productGrid').innerHTML = productsData.map(p => `
                 <div class="bg-white p-6 rounded-[32px] shadow-sm hover:shadow-2xl transition cursor-pointer group" onclick="openModal('${p.id}')">
-                    <img src="${p.img}" class="w-full aspect-square object-cover rounded-2xl mb-6 group-hover:scale-105 transition duration-500">
-                    <h3 class="font-bold text-xl mb-2 group-hover:text-orange-600 transition">${p.name}</h3>
-                    <p class="text-2xl font-light mb-4 text-slate-900">$${(parseFloat(p.basePrice) + ADD_PRICE).toFixed(2)}</p>
-                    <span class="inline-block w-full bg-slate-900 text-white py-3 rounded-xl text-center text-xs font-bold group-hover:bg-orange-600 transition shadow-md">View Details</span>
+                    <img src="${p.img}" class="w-full aspect-square object-cover rounded-2xl mb-6 transition duration-500 group-hover:scale-105">
+                    <h3 class="font-bold text-xl mb-2">${p.name}</h3>
+                    <p class="text-2xl font-light mb-4 text-slate-900">$${(parseFloat(p.basePrice) + 15).toFixed(2)}</p>
+                    <span class="inline-block w-full bg-slate-900 text-white py-3 rounded-xl text-center text-xs font-bold transition group-hover:bg-orange-600 shadow-md">View Details</span>
                 </div>
             `).join('');
-            const productId = new URLSearchParams(window.location.search).get('id');
-            if (productId) setTimeout(() => openModal(productId), 100);
+            const urlId = new URLSearchParams(window.location.search).get('id');
+            if (urlId) setTimeout(()=>openModal(urlId), 200);
         }
         function openModal(id) {
             const p = productsData.find(item => item.id === id);
             if(!p) return;
             window.history.pushState({}, '', `?id=${id}`);
             document.getElementById('modalTitle').innerText = p.name;
-            document.getElementById('modalPrice').innerText = "$" + (parseFloat(p.basePrice) + ADD_PRICE).toFixed(2);
-            document.getElementById('modalTag').innerText = p.tag || "Mekidulu Catalog";
+            document.getElementById('modalPrice').innerText = "$" + (parseFloat(p.basePrice) + 15).toFixed(2);
             document.getElementById('walmartLink').href = p.walmart;
             document.getElementById('modalMedia').innerHTML = `<img src="${p.img}" class="w-full h-full object-cover">`;
-            document.getElementById('modalFeatures').innerHTML = p.features.map(f => `<li class="flex items-start"><span class="text-orange-500 mr-2 font-bold">✦</span> ${f}</li>`).join('');
-            const modal = document.getElementById('productModal');
-            modal.classList.remove('hidden'); modal.classList.add('flex');
-            document.body.style.overflow = 'hidden'; 
+            document.getElementById('modalFeatures').innerHTML = p.features.map(f => `<li class="flex items-start text-sm text-slate-600 bg-slate-50 p-3 rounded-xl mb-2"><span class="text-orange-500 mr-3 font-bold">✦</span>${f}</li>`).join('');
+            document.getElementById('productModal').style.display = 'flex';
+            document.body.style.overflow = 'hidden';
         }
         function closeModal() {
-            const modal = document.getElementById('productModal');
-            modal.classList.add('hidden'); modal.classList.remove('flex');
+            document.getElementById('productModal').style.display = 'none';
             document.body.style.overflow = 'auto';
             window.history.pushState({}, '', window.location.pathname);
         }
-        window.onclick = e => { if (e.target === document.getElementById('productModal')) closeModal(); }
         init();
     </script>
 </body>
