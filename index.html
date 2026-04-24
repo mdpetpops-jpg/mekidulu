@@ -144,7 +144,10 @@
             if(!p) return;
 
             document.getElementById('modalTitle').innerText = p.name;
-            document.getElementById('modalPrice').innerText = p.price;
+            // 自动加价逻辑：获取原始数字，加上 15，再显示
+const basePrice = parseFloat(p.basePrice); // 拿到 JSON 里的 180.00
+const finalPrice = basePrice + 15;        // 加上 15
+document.getElementById('modalPrice').innerText = "$" + finalPrice.toFixed(2); // 显示为 $195.00
             document.getElementById('modalTag').innerText = p.tag || "Mekidulu Flagship";
             document.getElementById('walmartLink').href = p.walmart;
 
