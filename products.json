@@ -1,4 +1,5 @@
-[{
+[
+  {
     "id": "meki-yn105",
     "name": "Mekidulu 72\" Modern Wood Cat Tree - Horizon Series Sky-Dining Tower",
     "price": "$199.99",
@@ -25,19 +26,23 @@
     ]
   },
   {
-    "id": 1,
+    "id": "meki-001",
     "name": "Classic Solid Wood Tree",
-    "price": "189.00",
+    "price": "$189.00",
     "img": "img/product-01.png",
-    "link": "https://www.walmart.com",
-    "tag": "Best Seller"
+    "walmart": "https://www.walmart.com",
+    "tag": "Best Seller",
+    "features": ["100% Solid Wood", "Natural Sisal Rope", "Stable Base Design"],
+    "gallery": ["img/product-01.png"]
   },
   {
-    "id": 2,
+    "id": "meki-002",
     "name": "Luxury Wall Mount Set",
-    "price": "129.00",
+    "price": "$129.00",
     "img": "img/product-02.png",
-    "link": "https://www.walmart.com",
-    "tag": "Designer Choice"
+    "walmart": "https://www.walmart.com",
+    "tag": "Designer Choice",
+    "features": ["Space Saving", "Modern Aesthetic", "Easy Installation"],
+    "gallery": ["img/product-02.png"]
   }
 ]
