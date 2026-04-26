@@ -1,18 +1,12 @@
 [
   {
-    "id": "post-001",
-    "title": "Choosing the Right Cat Tower for Large Breeds",
-    "date": "2026-04-22",
-    "image": "https://raw.githubusercontent.com/mdpetpops-jpg/mekidulu/main/img/blog-01.png",
-    "excerpt": "Not all cat towers are created equal. For Maine Coons and large cats, stability and post thickness are key...",
-    "link": "#" 
-  },
-  {
-    "id": "post-002",
-    "title": "Why Solid Wood is Better Than Carpeted Particle Board",
-    "date": "2026-04-15",
-    "image": "https://raw.githubusercontent.com/mdpetpops-jpg/mekidulu/main/img/blog-02.png",
-    "excerpt": "Discover why eco-friendly solid wood is the superior choice for your cat's health and your home's aesthetics.",
-    "link": "#"
+    "id": "quiet-luxury-cat-tree-yn105",
+    "title": "Quiet Luxury for Cats: Why Modern Homes are Swapping Carpet Trees for the YN105",
+    "date": "2026-04-26",
+    "category": "Interior Design",
+    "summary": "Tired of pet furniture destroying your home's aesthetic? Discover how the YN105 Vertical Jungle combines Biophilic Design with 12-pillar stability.",
+    "coverImg": "img/mekidulu cat tree hero-banner02.png",
+    "content": "\n<div class='blog-hero-section mb-12'>\n  <picture>\n    <source media='(max-width: 767px)' srcset='img/mekidulu cat tree hero-banner01.png'>\n    <source media='(min-width: 768px)' srcset='img/mekidulu cat tree hero-banner02.png'>\n    <img src='img/mekidulu cat tree hero-banner02.png' alt='Mekidulu YN105 Vertical Jungle' class='w-full rounded-[32px] shadow-lg'>\n  </picture>\n</div>\n\n\n<div class='blog-section mb-10'>\n  <h3 class='text-2xl font-bold text-slate-900 mb-4'>The 'Ugly Pet Furniture' Tax is Over</h3>\n  <p class='text-slate-600 leading-relaxed'>In 2026, savvy cat owners are demanding more from their homes. It’s no longer just about giving your cat a place to sleep—it’s about integrating their biological needs into your 'Quiet Luxury' interior. Traditional carpeted towers trap odors and dander; it's time for a cleaner, more architectural approach.</p>\n</div>\n\n\n<div class='blog-section mb-10 p-8 bg-orange-50 rounded-[32px] border-l-4 border-orange-500'>\n  <h3 class='text-2xl font-bold text-slate-900 mb-4'>The 12-Pillar Peace Treaty</h3>\n  <p class='text-slate-600 leading-relaxed'>Why does your cat target your designer sofa? Most trees lack the surface area for a truly satisfying scratch. The <strong>Mekidulu YN105</strong> features 12 reinforced natural sisal pillars, creating a massive 360-degree scratching sanctuary that redirects feline instincts and saves your furniture investment.</p>\n</div>\n\n\n<div class='blog-section mb-10'>\n  <h3 class='text-2xl font-bold text-slate-900 mb-4'>Territorial Security via Height</h3>\n  <p class='text-slate-600 leading-relaxed'>Standing at 72.1 inches tall, the YN105 utilizes vertical space to solve territorial anxiety. In multi-cat households, high-altitude perches are essential for a cat's sense of security. The 8-level layout mimics a natural forest environment, encouraging active climbing and reducing indoor boredom.</p>\n</div>\n\n\n<div class='blog-footer mt-16 pt-8 border-t border-slate-100 text-center'>\n  <p class='font-bold text-lg mb-6'>Ready to upgrade your cat's lifestyle?</p>\n  <a href='index.html?id=meki-yn105' class='inline-block bg-orange-600 text-white px-10 py-4 rounded-full font-bold shadow-xl hover:bg-slate-900 transition'>Explore YN105 Features</a>\n</div>"
   }
+  /* [NEXT_BLOG_PLACEHOLDER] - 下一期博客请在此方括号后粘贴新内容 */
 ]
