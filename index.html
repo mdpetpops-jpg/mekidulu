@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mekidulu | Modern Design & Premium Supply Chain</title>
+    <title>Mekidulu | Premium Wood Cat Tree OEM & ODM Factory</title>
+    <meta name="description" content="Mekidulu is a leading wood cat tree factory providing professional OEM & ODM services. Female-led design with China's powerful supply chain for global wholesale.">
+    <meta name="keywords" content="Wood Cat Tree, Cat Furniture OEM, Cat Tree ODM, Wholesale Cat Tree, Mekidulu Supply Chain">
     <link rel="icon" type="image/png" href="img/logo.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
@@ -11,66 +13,47 @@
         body { font-family: 'Plus Jakarta Sans', sans-serif; scroll-behavior: smooth; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
         
-        /* 弹窗核心逻辑：锁定高度，强制内部滚动 */
         #productModal {
-            display: none;
-            position: fixed;
-            inset: 0;
-            z-index: 100;
-            background: rgba(0,0,0,0.85);
-            backdrop-filter: blur(10px);
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
+            display: none; position: fixed; inset: 0; z-index: 100;
+            background: rgba(0,0,0,0.85); backdrop-filter: blur(10px);
+            align-items: center; justify-content: center; padding: 20px;
         }
         .modal-box {
-            background: white;
-            width: 100%;
-            max-width: 1100px;
-            height: 85vh; /* 锁定窗口高度 */
-            border-radius: 40px;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            position: relative;
+            background: white; width: 100%; max-width: 1100px; height: 85vh;
+            border-radius: 40px; display: flex; flex-direction: column; overflow: hidden; position: relative;
         }
         @media (min-width: 768px) { .modal-box { flex-direction: row; } }
-
-        .modal-left { width: 100%; height: 40%; background: #f8fafc; position: relative; flex-shrink: 0; }
+        .modal-left { width: 100%; height: 45%; background: #f8fafc; position: relative; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
         @media (min-width: 768px) { .modal-left { width: 60%; height: 100%; } }
-
-        .modal-right { 
-            width: 100%; 
-            height: 60%; 
-            padding: 40px; 
-            overflow-y: auto; /* 文字区独立滑动 */
-            display: flex; 
-            flex-direction: column; 
-            background: white;
-        }
+        .modal-right { width: 100%; height: 55%; padding: 40px; overflow-y: auto; background: white; }
         @media (min-width: 768px) { .modal-right { width: 40%; height: 100%; } }
-        .modal-right::-webkit-scrollbar { width: 4px; }
-        .modal-right::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 10px; }
     </style>
 </head>
-<body class="bg-[#FCFAF7] text-slate-900">
+<body class="bg-[#FCFAF7] text-slate-900 text-[15px]">
 
     <nav class="fixed w-full z-50 py-4 px-6 md:px-10 flex justify-between items-center bg-white/90 backdrop-blur-md border-b border-slate-100">
-        <a href="index.html"><img src="img/logo.png" alt="Mekidulu" class="h-8 md:h-10"></a>
+        <a href="index.html"><img src="img/logo.png" alt="Mekidulu Logo" class="h-8 md:h-10"></a>
         <div class="hidden md:flex space-x-8 text-sm font-bold items-center">
-            <a href="products.html" class="hover:text-orange-600 transition">Collections</a>
-            <a href="catalog.html" class="hover:text-orange-600 transition">B2B Catalog</a>
-            <a href="https://tally.so/r/D4XBBj" target="_blank" class="bg-orange-600 text-white px-6 py-2 rounded-full hover:bg-orange-700 shadow-lg transition">Inquiry</a>
+            <a href="#products" class="hover:text-orange-600 transition">Collections</a>
+            <a href="#story" class="hover:text-orange-600 transition">OEM/ODM</a>
+            <a href="blog.html" class="hover:text-orange-600 transition">Journal</a>
+            <a href="https://tally.so/r/D4XBBj" target="_blank" class="bg-orange-600 text-white px-8 py-2.5 rounded-full hover:bg-slate-900 shadow-lg transition transform hover:scale-105">Get a Quote</a>
         </div>
     </nav>
 
     <section class="relative pt-28 pb-12 px-6">
-        <div class="max-w-7xl mx-auto rounded-[40px] overflow-hidden aspect-[21/9] relative shadow-2xl bg-slate-200">
-            <img src="img/hero-banner.png" class="w-full h-full object-cover">
-            <div class="absolute inset-0 bg-black/20 flex items-center px-12 text-white">
+        <div class="max-w-7xl mx-auto rounded-[40px] overflow-hidden relative shadow-2xl bg-slate-200">
+            <picture>
+                <source media="(max-width: 767px)" srcset="img/mekidulu cat tree hero-banner01.png">
+                <img src="img/mekidulu cat tree hero-banner02.png" alt="Mekidulu Premium Wood Cat Tree" class="w-full h-auto object-cover">
+            </picture>
+            <div class="absolute inset-0 bg-black/30 flex items-center px-12 text-white">
                 <div class="max-w-xl">
-                    <h1 class="text-4xl md:text-6xl font-extrabold mb-4 leading-tight tracking-tighter">Sophisticated Design.<br><span class="text-orange-400">Unbeatable Value.</span></h1>
-                    <a href="#products" class="inline-block bg-white text-black px-8 py-3 rounded-xl font-bold hover:bg-orange-600 hover:text-white transition shadow-lg">Shop Now</a>
+                    <h1 class="text-4xl md:text-6xl font-extrabold mb-4 leading-tight tracking-tighter italic">
+                        Modern <span class="text-orange-400">Wood Cat Tree</span> Design.
+                    </h1>
+                    <p class="mb-8 text-lg opacity-90 hidden md:block font-medium">B2B Leading Provider: Professional OEM & ODM solutions for high-end feline furniture markets.</p>
+                    <a href="https://tally.so/r/D4XBBj" target="_blank" class="inline-block bg-white text-orange-600 px-10 py-4 rounded-xl font-bold hover:bg-orange-600 hover:text-white transition shadow-2xl scale-105 border-2 border-white">Inquiry for Wholesale</a>
                 </div>
             </div>
         </div>
@@ -78,48 +61,85 @@
 
     <section id="products" class="py-20 px-6 max-w-7xl mx-auto">
         <div class="flex justify-between items-end mb-12">
-            <h2 class="text-3xl font-extrabold">Featured Collection</h2>
-            <a href="products.html" class="text-orange-600 font-bold border-b-2 border-orange-600">View All →</a>
+            <div>
+                <h2 class="text-3xl font-extrabold tracking-tight">Global Best-Sellers</h2>
+                <p class="text-slate-500 mt-2">Premium Wood Cat Trees for High-End Markets</p>
+            </div>
+            <a href="products.html" class="text-orange-600 font-bold border-b-2 border-orange-600 pb-1">View All →</a>
         </div>
         <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10"></div>
     </section>
 
-    <section id="story" class="py-24 bg-white px-6 border-t border-slate-50">
-        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
-            <div class="rounded-[40px] overflow-hidden shadow-2xl">
-                <img src="img/brand-story.jpg" alt="Mekidulu Supply Chain" onerror="this.src='img/hero-banner.png'">
+    <section id="story" class="py-24 bg-white px-6 border-y border-slate-100">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-20">
+                <h2 class="text-4xl font-extrabold text-slate-900 tracking-tight">The Mekidulu Advantage</h2>
+                <div class="w-20 h-1.5 bg-orange-600 mx-auto mt-6 rounded-full"></div>
             </div>
-            <div class="space-y-8">
-                <h2 class="text-4xl font-extrabold text-slate-900 leading-tight">Our Story: <br><span class="text-orange-600">Bridging the Gap.</span></h2>
-                <p class="text-lg text-slate-700 font-bold">Female-Led Innovation | Western Aesthetics | China's Power Supply Chain</p>
-                <p class="text-slate-600 leading-relaxed text-justify">Mekidulu is a female-led brand dedicated to harmonizing pet furniture with modern home aesthetics. By leveraging China's world-class supply chain, we provide premium-grade cat furniture with extreme cost-performance, delivering factory-direct value to families worldwide.</p>
-                <div class="pt-4"><a href="catalog.html" class="text-orange-600 font-bold border-b-2 border-orange-600 pb-1 italic">Hapen Wu (MBA) | Supply Chain Lead →</a></div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+                <div class="text-center">
+                    <div class="rounded-[40px] overflow-hidden shadow-xl mb-8 aspect-[4/5] bg-slate-50">
+                        <img src="img/mekidulu-disign.png" alt="Mekidulu Global Design" class="w-full h-full object-cover">
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">Aesthetic Design</h3>
+                    <p class="text-slate-600 leading-relaxed">Our Wood Cat Tree designs are best-sellers in the US, Europe, and Japan, blending seamlessly with modern home interiors.</p>
+                </div>
+                <div class="text-center">
+                    <div class="rounded-[40px] overflow-hidden shadow-xl mb-8 aspect-[4/5] bg-slate-50 border-8 border-[#FCFAF7]">
+                        <img src="img/mekidulu-team.png" alt="Female-Led Team" class="w-full h-full object-cover">
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">Female-Led Insights</h3>
+                    <p class="text-slate-600 leading-relaxed">Understanding the emotional bond between pets and owners to create more intuitive and safe feline sanctuaries.</p>
+                </div>
+                <div class="text-center">
+                    <div class="rounded-[40px] overflow-hidden shadow-xl mb-8 aspect-[4/5] bg-slate-50">
+                        <img src="img/mekidulu-factory.png" alt="China Supply Chain Power" class="w-full h-full object-cover">
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">OEM & ODM Power</h3>
+                    <p class="text-slate-600 leading-relaxed">Leveraging China's world-class supply chain to deliver high-capacity manufacturing and premium quality control.</p>
+                </div>
             </div>
         </div>
     </section>
+
+    <section class="py-24 px-6 bg-[#FCFAF7]">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex justify-between items-center mb-12">
+                <h2 class="text-3xl font-extrabold">Journal & Insights</h2>
+                <a href="blog.html" class="text-slate-900 font-bold border-b-2 border-slate-900 pb-1">Read More</a>
+            </div>
+            <div id="blogGrid" class="grid grid-cols-1 md:grid-cols-2 gap-10"></div>
+        </div>
+    </section>
+
+    <a href="https://tally.so/r/D4XBBj" target="_blank" class="fixed bottom-8 right-8 z-[100] bg-orange-600 text-white p-5 rounded-full shadow-2xl hover:scale-110 transition active:scale-95">
+        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path></svg>
+    </a>
 
     <footer class="bg-slate-900 text-white py-20 px-6">
         <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-16">
             <div>
                 <img src="img/logo.png" class="h-8 mb-8 brightness-0 invert">
-                <p class="text-slate-400 text-sm leading-relaxed">Sophisticated furniture for the modern feline home.</p>
+                <p class="text-slate-400 leading-relaxed">Mekidulu: Redefining the Wood Cat Tree through sophisticated design and manufacturing excellence.</p>
             </div>
             <div>
-                <h4 class="text-lg font-bold mb-8">Contact</h4>
+                <h4 class="text-lg font-bold mb-8 italic text-orange-400">Business Inquiry</h4>
                 <div class="space-y-4 text-slate-400 text-sm">
-                    <p>mekidulu.us@gmail.com</p>
-                    <p>WeChat: wu10550167</p>
+                    <p class="flex items-center"><span class="mr-3 text-orange-600 font-bold">Email:</span> mekidulu.us@gmail.com</p>
+                    <p class="flex items-center"><span class="mr-3 text-orange-600 font-bold">WeChat:</span> wu10550167</p>
                 </div>
             </div>
-            <div class="bg-white/5 p-8 rounded-[32px] border border-white/10 text-center">
-                <a href="https://tally.so/r/D4XBBj" target="_blank" class="block w-full bg-orange-600 py-4 rounded-xl font-bold hover:bg-orange-700 transition shadow-lg">B2B Inquiry</a>
+            <div class="bg-white/5 p-8 rounded-[32px] border border-white/10">
+                <h4 class="text-center font-bold mb-6">Need OEM/ODM Service?</h4>
+                <a href="https://tally.so/r/D4XBBj" target="_blank" class="block w-full bg-orange-600 text-center py-4 rounded-xl font-bold hover:bg-white hover:text-orange-600 transition">Start Project</a>
             </div>
         </div>
     </footer>
 
     <div id="productModal" onclick="if(event.target===this)closeModal()">
         <div class="modal-box shadow-2xl">
-            <button onclick="closeModal()" class="absolute top-6 right-6 z-[110] bg-white/90 p-2 rounded-full shadow-md hover:bg-white transition">
+            <button onclick="closeModal()" class="absolute top-6 right-6 z-[110] bg-white/90 p-2 rounded-full shadow-md hover:bg-white">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
             <div class="modal-left" id="modalMedia"></div>
@@ -127,9 +147,9 @@
                 <div id="modalTag" class="text-[10px] font-bold uppercase tracking-widest text-orange-600 mb-2"></div>
                 <h2 id="modalTitle" class="text-2xl font-bold mb-4 leading-tight"></h2>
                 <div id="modalPrice" class="text-3xl font-light mb-8 text-orange-600"></div>
-                <div class="flex-1"><ul id="modalFeatures" class="space-y-4 mb-10 list-none p-0"></ul></div>
+                <ul id="modalFeatures" class="space-y-4 mb-10"></ul>
                 <div class="mt-auto pt-6 border-t border-slate-100">
-                    <a id="walmartLink" href="#" target="_blank" class="block w-full bg-[#0071dc] text-white text-center py-4 rounded-2xl font-bold shadow-xl hover:bg-[#005fb8] transition">Buy on Walmart</a>
+                    <a id="walmartLink" href="#" target="_blank" class="block w-full bg-[#0071dc] text-white text-center py-4 rounded-2xl font-bold shadow-xl hover:bg-[#005fb8] transition">Buy Sample on Walmart</a>
                 </div>
             </div>
         </div>
@@ -137,11 +157,19 @@
 
     <script>
         let productsData = [];
+        
         async function init() {
             try {
-                const res = await fetch('products.json');
-                productsData = await res.json();
+                // Load Products
+                const pRes = await fetch('products.json');
+                productsData = await pRes.json();
                 renderGrid();
+                
+                // Load Latest Blogs
+                const bRes = await fetch('blog.json');
+                const blogs = await bRes.json();
+                renderBlogs(blogs);
+
                 const urlId = new URLSearchParams(window.location.search).get('id');
                 if (urlId) setTimeout(()=>openModal(urlId), 300);
             } catch(e) { console.error("Load Error", e); }
@@ -151,10 +179,32 @@
             const grid = document.getElementById('productGrid');
             if(!grid) return;
             grid.innerHTML = productsData.slice(0,3).map(p => `
-                <div class="bg-white p-4 rounded-[32px] shadow-sm hover:shadow-xl transition cursor-pointer group" onclick="openModal('${p.id}')">
-                    <div class="overflow-hidden rounded-[24px] aspect-square"><img src="${p.img}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500"></div>
-                    <div class="mt-6 px-2"><h3 class="font-bold text-lg leading-tight group-hover:text-orange-600 transition">${p.name}</h3><p class="text-slate-400 mt-2 font-medium">$${(parseFloat(p.basePrice) + 15).toFixed(2)}</p></div>
+                <div class="bg-white p-5 rounded-[40px] shadow-sm hover:shadow-xl transition cursor-pointer group" onclick="openModal('${p.id}')">
+                    <div class="overflow-hidden rounded-[30px] aspect-square bg-slate-50 flex items-center justify-center p-6">
+                        <img src="${p.img}" class="max-w-full max-h-full object-contain group-hover:scale-105 transition duration-500">
+                    </div>
+                    <div class="mt-8 px-2">
+                        <h3 class="font-bold text-lg leading-tight group-hover:text-orange-600 transition h-14 overflow-hidden text-ellipsis">${p.name}</h3>
+                        <div class="flex justify-between items-center mt-4">
+                            <p class="text-slate-400 font-bold">$${(parseFloat(p.basePrice) + 15).toFixed(2)}</p>
+                            <span class="text-orange-600 text-xs font-black italic">View Detail →</span>
+                        </div>
+                    </div>
                 </div>
+            `).join('');
+        }
+
+        function renderBlogs(blogs) {
+            const grid = document.getElementById('blogGrid');
+            if(!grid) return;
+            grid.innerHTML = blogs.slice(0, 2).map(b => `
+                <a href="blog.html?id=${b.id}" class="group block">
+                    <div class="rounded-[40px] overflow-hidden aspect-video mb-8 shadow-sm">
+                        <img src="${b.coverImg}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                    </div>
+                    <span class="text-orange-600 font-bold text-xs uppercase tracking-widest">${b.category}</span>
+                    <h3 class="text-2xl font-bold mt-3 group-hover:text-orange-600 transition">${b.title}</h3>
+                </a>
             `).join('');
         }
 
@@ -164,18 +214,17 @@
             window.history.pushState({}, '', `?id=${id}`);
             document.getElementById('modalTitle').innerText = p.name;
             document.getElementById('modalPrice').innerText = "$" + (parseFloat(p.basePrice) + 15).toFixed(2);
-            document.getElementById('modalTag').innerText = p.tag || "Mekidulu Original";
+            document.getElementById('modalTag').innerText = p.tag || "OEM Available";
             document.getElementById('walmartLink').href = p.walmart;
             
-            let mediaHtml = `<img src="${p.img}" class="w-full h-full object-cover">`;
+            let mediaHtml = `<img src="${p.img}" class="max-w-[85%] max-h-[85%] object-contain">`;
             if (p.gallery) {
-                mediaHtml += `<div class="absolute bottom-6 left-6 right-6 flex space-x-3 overflow-x-auto p-2 bg-black/10 backdrop-blur-md rounded-2xl no-scrollbar">
-                    ${p.gallery.map(g => `<img src="${g}" onclick="event.stopPropagation(); document.querySelector('.modal-left img').src='${g}'" class="w-16 h-16 object-cover rounded-xl cursor-pointer border-2 border-transparent hover:border-white shrink-0">`).join('')}
+                mediaHtml += `<div class="absolute bottom-6 left-6 right-6 flex space-x-3 overflow-x-auto p-2 bg-black/5 backdrop-blur-md rounded-2xl no-scrollbar">
+                    ${p.gallery.map(g => `<img src="${g}" onclick="event.stopPropagation(); document.querySelector('.modal-left img').src='${g}'" class="w-16 h-16 object-cover rounded-xl cursor-pointer border-2 border-transparent hover:border-orange-500 shrink-0 bg-white">`).join('')}
                 </div>`;
             }
             document.getElementById('modalMedia').innerHTML = mediaHtml;
-            document.getElementById('modalFeatures').innerHTML = p.features.map(f => `<li class="flex items-start text-sm text-slate-600 bg-slate-50 p-3 rounded-xl"><span class="text-orange-500 mr-3 font-bold">✦</span>${f}</li>`).join('');
-            
+            document.getElementById('modalFeatures').innerHTML = p.features.map(f => `<li class="flex items-start text-sm text-slate-600 bg-slate-50 p-4 rounded-2xl mb-2 italic">✦ ${f}</li>`).join('');
             document.getElementById('productModal').style.display = 'flex';
             document.body.style.overflow = 'hidden';
         }
