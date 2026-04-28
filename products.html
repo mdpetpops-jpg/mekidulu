@@ -3,88 +3,183 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Our Collections | Mekidulu Modern Cat Furniture</title>
+    <title>Collections | Mekidulu Premium Wood Cat Furniture</title>
+    <meta name="description" content="Explore Mekidulu's premium wood cat tree collections. Expertly designed for modern homes and feline comfort. Available for OEM/ODM.">
+    
     <link rel="icon" type="image/png" href="img/logo.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #FCFAF7; }
+        /* 模态框动画与遮罩 */
+        #productModal { 
+            display: none; 
+            position: fixed; 
+            inset: 0; 
+            z-index: 100; 
+            background: rgba(15, 23, 42, 0.9); /* 深色遮罩更有高级感 */
+            backdrop-filter: blur(12px); 
+            align-items: center; 
+            justify-content: center; 
+            padding: 20px; 
+        }
+        /* 响应式模态框高度 */
+        .modal-box { 
+            background: white; 
+            width: 100%; 
+            max-width: 1100px; 
+            height: 90vh; 
+            border-radius: 40px; 
+            display: flex; 
+            flex-direction: column; 
+            overflow: hidden; 
+            position: relative; 
+        }
+        @media (min-width: 768px) { .modal-box { flex-direction: row; height: 80vh; } }
+        
+        .modal-left { width: 100%; height: 50%; background: #f1f5f9; flex-shrink: 0; }
+        @media (min-width: 768px) { .modal-left { width: 55%; height: 100%; } }
+        
+        .modal-right { width: 100%; height: 50%; padding: 40px; overflow-y: auto; background: white; }
+        @media (min-width: 768px) { .modal-right { width: 45%; height: 100%; } }
+
+        /* 隐藏滚动条但保留功能 */
         .no-scrollbar::-webkit-scrollbar { display: none; }
-        #productModal { display: none; position: fixed; inset: 0; z-index: 100; background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); align-items: center; justify-content: center; padding: 20px; }
-        .modal-box { background: white; width: 100%; max-width: 1100px; height: 85vh; border-radius: 40px; display: flex; flex-direction: column; overflow: hidden; position: relative; }
-        @media (min-width: 768px) { .modal-box { flex-direction: row; } }
-        .modal-left { width: 100%; height: 40%; background: #f8fafc; flex-shrink: 0; position: relative; }
-        @media (min-width: 768px) { .modal-left { width: 60%; height: 100%; } }
-        .modal-right { width: 100%; height: 60%; padding: 40px; overflow-y: auto; background: white; }
-        @media (min-width: 768px) { .modal-right { width: 40%; height: 100%; } }
-        .modal-right::-webkit-scrollbar { width: 4px; }
-        .modal-right::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 10px; }
+        
+        /* 悬停提升效果 */
+        .product-card { transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+        .product-card:hover { transform: translateY(-12px); }
     </style>
 </head>
-<body class="bg-[#FCFAF7] p-6 text-slate-900">
-    <nav class="max-w-7xl mx-auto flex justify-between items-center mb-16">
-        <a href="index.html"><img src="img/logo.png" class="h-8"></a>
-        <a href="index.html" class="text-sm font-bold text-orange-600 underline">Back to Home</a>
+<body class="p-6 text-slate-900">
+
+    <nav class="max-w-7xl mx-auto flex justify-between items-center mb-12 py-4">
+        <a href="index.html" class="hover:opacity-80 transition"><img src="img/logo.png" alt="Mekidulu Logo" class="h-10"></a>
+        <a href="index.html" class="flex items-center text-sm font-bold text-orange-600 group">
+            <span class="mr-2 group-hover:-translate-x-1 transition">←</span> Back to Brand Home
+        </a>
     </nav>
 
     <main class="max-w-7xl mx-auto pb-32">
-        <h1 class="text-4xl font-black mb-12 italic">Mekidulu Catalog</h1>
-        <div id="productGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10"></div>
+        <header class="mb-16">
+            <h1 class="text-4xl md:text-5xl font-black mb-4 italic uppercase tracking-tighter">Collections</h1>
+            <p class="text-slate-500 italic font-medium">Precision engineering for professional feline environments.</p>
+        </header>
+
+        <div id="productGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+            <div class="h-80 bg-slate-100 rounded-[40px] animate-pulse"></div>
+            <div class="h-80 bg-slate-100 rounded-[40px] animate-pulse"></div>
+            <div class="h-80 bg-slate-100 rounded-[40px] animate-pulse"></div>
+        </div>
     </main>
 
     <div id="productModal" onclick="if(event.target===this)closeModal()">
-        <div class="modal-box shadow-2xl">
-            <button onclick="closeModal()" class="absolute top-6 right-6 z-[110] bg-white/90 p-2 rounded-full shadow-md hover:bg-white"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>
-            <div class="modal-left" id="modalMedia"></div>
-            <div class="modal-right">
-                <div id="modalTag" class="text-[10px] font-bold tracking-widest text-orange-600 mb-2 uppercase"></div>
-                <h2 id="modalTitle" class="text-2xl font-bold mb-4 leading-tight"></h2>
-                <div id="modalPrice" class="text-3xl font-light mb-8 text-orange-600"></div>
-                <ul id="modalFeatures" class="space-y-4 mb-10 list-none p-0"></ul>
-                <div class="mt-auto pt-6 border-t"><a id="walmartLink" href="#" target="_blank" class="block w-full bg-[#0071dc] text-white text-center py-4 rounded-2xl font-bold shadow-lg">Buy on Walmart</a></div>
+        <div class="modal-box shadow-2xl scale-up-animation">
+            <button onclick="closeModal()" class="absolute top-6 right-6 z-[110] bg-white/90 p-3 rounded-full shadow-lg hover:bg-orange-600 hover:text-white transition-all">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+
+            <div class="modal-left" id="modalMedia">
+                </div>
+
+            <div class="modal-right flex flex-col">
+                <div id="modalTag" class="text-[10px] font-black tracking-[0.2em] text-orange-600 mb-3 uppercase"></div>
+                <h2 id="modalTitle" class="text-3xl font-extrabold mb-4 leading-tight italic"></h2>
+                <div id="modalPrice" class="text-2xl font-light mb-8 text-slate-400"></div>
+                
+                <div class="flex-grow">
+                    <p class="text-xs font-bold uppercase text-slate-400 mb-4 tracking-widest">Key Features</p>
+                    <ul id="modalFeatures" class="space-y-3 mb-10"></ul>
+                </div>
+
+                <div class="mt-auto pt-8 border-t border-slate-100">
+                    <a id="walmartLink" href="#" target="_blank" class="flex items-center justify-center w-full bg-slate-900 text-white py-5 rounded-[20px] font-bold shadow-xl hover:bg-orange-600 transition-all transform active:scale-95">
+                        Check on Marketplace
+                    </a>
+                    <p class="text-[10px] text-center text-slate-400 mt-4 italic uppercase tracking-widest">Available for OEM/ODM Consultation</p>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
         let productsData = [];
+
         async function init() {
             try {
+                // 确保 products.json 在根目录
                 const res = await fetch('products.json');
+                if (!res.ok) throw new Error('Data load failed');
                 productsData = await res.json();
                 renderGrid();
+                
+                // 处理从主页或外部链接进入时的特定产品 ID
                 const urlId = new URLSearchParams(window.location.search).get('id');
-                if (urlId) setTimeout(()=>openModal(urlId), 300);
-            } catch(e) { console.error("Error", e); }
+                if (urlId) setTimeout(() => openModal(urlId), 300);
+            } catch(e) { 
+                console.error("Error loading products:", e);
+                document.getElementById('productGrid').innerHTML = `<p class="col-span-full text-center py-20 italic">Unable to load catalog. Please try again later.</p>`;
+            }
         }
+
         function renderGrid() {
             document.getElementById('productGrid').innerHTML = productsData.map(p => `
-                <div class="bg-white p-6 rounded-[32px] shadow-sm hover:shadow-2xl transition cursor-pointer group" onclick="openModal('${p.id}')">
-                    <img src="${p.img}" class="w-full aspect-square object-cover rounded-2xl mb-6 transition duration-500 group-hover:scale-105">
-                    <h3 class="font-bold text-xl mb-2">${p.name}</h3>
-                    <p class="text-2xl font-light mb-4 text-slate-900">$${(parseFloat(p.basePrice) + 15).toFixed(2)}</p>
-                    <span class="inline-block w-full bg-slate-900 text-white py-3 rounded-xl text-center text-xs font-bold transition group-hover:bg-orange-600 shadow-md">View Details</span>
+                <div class="product-card bg-white p-7 rounded-[40px] shadow-sm hover:shadow-2xl cursor-pointer group" onclick="openModal('${p.id}')">
+                    <div class="aspect-square overflow-hidden rounded-[30px] mb-8 bg-slate-50">
+                        <img src="${p.img}" alt="${p.name} - Mekidulu Wood Cat Tree" 
+                             class="w-full h-full object-contain transition duration-700 group-hover:scale-110">
+                    </div>
+                    <div class="px-2">
+                        <h3 class="font-bold text-xl mb-3 italic tracking-tight">${p.name}</h3>
+                        <p class="text-2xl font-light text-slate-900 mb-6">$${(parseFloat(p.basePrice) + 15).toFixed(2)}</p>
+                        <div class="w-full bg-slate-100 group-hover:bg-orange-600 group-hover:text-white py-4 rounded-2xl text-center text-xs font-black uppercase tracking-widest transition-all">
+                            View Specs
+                        </div>
+                    </div>
                 </div>
             `).join('');
         }
+
         function openModal(id) {
             const p = productsData.find(item => item.id === id);
             if(!p) return;
+
+            // 更新 URL 状态但不刷新页面，有利于分享链接
             window.history.pushState({}, '', `?id=${id}`);
+
             document.getElementById('modalTitle').innerText = p.name;
-            document.getElementById('modalPrice').innerText = "$" + (parseFloat(p.basePrice) + 15).toFixed(2);
-            document.getElementById('modalTag').innerText = p.tag || "Mekidulu Catalog";
-            document.getElementById('walmartLink').href = p.walmart;
-            document.getElementById('modalMedia').innerHTML = `<img src="${p.img}" class="w-full h-full object-cover">`;
-            document.getElementById('modalFeatures').innerHTML = p.features.map(f => `<li class="flex items-start text-sm text-slate-600 bg-slate-50 p-3 rounded-xl mb-2"><span class="text-orange-500 mr-3 font-bold">✦</span>${f}</li>`).join('');
+            document.getElementById('modalPrice').innerText = "MSRP: $" + (parseFloat(p.basePrice) + 15).toFixed(2);
+            document.getElementById('modalTag').innerText = p.tag || "Mekidulu Engineering";
+            
+            // 链接逻辑
+            const wLink = document.getElementById('walmartLink');
+            wLink.href = p.walmart || "#";
+            wLink.innerText = p.walmart ? "View on Marketplace" : "Contact for Inquiry";
+
+            // 图片填充 (增加 SEO alt)
+            document.getElementById('modalMedia').innerHTML = `
+                <img src="${p.img}" alt="${p.name} Detailed View" class="w-full h-full object-contain p-12">
+            `;
+
+            // 特性列表填充
+            document.getElementById('modalFeatures').innerHTML = p.features.map(f => `
+                <li class="flex items-start text-sm text-slate-600 bg-slate-50 p-4 rounded-[18px]">
+                    <span class="text-orange-500 mr-4 font-black">✓</span>
+                    <span class="italic font-medium leading-relaxed">${f}</span>
+                </li>
+            `).join('');
+
             document.getElementById('productModal').style.display = 'flex';
-            document.body.style.overflow = 'hidden';
+            document.body.style.overflow = 'hidden'; // 防止背景滚动
         }
+
         function closeModal() {
             document.getElementById('productModal').style.display = 'none';
             document.body.style.overflow = 'auto';
+            // 清除 URL 中的参数
             window.history.pushState({}, '', window.location.pathname);
         }
+
         init();
     </script>
 </body>
