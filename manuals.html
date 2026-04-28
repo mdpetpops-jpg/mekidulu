@@ -10,20 +10,47 @@
 </head>
 <body class="py-20 px-6">
     <div class="max-w-5xl mx-auto">
-        <a href="index.html" class="text-orange-600 font-bold mb-10 inline-block">← Back to Home</a>
-        <h1 class="text-5xl font-black italic uppercase tracking-tighter mb-4">Assembly <span class="text-orange-600">Guides</span></h1>
-        <p class="text-slate-500 italic mb-16">Download high-resolution assembly guides and technical specifications.</p>
+        <a href="index.html" class="text-orange-600 font-bold mb-10 inline-block hover:underline">← Back to Home</a>
         
-        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6">
-            <a href="manuals/1022.pdf" target="_blank" class="p-6 bg-white border border-slate-100 rounded-3xl shadow-sm hover:border-orange-600 transition text-center">
-                <span class="block text-[10px] font-black text-slate-400 uppercase mb-2">Model</span>
-                <span class="text-lg font-bold">1022</span>
-            </a>
-            <a href="manuals/1115.pdf" target="_blank" class="p-6 bg-white border border-slate-100 rounded-3xl shadow-sm hover:border-orange-600 transition text-center">
-                <span class="block text-[10px] font-black text-slate-400 uppercase mb-2">Model</span>
-                <span class="text-lg font-bold">1115</span>
-            </a>
+        <div class="mb-16">
+            <h1 class="text-5xl font-black italic uppercase tracking-tighter mb-4">Assembly <span class="text-orange-600">Guides</span></h1>
+            <p class="text-slate-500 italic">Download high-resolution assembly guides and technical specifications for all models.</p>
+        </div>
+        
+        <div id="fullManualsGrid" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6">
             </div>
+
+        <div class="mt-32 pt-10 border-t border-slate-200 text-center">
+            <p class="text-slate-400 text-xs uppercase tracking-widest">© 2026 Mekidulu Support Team</p>
+        </div>
     </div>
+
+    <script>
+        // 【核心操作区】海鹏总，以后您增加了 PDF 文件，只要在这里加个名字就行
+        const allManuals = [
+            "1022.pdf", "1115.pdf", "8782.pdf", "B12.pdf", "M07.pdf", 
+            "P15.pdf", "T01.pdf", "T02.pdf", "T03.pdf", "T04.pdf", 
+            "Y13.pdf", "YN105.pdf"
+            // 如果加了新的，就在后面加个逗号，写上文件名，如: , "NEW-CAT-TREE.pdf"
+        ];
+
+        function renderManuals() {
+            const grid = document.getElementById('fullManualsGrid');
+            grid.innerHTML = allManuals.map(file => `
+                <a href="manuals/${file}" target="_blank" class="group p-8 bg-white border border-slate-100 rounded-[32px] shadow-sm hover:border-orange-600 hover:shadow-xl transition-all text-center">
+                    <div class="w-12 h-12 bg-orange-50 text-orange-600 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-orange-600 group-hover:text-white transition">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                    </div>
+                    <span class="block text-[10px] font-black text-slate-400 uppercase mb-1">Model</span>
+                    <span class="text-lg font-extrabold text-slate-800 tracking-tight">${file.replace('.pdf','')}</span>
+                </a>
+            `).join('');
+        }
+
+        // 页面一加载就执行
+        window.onload = renderManuals;
+    </script>
 </body>
 </html>
