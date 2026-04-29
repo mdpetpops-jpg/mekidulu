@@ -1,0 +1,16 @@
+# Mekidulu - Premium Wood Cat Furniture
+
+> Minimalist wood cat furniture designed for modern Western living. Direct-to-factory supply chain (OEM/ODM).
+
+## Core Links
+- [Products](https://mekidulu.com/products.html): Featured premium cat trees and furniture.
+- [Assembly Guides](https://mekidulu.com/manuals.html): Technical PDFs and manuals for all models.
+- [Contact/Quote](https://tally.so/r/D4XBBj): Direct inquiry for distributors.
+
+## Brand Strengths
+- 40% cost saving via direct supply chain.
+- Focus on natural wood aesthetics (New Zealand Pine).
+- Global logistics support for US, Japan, and Europe.
+
+## Technical Documentation
+- All model assembly instructions are hosted under /manuals/ directory.
