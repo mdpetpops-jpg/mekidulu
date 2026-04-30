@@ -176,7 +176,7 @@
                     document.getElementById('blogGrid').innerHTML = blogs.slice(0, 3).map(b => `
                         <div class="group cursor-pointer" onclick="location.href='blog.html'">
                             <div class="aspect-video bg-white rounded-[32px] overflow-hidden mb-6 shadow-sm border border-slate-100">
-                                <img src="${b.coverImg}" class="w-full h-full object-cover transition group-hover:scale-105">
+                                <img src="${b.cover_Img}" class="w-full h-full object-cover transition group-hover:scale-105">
                             </div>
                             <h3 class="text-lg font-black leading-tight uppercase italic group-hover:text-orange-600 transition text-left">${b.title}</h3>
                             <p class="text-slate-400 text-xs mt-3 line-clamp-2 italic text-left">${b.summary}</p>
