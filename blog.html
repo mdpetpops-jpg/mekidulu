@@ -137,8 +137,14 @@
 
                   // 4. 正文注入：确保使用 innerHTML 还原长文
                   // 如果您的 JSON 字段名是 content，请确保这里对应
-                  // 140行：精准修复！按优先级尝试所有可能的长文字段
-                  const fullText = post.content || post.description || post.body || post.text;
+                 // 140行：修复单引号冲突，确保 content 完整注入
+                 if (post.content) {
+                 const contentContainer = document.getElementById('postContent');
+                 contentContainer.innerHTML = ''; // 先清空加载动画
+                 contentContainer.insertAdjacentHTML('beforeend', post.content);
+                 } else {
+                 document.getElementById('postContent').innerHTML = "<p>Content is missing in JSON.</p>";
+                }
 
                   if (fullText) {
                   document.getElementById('postContent').innerHTML = fullText;
