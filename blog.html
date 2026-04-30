@@ -118,75 +118,58 @@
                 
                 if (post) {
                     // 1. 基础信息渲染
-                    document.title = `${post.title} | Mekidulu Journal`;
-                    document.getElementById('postCategory').innerText = post.category || "Design Insights";
-                    document.getElementById('postTitle').innerText = post.title;
-                    document.getElementById('postDate').innerText = post.date;
-                    
-                    // 2. SEO 描述
-                    if(post.summary) {
-                        document.getElementById('metaDescription').setAttribute("content", post.summary);
-                    }
-
-                  // 3. 封面图处理：增加兼容性，防止图片裂开
-                 const coverImgUrl = post.cover_img || post.coverImg; 
-                 if(coverImgUrl) {
-                 document.getElementById('postCover').style.display = 'block'; // 确保显示区域
-                 document.getElementById('postCover').innerHTML = `<img src="${coverImgUrl}" class="w-full h-full object-cover">`;
-                  }
-
-                 // 4. 正文注入：只留这一段，删掉后面冲突的 fullText 判断
-                 if (post.content) {
-                 const contentContainer = document.getElementById('postContent');
-                 contentContainer.innerHTML = ''; 
-                 contentContainer.insertAdjacentHTML('beforeend', post.content);
-                 } else if (post.description) {
-                 // 兼容可能叫 description 的情况
-                document.getElementById('postContent').innerHTML = post.description;
-                 } else {
-                document.getElementById('postContent').innerHTML = "<p class='text-red-500'>Content field not found in JSON.</p>";
-                  }
-
-                  // 后面紧接着就是第 5 步生成导航，不要再插任何关于 postContent 的赋值了！
-                    
-                  // 5. 生成底部导航（上一篇/下一篇/返回列表）
-                  // 找到当前文章在 JSON 列表中的位置
-                  const currentIndex = blogs.findIndex(b => b.id === (blogId || blogs[0].id));
-                  const prevPost = blogs[currentIndex - 1];
-                  const nextPost = blogs[currentIndex + 1];
-
-                  // 注入到您 HTML 中 ID 为 'blogNav' 的容器里
-                  document.getElementById('blogNav').innerHTML = `
-                  <div class="flex flex-wrap justify-center items-center gap-6">
-                  ${prevPost ? `
-                <a href="blog.html?id=${prevPost.id}" class="group flex flex-col items-center">
-                <span class="text-[10px] text-slate-400 uppercase tracking-widest mb-2">Previous</span>
-                <span class="px-6 py-3 bg-white border border-slate-100 rounded-2xl text-sm font-bold hover:bg-orange-600 hover:text-white transition-all shadow-sm">← ${prevPost.title.substring(0,20)}...</span>
-            </a>` : ''}
-
-        <a href="index.html" class="flex flex-col items-center group">
-            <span class="text-[10px] text-slate-400 uppercase tracking-widest mb-2">Menu</span>
-            <span class="px-8 py-3 bg-slate-900 text-white rounded-2xl text-sm font-bold hover:bg-orange-600 transition-all shadow-lg">All Posts</span>
-        </a>
-
-        ${nextPost ? `
-            <a href="blog.html?id=${nextPost.id}" class="group flex flex-col items-center">
-                <span class="text-[10px] text-slate-400 uppercase tracking-widest mb-2">Next</span>
-                <span class="px-6 py-3 bg-white border border-slate-100 rounded-2xl text-sm font-bold hover:bg-orange-600 hover:text-white transition-all shadow-sm">${nextPost.title.substring(0,20)}... →</span>
-            </a>` : ''}
-    </div>
-`;
-                    
-                    // 6. 自动回到顶部
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                } else {
-                    document.getElementById('postContent').innerHTML = "<p class='text-center py-20 text-slate-400'>Journal entry not found.</p>";
+               // --- 替换开始 ---
+            const blogs = await res.json();
+            const post = blogId ? blogs.find(b => b.id === blogId) : blogs[0];
+            
+            if (post) {
+                document.title = `${post.title} | Mekidulu Journal`;
+                document.getElementById('postCategory').innerText = post.category || "Design Insights";
+                document.getElementById('postTitle').innerText = post.title;
+                document.getElementById('postDate').innerText = post.date;
+                
+                if(post.summary) {
+                    document.getElementById('metaDescription').setAttribute("content", post.summary);
                 }
-            } catch (e) {
-                console.error("Critical Blog Error:", e);
-                document.getElementById('postContent').innerHTML = "<p class='text-center py-20 text-red-500 font-bold'>The journal system is temporarily offline.</p>";
+
+                const coverImgUrl = post.cover_img || post.coverImg; 
+                if(coverImgUrl) {
+                    document.getElementById('postCover').innerHTML = `<img src="${coverImgUrl}" class="w-full h-full object-cover">`;
+                }
+
+                // 核心：注入正文
+                document.getElementById('postContent').innerHTML = post.content || "<p>Content not found.</p>";
+
+                // 生成导航
+                const currentIndex = blogs.findIndex(b => b.id === post.id);
+                const prevPost = blogs[currentIndex - 1];
+                const nextPost = blogs[currentIndex + 1];
+
+                document.getElementById('blogNav').innerHTML = `
+                    <div class="flex flex-wrap justify-center items-center gap-6">
+                        ${prevPost ? `
+                        <a href="blog.html?id=${prevPost.id}" class="group flex flex-col items-center">
+                            <span class="text-[10px] text-slate-400 uppercase tracking-widest mb-2">Previous</span>
+                            <span class="px-6 py-3 bg-white border border-slate-100 rounded-2xl text-sm font-bold hover:bg-orange-600 hover:text-white transition shadow-sm">${prevPost.title.substring(0,15)}...</span>
+                        </a>` : ''}
+
+                        <a href="index.html" class="flex flex-col items-center group">
+                            <span class="text-[10px] text-slate-400 uppercase tracking-widest mb-2">Menu</span>
+                            <span class="px-8 py-3 bg-slate-900 text-white rounded-2xl text-sm font-bold hover:bg-orange-600 transition shadow-lg">All Posts</span>
+                        </a>
+
+                        ${nextPost ? `
+                        <a href="blog.html?id=${nextPost.id}" class="group flex flex-col items-center">
+                            <span class="text-[10px] text-slate-400 uppercase tracking-widest mb-2">Next</span>
+                            <span class="px-6 py-3 bg-white border border-slate-100 rounded-2xl text-sm font-bold hover:bg-orange-600 hover:text-white transition shadow-sm">${nextPost.title.substring(0,15)}... →</span>
+                        </a>` : ''}
+                    </div>`;
+
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else {
+                document.getElementById('postContent').innerHTML = "Post not found.";
             }
-        }
+            // --- 替换结束 ---
 
         loadBlogDetail();
     </script>
