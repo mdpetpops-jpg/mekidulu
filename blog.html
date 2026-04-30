@@ -135,23 +135,19 @@
                  document.getElementById('postCover').innerHTML = `<img src="${coverImgUrl}" class="w-full h-full object-cover">`;
                   }
 
-                  // 4. 正文注入：确保使用 innerHTML 还原长文
-                  // 如果您的 JSON 字段名是 content，请确保这里对应
-                 // 140行：修复单引号冲突，确保 content 完整注入
+                 // 4. 正文注入：只留这一段，删掉后面冲突的 fullText 判断
                  if (post.content) {
                  const contentContainer = document.getElementById('postContent');
-                 contentContainer.innerHTML = ''; // 先清空加载动画
+                 contentContainer.innerHTML = ''; 
                  contentContainer.insertAdjacentHTML('beforeend', post.content);
+                 } else if (post.description) {
+                 // 兼容可能叫 description 的情况
+                document.getElementById('postContent').innerHTML = post.description;
                  } else {
-                 document.getElementById('postContent').innerHTML = "<p>Content is missing in JSON.</p>";
-                }
+                document.getElementById('postContent').innerHTML = "<p class='text-red-500'>Content field not found in JSON.</p>";
+                  }
 
-                  if (fullText) {
-                  document.getElementById('postContent').innerHTML = fullText;
-                 } else {
-                 // 如果还是没出来，会在页面显示这行红字，帮我们排查 JSON 字段名
-                 document.getElementById('postContent').innerHTML = "<p style='color:red;'>JSON字段名不匹配，请检查长文在JSON里叫什么（content/description?）</p>";
-                 }
+                  // 后面紧接着就是第 5 步生成导航，不要再插任何关于 postContent 的赋值了！
                     
                   // 5. 生成底部导航（上一篇/下一篇/返回列表）
                   // 找到当前文章在 JSON 列表中的位置
