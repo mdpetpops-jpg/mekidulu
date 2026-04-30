@@ -12,7 +12,19 @@
     
     <style>
         body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #FCFAF7; }
-        
+        /* 强制正文容器高度随内容自适应 */
+       #postContent {
+        height: auto !important;
+       min-height: 400px;
+       display: block !important;
+       visibility: visible !important;
+       overflow: visible !important;
+           }
+
+.blog-content section {
+    display: block !important;
+    margin-bottom: 2rem;
+}
         /* 深度定制文章内样式 - 提升 B2B 权威感 */
         .blog-content p { margin-bottom: 2rem; line-height: 1.9; color: #334155; font-size: 1.1rem; }
         .blog-content h2 { font-size: 1.8rem; font-weight: 800; margin: 3rem 0 1.5rem; color: #0f172a; font-style: italic; }
