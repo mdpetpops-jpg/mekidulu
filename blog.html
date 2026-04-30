@@ -128,17 +128,16 @@
                         document.getElementById('metaDescription').setAttribute("content", post.summary);
                     }
 
-                    // 3. 封面图处理（核心修改：增加字段兼容性）
-                    const coverImgUrl = post.cover_img || post.coverImg; 
-                    if(coverImgUrl) {
-                        document.getElementById('postCover').style.display = 'block';
-                        document.getElementById('postCover').innerHTML = `<img src="${coverImgUrl}" alt="${post.title}" class="w-full h-full object-cover">`;
-                    } else {
-                        document.getElementById('postCover').style.display = 'none';
-                    }
-                    
-                    // 4. 正文注入
-                    document.getElementById('postContent').innerHTML = post.content;
+                  // 3. 封面图处理：增加兼容性，防止图片裂开
+                 const coverImgUrl = post.cover_img || post.coverImg; 
+                 if(coverImgUrl) {
+                 document.getElementById('postCover').style.display = 'block'; // 确保显示区域
+                 document.getElementById('postCover').innerHTML = `<img src="${coverImgUrl}" class="w-full h-full object-cover">`;
+                  }
+
+                  // 4. 正文注入：确保使用 innerHTML 还原长文
+                  // 如果您的 JSON 字段名是 content，请确保这里对应
+                  document.getElementById('postContent').innerHTML = post.content || post.body;
                     
                     // 5. 生成底部相关文章导航
                     const otherBlogs = blogs.filter(b => b.id !== post.id).slice(0, 3);
