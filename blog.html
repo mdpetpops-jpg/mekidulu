@@ -137,8 +137,15 @@
 
                   // 4. 正文注入：确保使用 innerHTML 还原长文
                   // 如果您的 JSON 字段名是 content，请确保这里对应
-                  // 140行：精准指向 description 字段
-                  document.getElementById('postContent').innerHTML = post.description || post.content;
+                  // 140行：精准修复！按优先级尝试所有可能的长文字段
+                  const fullText = post.content || post.description || post.body || post.text;
+
+                  if (fullText) {
+                  document.getElementById('postContent').innerHTML = fullText;
+                 } else {
+                 // 如果还是没出来，会在页面显示这行红字，帮我们排查 JSON 字段名
+                 document.getElementById('postContent').innerHTML = "<p style='color:red;'>JSON字段名不匹配，请检查长文在JSON里叫什么（content/description?）</p>";
+                 }
                     
                   // 5. 生成底部导航（上一篇/下一篇/返回列表）
                   // 找到当前文章在 JSON 列表中的位置
