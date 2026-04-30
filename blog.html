@@ -137,18 +137,36 @@
 
                   // 4. 正文注入：确保使用 innerHTML 还原长文
                   // 如果您的 JSON 字段名是 content，请确保这里对应
-                  document.getElementById('postContent').innerHTML = post.content || post.body || post.description;
+                  // 140行：精准指向 description 字段
+                  document.getElementById('postContent').innerHTML = post.description || post.content;
                     
-                   // 5. 生成底部导航（上一篇/下一篇/列表）
-                    const currentIndex = blogs.findIndex(b => b.id === post.id);
-                    const prevPost = blogs[currentIndex - 1];
-                    const nextPost = blogs[currentIndex + 1];
+                  // 5. 生成底部导航（上一篇/下一篇/返回列表）
+                  // 找到当前文章在 JSON 列表中的位置
+                  const currentIndex = blogs.findIndex(b => b.id === (blogId || blogs[0].id));
+                  const prevPost = blogs[currentIndex - 1];
+                  const nextPost = blogs[currentIndex + 1];
 
-                    document.getElementById('blogNav').innerHTML = `
-                    ${prevPost ? `<a href="blog.html?id=${prevPost.id}" class="px-6 py-2 bg-slate-100 rounded-full hover:bg-orange-600 hover:text-white transition">← Prev</a>` : ''}
-                    <a href="index.html" class="px-6 py-2 bg-slate-100 rounded-full hover:bg-slate-900 hover:text-white transition">All Posts</a>
-                    ${nextPost ? `<a href="blog.html?id=${nextPost.id}" class="px-6 py-2 bg-slate-100 rounded-full hover:bg-orange-600 hover:text-white transition">Next →</a>` : ''}
-                     `;
+                  // 注入到您 HTML 中 ID 为 'blogNav' 的容器里
+                  document.getElementById('blogNav').innerHTML = `
+                  <div class="flex flex-wrap justify-center items-center gap-6">
+                  ${prevPost ? `
+                <a href="blog.html?id=${prevPost.id}" class="group flex flex-col items-center">
+                <span class="text-[10px] text-slate-400 uppercase tracking-widest mb-2">Previous</span>
+                <span class="px-6 py-3 bg-white border border-slate-100 rounded-2xl text-sm font-bold hover:bg-orange-600 hover:text-white transition-all shadow-sm">← ${prevPost.title.substring(0,20)}...</span>
+            </a>` : ''}
+
+        <a href="index.html" class="flex flex-col items-center group">
+            <span class="text-[10px] text-slate-400 uppercase tracking-widest mb-2">Menu</span>
+            <span class="px-8 py-3 bg-slate-900 text-white rounded-2xl text-sm font-bold hover:bg-orange-600 transition-all shadow-lg">All Posts</span>
+        </a>
+
+        ${nextPost ? `
+            <a href="blog.html?id=${nextPost.id}" class="group flex flex-col items-center">
+                <span class="text-[10px] text-slate-400 uppercase tracking-widest mb-2">Next</span>
+                <span class="px-6 py-3 bg-white border border-slate-100 rounded-2xl text-sm font-bold hover:bg-orange-600 hover:text-white transition-all shadow-sm">${nextPost.title.substring(0,20)}... →</span>
+            </a>` : ''}
+    </div>
+`;
                     
                     // 6. 自动回到顶部
                     window.scrollTo({ top: 0, behavior: 'smooth' });
