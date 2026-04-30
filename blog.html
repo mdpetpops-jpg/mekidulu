@@ -128,18 +128,19 @@
                         document.getElementById('metaDescription').setAttribute("content", post.summary);
                     }
 
-                    // 3. 封面图处理
-                    if(post.cover_img) {
-                        document.getElementById('postCover').innerHTML = `<img src="${post.cover_img}" alt="${post.title}" class="w-full h-full object-cover">`;
+                    // 3. 封面图处理（核心修改：增加字段兼容性）
+                    const coverImgUrl = post.cover_img || post.coverImg; 
+                    if(coverImgUrl) {
+                        document.getElementById('postCover').style.display = 'block';
+                        document.getElementById('postCover').innerHTML = `<img src="${coverImgUrl}" alt="${post.title}" class="w-full h-full object-cover">`;
                     } else {
-                        // 如果没封面，则隐藏区域
                         document.getElementById('postCover').style.display = 'none';
                     }
                     
                     // 4. 正文注入
                     document.getElementById('postContent').innerHTML = post.content;
                     
-                    // 5. 生成底部相关文章导航 (随机推荐或列出其他)
+                    // 5. 生成底部相关文章导航
                     const otherBlogs = blogs.filter(b => b.id !== post.id).slice(0, 3);
                     document.getElementById('blogNav').innerHTML = otherBlogs.map(b => `
                         <a href="blog.html?id=${b.id}" class="px-6 py-2 bg-slate-100 rounded-full hover:bg-orange-600 hover:text-white transition-all">
