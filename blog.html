@@ -137,15 +137,18 @@
 
                   // 4. 正文注入：确保使用 innerHTML 还原长文
                   // 如果您的 JSON 字段名是 content，请确保这里对应
-                  document.getElementById('postContent').innerHTML = post.content || post.body;
+                  document.getElementById('postContent').innerHTML = post.content || post.body || post.description;
                     
-                    // 5. 生成底部相关文章导航
-                    const otherBlogs = blogs.filter(b => b.id !== post.id).slice(0, 3);
-                    document.getElementById('blogNav').innerHTML = otherBlogs.map(b => `
-                        <a href="blog.html?id=${b.id}" class="px-6 py-2 bg-slate-100 rounded-full hover:bg-orange-600 hover:text-white transition-all">
-                            ${b.title} →
-                        </a>
-                    `).join('');
+                   // 5. 生成底部导航（上一篇/下一篇/列表）
+                    const currentIndex = blogs.findIndex(b => b.id === post.id);
+                    const prevPost = blogs[currentIndex - 1];
+                    const nextPost = blogs[currentIndex + 1];
+
+                    document.getElementById('blogNav').innerHTML = `
+                    ${prevPost ? `<a href="blog.html?id=${prevPost.id}" class="px-6 py-2 bg-slate-100 rounded-full hover:bg-orange-600 hover:text-white transition">← Prev</a>` : ''}
+                    <a href="index.html" class="px-6 py-2 bg-slate-100 rounded-full hover:bg-slate-900 hover:text-white transition">All Posts</a>
+                    ${nextPost ? `<a href="blog.html?id=${nextPost.id}" class="px-6 py-2 bg-slate-100 rounded-full hover:bg-orange-600 hover:text-white transition">Next →</a>` : ''}
+                     `;
                     
                     // 6. 自动回到顶部
                     window.scrollTo({ top: 0, behavior: 'smooth' });
