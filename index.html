@@ -174,7 +174,7 @@
                 if(bRes.ok) {
                     const blogs = await bRes.json();
                     document.getElementById('blogGrid').innerHTML = blogs.slice(0, 3).map(b => `
-                        <div class="group cursor-pointer" onclick="location.href='blog.html?id=${b.id}'">
+                      <div class="group cursor-pointer" onclick="location.href='blog.html?id=${b.id}'">
                             <div class="aspect-video bg-white rounded-[32px] overflow-hidden mb-6 shadow-sm border border-slate-100">
                                 <img src="${b.cover_img || b.coverImg}"class="w-full h-full object-cover transition group-hover:scale-105">
                             </div>
