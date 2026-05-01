@@ -140,32 +140,39 @@
             // 3. 匹配文章
             const post = blogId ? blogs.find(b => b.id === blogId) : blogs[0];
 if (post) {
-            // 1. 强制渲染标题和日期
+            // 1. 设置标题和动态元描述（SEO）
+            document.title = post.title + " | Mekidulu Modern Cat Furniture";
+            let metaDesc = document.querySelector('meta[name="description"]');
+            if (!metaDesc) {
+                metaDesc = document.createElement('meta');
+                metaDesc.name = "description";
+                document.head.appendChild(metaDesc);
+            }
+            metaDesc.content = post.summary;
+
+            // 2. 渲染基础信息
             document.getElementById('postTitle').innerText = post.title;
             document.getElementById('postDate').innerText = post.date;
             document.getElementById('postCategory').innerText = post.category || "Insight";
             
-            // 2. 注入图片
-            const img = post.cover_img || post.coverImg;
-            if(img) {
-                document.getElementById('postCover').innerHTML = `<img src="${img}" class="w-full h-full object-cover">`;
-            }
+            // 3. 渲染封面图
+            const imgPath = post.cover_img || post.coverImg;
+            document.getElementById('postCover').innerHTML = `<img src="${imgPath}" class="w-full h-full object-cover">`;
 
-            // 3. 核心改进：用 insertAdjacentHTML 替换 innerHTML，防止被浏览器截断
-            contentContainer.innerHTML = ""; // 先清空原来的 Loading
-            contentContainer.insertAdjacentHTML('afterbegin', post.content); 
+            // 4. 渲染正文内容（核心：先清空，再插入）
+            const contentContainer = document.getElementById('postContent');
+            contentContainer.innerHTML = ""; 
+            contentContainer.insertAdjacentHTML('afterbegin', post.content);
             
-            // 4. 强制底部导航显示
+            // 5. 显示底部返回按钮
             const nav = document.getElementById('blogNav');
-            if(nav) {
-                nav.innerHTML = `<a href="index.html" class="bg-slate-900 text-white px-8 py-3 rounded-2xl font-bold hover:bg-orange-600 transition shadow-lg">All Posts</a>`;
-            }
-            
-            console.log("正文内容已成功载入，长度：", post.content.length);
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            if(nav) { nav.classList.remove('hidden'); }
+
+            window.scrollTo(0, 0);
+            console.log("Blog loaded successfully: " + post.id);
 
         } else {
-            contentContainer.innerHTML = "<p class='text-center py-20'>Post not found.</p>";
+            document.getElementById('postContent').innerHTML = "<p class='text-center py-20'>Post Not Found.</p>";
         }
 
     // 立即执行
