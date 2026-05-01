@@ -139,35 +139,34 @@
 
             // 3. 匹配文章
             const post = blogId ? blogs.find(b => b.id === blogId) : blogs[0];
-
-            if (post) {
-                // 强制渲染关键信息，无视动画
-                document.getElementById('postTitle').innerText = post.title;
-                document.getElementById('postDate').innerText = post.date;
-                document.getElementById('postCategory').innerText = post.category || "Insight";
-                
-                // 注入图片
-                const img = post.cover_img || post.coverImg;
-                if(img) {
-                    document.getElementById('postCover').innerHTML = `<img src="${img}" class="w-full h-full object-cover">`;
-                }
-
-                // 注入正文
-                contentContainer.innerHTML = post.content;
-                console.log("正文注入完成");
-
-                // 强制显示导航容器，防止样式遮挡
-                const nav = document.getElementById('blogNav');
-                if(nav) nav.innerHTML = `<a href="index.html" class="bg-slate-900 text-white px-6 py-2 rounded-full">Return Home</a>`;
-                
-            } else {
-                contentContainer.innerHTML = "<p>未找到匹配的文章 ID。</p>";
+if (post) {
+            // 1. 强制渲染标题和日期
+            document.getElementById('postTitle').innerText = post.title;
+            document.getElementById('postDate').innerText = post.date;
+            document.getElementById('postCategory').innerText = post.category || "Insight";
+            
+            // 2. 注入图片
+            const img = post.cover_img || post.coverImg;
+            if(img) {
+                document.getElementById('postCover').innerHTML = `<img src="${img}" class="w-full h-full object-cover">`;
             }
-        } catch (err) {
-            console.error("严重错误:", err);
-            contentContainer.innerHTML = `<p style="color:red; padding:20px;">系统崩溃提示: ${err.message}<br>请检查 JSON 格式是否正确。</p>`;
+
+            // 3. 核心改进：用 insertAdjacentHTML 替换 innerHTML，防止被浏览器截断
+            contentContainer.innerHTML = ""; // 先清空原来的 Loading
+            contentContainer.insertAdjacentHTML('afterbegin', post.content); 
+            
+            // 4. 强制底部导航显示
+            const nav = document.getElementById('blogNav');
+            if(nav) {
+                nav.innerHTML = `<a href="index.html" class="bg-slate-900 text-white px-8 py-3 rounded-2xl font-bold hover:bg-orange-600 transition shadow-lg">All Posts</a>`;
+            }
+            
+            console.log("正文内容已成功载入，长度：", post.content.length);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+        } else {
+            contentContainer.innerHTML = "<p class='text-center py-20'>Post not found.</p>";
         }
-    }
 
     // 立即执行
     loadBlogDetail();
