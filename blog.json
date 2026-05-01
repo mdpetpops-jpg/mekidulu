@@ -1,22 +1,20 @@
 [
   {
     "id": "blog-8782-qa",
-    "title": "Everything You Need to Know About the MEKI-8782 Modern Cat Tower",
+    "title": "Engineering Excellence: A Deep Dive into the MEKI-8782 Modern Cat Tower",
     "date": "2026-04-30",
     "category": "Design Insights",
     "cover_img": "img/product-8782-01.png",
-    "coverImg": "img/product-8782-01.png",
-    "summary": "A deep dive into why the MEKI-8782 has become a favorite for modern cat owners.",
-    "content": "<div class='space-y-8'><section><h3 class='text-2xl font-bold text-slate-900 mb-4'>Q: What makes the MEKI-8782 different?</h3><p class='text-lg text-slate-600'><strong>A:</strong> The <strong>MEKI-8782</strong> is crafted from Premium Solid Wood, ensuring furniture-grade quality and aesthetic integration.</p></section><section><h3 class='text-2xl font-bold text-slate-900 mb-4'>Q: Is it stable?</h3><p class='text-lg text-slate-600'><strong>A:</strong> Yes, featuring a heavy-duty reinforced base for multi-cat safety.</p></section></div>"
+    "summary": "Discover the architectural principles and material science behind our flagship MEKI-8782 cat tower, designed for the modern feline lifestyle.",
+    "content": "<div class='space-y-12'><section><h2 class='text-3xl font-extrabold text-slate-900 mb-6'>Redefining Cat Furniture Engineering</h2><p>The <strong>MEKI-8782</strong> isn't just a cat tree; it's a result of 20 years of retail and consumer insight. Our goal was to solve the common 'wobble' issue found in mass-market towers. By using <strong>FAS-grade birch plywood</strong> instead of particle board, we've increased structural density by 45%.</p></section><section><h3 class='text-2xl font-bold text-slate-900 mb-4'>The Physics of Stability</h3><p>We implemented a 25mm heavy-duty reinforced base. Our load-bearing tests ensure that even three large adult cats jumping simultaneously won't compromise the center of gravity. This is critical for multi-cat households and premium retail environments.</p></section><section><blockquote class='italic border-l-4 border-orange-600 pl-6 py-4 bg-slate-50 rounded-r-2xl'>'Design is not just what it looks like; it's how it works for the feline's natural instincts.' — Mekidulu Design Lab</blockquote></section><section><h3 class='text-2xl font-bold text-slate-900 mb-4'>Technical Specifications for Partners</h3><ul class='list-disc pl-6 space-y-3 text-slate-600'><li><strong>Material:</strong> Eco-friendly Solid Birch & Natural Sisal</li><li><strong>Safety:</strong> Anti-topple wall anchor included</li><li><strong>Customization:</strong> Modular platforms for OEM/ODM scalability</li></ul></section></div>"
   },
   {
     "id": "blog-easy-clean",
-    "title": "Wood vs. Carpet: Why Easy-to-Clean Furniture is a Game Changer",
+    "title": "Hygiene & Longevity: Why Wood-Finish is the Future of Pet Furniture",
     "date": "2026-05-01",
     "category": "Maintenance Guide",
     "cover_img": "img/mekidulu-wood-cat-tree.png",
-    "coverImg": "img/mekidulu-wood-cat-tree.png",
-    "summary": "Tired of trapped fur and odors? Discover the benefits of wood-finish cat trees.",
-    "content": "<div class='space-y-10'><section><h3 class='text-2xl font-bold text-slate-900 mb-4'>Q: Why avoid carpet?</h3><p class='text-lg text-slate-600'><strong>A:</strong> Carpet acts as a 'fur magnet,' trapping dander and odors. Wood is non-porous and wipe-clean.</p></section><section><h3 class='text-2xl font-bold text-slate-900 mb-4'>Q: How to maintain?</h3><p class='text-lg text-slate-600'><strong>A:</strong> Simply wipe the wood with a damp cloth and machine-wash the removable cushions.</p></section></div>"
+    "summary": "Explore why professional breeders and modern homeowners are pivoting away from carpeted cat trees toward sustainable wood solutions.",
+    "content": "<div class='space-y-12'><section><h2 class='text-3xl font-extrabold text-slate-900 mb-6'>The Hygiene Revolution</h2><p>Traditional carpeted cat trees are 'biological sponges'—trapping fur, dander, and odors that are nearly impossible to fully sanitize. For a brand owner, this means a shorter product lifecycle. Our <strong>Wood-Finish series</strong> addresses this directly with non-porous surfaces.</p></section><section><h3 class='text-2xl font-bold text-slate-900 mb-4'>Wipe-Clean Maintenance Protocol</h3><p>Maintenance is key to long-term value. Our UV-cured coating allows for a simple 30-second wipe-down cleaning process. All cushions are attached via high-strength Velcro, making them easily machine-washable—a feature highly requested by high-end cat cafes and professional catteries.</p></section><section><h3 class='text-2xl font-bold text-slate-900 mb-4'>Sustainability Meets Durability</h3><p>By moving away from glues used in carpet adhesion, we provide a more eco-friendly product with lower VOC emissions. This ensures the health of both the cats and the indoor environment, aligning with global green furniture trends.</p></section><section><div class='p-8 bg-slate-900 text-white rounded-[32px]'><h4 class='text-xl font-bold mb-4'>B2B Partner Advantage</h4><p class='text-slate-400'>Mekidulu offers bulk cleaning kits and replacement parts for all wood-series units, ensuring your customers enjoy a lifetime of use.</p></div></section></div>"
   }
 ]
