@@ -130,52 +130,49 @@
             // 2. 尝试获取 JSON
             const res = await fetch('blog.json');
             if (!res.ok) {
-                contentContainer.innerHTML = `<p style="color:red">错误：无法找到 blog.json 文件 (状态码: ${res.status})</p>`;
+                contentContainer.innerHTML = `<p style="color:red">Error: Cannot find blog.json (Status: ${res.status})</p>`;
                 return;
             }
 
             const blogs = await res.json();
-            console.log("JSON 加载成功，共有文章:", blogs.length);
+            console.log("JSON 加载成功，文章总数:", blogs.length);
 
-            // 3. 匹配文章
+            // 3. 匹配文章 (增加容错)
             const post = blogId ? blogs.find(b => b.id === blogId) : blogs[0];
-if (post) {
-            // 1. 设置标题和动态元描述（SEO）
-            document.title = post.title + " | Mekidulu Modern Cat Furniture";
-            let metaDesc = document.querySelector('meta[name="description"]');
-            if (!metaDesc) {
-                metaDesc = document.createElement('meta');
-                metaDesc.name = "description";
-                document.head.appendChild(metaDesc);
+
+            if (post) {
+                // --- 4. SEO & 元描述优化 ---
+                document.title = post.title + " | Mekidulu Modern Cat Furniture";
+                let metaDesc = document.getElementById('metaDescription') || document.querySelector('meta[name="description"]');
+                if (metaDesc) {
+                    metaDesc.content = post.summary; 
+                }
+
+                // --- 5. 渲染基础内容 ---
+                document.getElementById('postTitle').innerText = post.title;
+                document.getElementById('postDate').innerText = post.date;
+                document.getElementById('postCategory').innerText = post.category || "Insight";
+                
+                const imgPath = post.cover_img || post.coverImg;
+                document.getElementById('postCover').innerHTML = `<img src="${imgPath}" class="w-full h-full object-cover shadow-2xl">`;
+
+                // --- 6. 渲染正文 ---
+                contentContainer.innerHTML = ""; 
+                contentContainer.insertAdjacentHTML('afterbegin', post.content);
+                
+                window.scrollTo(0, 0);
+                console.log("详情页渲染成功: " + post.id);
+
+            } else {
+                contentContainer.innerHTML = "<div class='py-20 text-center text-slate-400'>Article not found.</div>";
             }
-            metaDesc.content = post.summary;
-
-            // 2. 渲染基础信息
-            document.getElementById('postTitle').innerText = post.title;
-            document.getElementById('postDate').innerText = post.date;
-            document.getElementById('postCategory').innerText = post.category || "Insight";
-            
-            // 3. 渲染封面图
-            const imgPath = post.cover_img || post.coverImg;
-            document.getElementById('postCover').innerHTML = `<img src="${imgPath}" class="w-full h-full object-cover">`;
-
-            // 4. 渲染正文内容（核心：先清空，再插入）
-            const contentContainer = document.getElementById('postContent');
-            contentContainer.innerHTML = ""; 
-            contentContainer.insertAdjacentHTML('afterbegin', post.content);
-            
-            // 5. 显示底部返回按钮
-            const nav = document.getElementById('blogNav');
-            if(nav) { nav.classList.remove('hidden'); }
-
-            window.scrollTo(0, 0);
-            console.log("Blog loaded successfully: " + post.id);
-
-        } else {
-            document.getElementById('postContent').innerHTML = "<p class='text-center py-20'>Post Not Found.</p>";
+        } catch (error) {
+            console.error("Critical Script Error:", error);
+            contentContainer.innerHTML = "<div class='py-20 text-center text-red-500'>Loading failed. Please check blog.json format.</div>";
         }
+    } // 这里是之前漏掉的第一个大括号
 
-    // 立即执行
+    // 执行函数
     loadBlogDetail();
 </script>
 </html>
