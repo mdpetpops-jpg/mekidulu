@@ -164,46 +164,50 @@
             <p class="text-[10px] uppercase tracking-[0.6em] opacity-20 italic">© 2026 Mekidulu Global Design Lab</p>
         </div>
     </footer>
-    <script>
+   <script>
         async function loadContent() {
             try {
-                // 1. 加载首页精选产品 (从 products.json 获取前3个)
+                // 1. 加载首页精选产品
                 const pRes = await fetch('products.json');
                 if(pRes.ok) {
                     const products = await pRes.json();
-                    document.getElementById('homeProductGrid').innerHTML = products.slice(0, 3).map(p => `
-                        <div class="group cursor-pointer" onclick="location.href='products.html?id=${p.id}'">
-                            <div class="aspect-square bg-slate-50 rounded-[40px] mb-6 p-10 group-hover:shadow-xl transition-all border border-slate-100">
-                                <img src="${p.img}" class="w-full h-full object-contain" onerror="this.src='img/logo.png'">
+                    const productGrid = document.getElementById('homeProductGrid');
+                    if (productGrid) {
+                        productGrid.innerHTML = products.slice(0, 3).map(p => `
+                            <div class="group cursor-pointer" onclick="location.href='products.html?id=${p.id}'">
+                                <div class="aspect-square bg-slate-50 rounded-[40px] mb-6 p-10 group-hover:shadow-xl transition-all border border-slate-100">
+                                    <img src="${p.img}" class="w-full h-full object-contain" onerror="this.src='img/logo.png'">
+                                </div>
+                                <h3 class="text-xl font-black italic uppercase tracking-tighter text-left">${p.name}</h3>
                             </div>
-                            <h3 class="text-xl font-black italic uppercase tracking-tighter text-left">${p.name}</h3>
-                        </div>
-                    `).join('');
+                        `).join('');
+                    }
                 }
 
-               // 2. 加载首页博客文章 (从 blog.json 获取前3个)
-              const bRes = await fetch('blog.json');
-              if(bRes.ok) {
-                  const blogs = await bRes.json();
-                  // 渲染首页预览卡片
-                  document.getElementById('blogGrid').innerHTML = blogs.slice(0, 3).map(b => `
-                      <div class="group cursor-pointer" onclick="location.href='blog.html?id=${b.id}'">
-                          <div class="aspect-video bg-white rounded-[32px] overflow-hidden mb-6 shadow-sm border border-slate-100">
-                              <img src="${b.cover_img || b.coverImg}" class="w-full h-full object-cover transition duration-500 group-hover:scale-110" alt="${b.title}">
-                          </div>
-                          <div class="px-2">
-                              <h3 class="text-lg font-black leading-tight uppercase italic group-hover:text-orange-600 transition text-left">${b.title}</h3>
-                              <p class="text-slate-400 text-xs mt-3 line-clamp-2 italic text-left">${b.summary}</p>
-                          </div>
-                      </div>
-                  `).join('');
-              }
+                // 2. 加载首页博客文章
+                const bRes = await fetch('blog.json');
+                if(bRes.ok) {
+                    const blogs = await bRes.json();
+                    const blogGrid = document.getElementById('blogGrid');
+                    if (blogGrid) {
+                        blogGrid.innerHTML = blogs.slice(0, 3).map(b => `
+                            <div class="group cursor-pointer" onclick="location.href='blog.html?id=${b.id}'">
+                                <div class="aspect-video bg-white rounded-[32px] overflow-hidden mb-6 shadow-sm border border-slate-100">
+                                    <img src="${b.cover_img}" class="w-full h-full object-cover transition duration-500 group-hover:scale-110" alt="${b.title}">
+                                </div>
+                                <div class="px-2 text-left">
+                                    <h3 class="text-lg font-black leading-tight uppercase italic group-hover:text-orange-600 transition">${b.title}</h3>
+                                    <p class="text-slate-400 text-xs mt-3 line-clamp-2 italic">${b.summary}</p>
+                                </div>
+                            </div>
+                        `).join('');
+                    }
+                }
             } catch (e) { 
                 console.error("Home dynamic content failed to load:", e); 
             }
         }
         window.addEventListener('DOMContentLoaded', loadContent);
     </script>
-
 </body>
 </html>
