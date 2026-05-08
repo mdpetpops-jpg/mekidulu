@@ -119,60 +119,73 @@
 <script>
     async function loadBlogDetail() {
         const contentContainer = document.getElementById('postContent');
-        console.log("脚本开始运行...");
+        const blogNav = document.getElementById('blogNav');
+        const postCover = document.getElementById('postCover');
+        const postCategory = document.getElementById('postCategory');
+        const postTitle = document.getElementById('postTitle');
 
         try {
-            // 1. 获取 URL 参数
             const urlParams = new URLSearchParams(window.location.search);
             const blogId = urlParams.get('id');
-            console.log("正在请求 ID:", blogId);
-
-            // 2. 尝试获取 JSON
             const res = await fetch('blog.json');
-            if (!res.ok) {
-                contentContainer.innerHTML = `<p style="color:red">Error: Cannot find blog.json (Status: ${res.status})</p>`;
-                return;
-            }
+            if (!res.ok) return;
 
             const blogs = await res.json();
-            console.log("JSON 加载成功，文章总数:", blogs.length);
 
-            // 3. 匹配文章 (增加容错)
-            const post = blogId ? blogs.find(b => b.id === blogId) : blogs[0];
+            if (blogId) {
+                // --- 1. 详情页逻辑 (Details Mode) ---
+                const post = blogs.find(b => b.id === blogId);
+                if (post) {
+                    document.title = post.title + " | Mekidulu";
+                    postCategory.innerText = post.category || "Insight";
+                    postTitle.innerText = post.title;
+                    document.getElementById('postDate').innerText = post.date;
+                    postCover.innerHTML = `<img src="${post.cover_img}" class="w-full h-full object-cover shadow-2xl">`;
+                    
+                    // 渲染正文内容
+                    contentContainer.innerHTML = post.content;
 
-            if (post) {
-                // --- 4. SEO & 元描述优化 ---
-                document.title = post.title + " | Mekidulu Modern Wood Cat Tree";
-                let metaDesc = document.getElementById('metaDescription') || document.querySelector('meta[name="description"]');
-                if (metaDesc) {
-                    metaDesc.content = post.summary; 
+                    // 底部交叉推荐 (只显示除了当前篇以外的)
+                    const otherPosts = blogs.filter(b => b.id !== blogId).slice(0, 5);
+                    blogNav.innerHTML = otherPosts.map(b => `
+                        <a href="blog.html?id=${b.id}" class="bg-white border border-slate-100 px-6 py-3 rounded-xl hover:text-orange-600 transition shadow-sm font-bold">
+                            ${b.title} →
+                        </a>
+                    `).join('');
                 }
-
-                // --- 5. 渲染基础内容 ---
-                document.getElementById('postTitle').innerText = post.title;
-                document.getElementById('postDate').innerText = post.date;
-                document.getElementById('postCategory').innerText = post.category || "Insight";
-                
-                const imgPath = post.cover_img || post.coverImg;
-                document.getElementById('postCover').innerHTML = `<img src="${imgPath}" class="w-full h-full object-cover shadow-2xl">`;
-
-                // --- 6. 渲染正文 ---
-                contentContainer.innerHTML = ""; 
-                contentContainer.insertAdjacentHTML('afterbegin', post.content);
-                
-                window.scrollTo(0, 0);
-                console.log("详情页渲染成功: " + post.id);
-
             } else {
-                contentContainer.innerHTML = "<div class='py-20 text-center text-slate-400'>Article not found.</div>";
+                // --- 2. 列表页逻辑 (List Mode) ---
+                // 隐藏详情页专属的封面和日期行
+                postCover.style.display = "none";
+                document.querySelector('.flex.items-center.justify-center.space-x-6').style.display = "none";
+                
+                postCategory.innerText = "Mekidulu Journal";
+                postTitle.innerText = "Engineering & Design Insights";
+                
+                // 在内容区渲染整洁的卡片列表
+                contentContainer.innerHTML = `
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-10 mt-10">
+                        ${blogs.map(b => `
+                            <a href="blog.html?id=${b.id}" class="group block bg-white p-6 rounded-[32px] border border-slate-100 hover:shadow-xl transition-all duration-300">
+                                <div class="aspect-video rounded-2xl overflow-hidden mb-6 bg-slate-50">
+                                    <img src="${b.cover_img}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                                </div>
+                                <span class="text-orange-600 text-[10px] font-black uppercase tracking-widest">${b.category}</span>
+                                <h3 class="text-xl font-bold mt-2 leading-tight group-hover:text-orange-600 transition">${b.title}</h3>
+                                <p class="text-slate-400 text-sm mt-3 line-clamp-2 italic">${b.summary}</p>
+                            </a>
+                        `).join('')}
+                    </div>
+                `;
+                // 列表页不需要底部的 More 按钮
+                blogNav.innerHTML = "";
             }
+            window.scrollTo(0, 0);
         } catch (error) {
-            console.error("Critical Script Error:", error);
-            contentContainer.innerHTML = "<div class='py-20 text-center text-red-500'>Loading failed. Please check blog.json format.</div>";
+            console.error("Critical Error:", error);
+            contentContainer.innerHTML = "<div class='py-20 text-center'>Failed to load journal. Please try again later.</div>";
         }
-    } // 这里是之前漏掉的第一个大括号
-
-    // 执行函数
+    }
     loadBlogDetail();
 </script>
 </html>
