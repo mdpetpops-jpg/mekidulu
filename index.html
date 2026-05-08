@@ -182,22 +182,22 @@
                 }
 
                // 2. 加载首页博客文章 (从 blog.json 获取前3个)
-const bRes = await fetch('blog.json');
-if(bRes.ok) {
-    const blogs = await bRes.json();
-    // 渲染首页预览卡片
-    document.getElementById('blogGrid').innerHTML = blogs.slice(0, 3).map(b => `
-        <div class="group cursor-pointer" onclick="location.href='blog.html?id=${b.id}'">
-            <div class="aspect-video bg-white rounded-[32px] overflow-hidden mb-6 shadow-sm border border-slate-100">
-                <img src="${b.cover_img || b.coverImg}" class="w-full h-full object-cover transition duration-500 group-hover:scale-110" alt="${b.title}">
-            </div>
-            <div class="px-2">
-                <h3 class="text-lg font-black leading-tight uppercase italic group-hover:text-orange-600 transition text-left">${b.title}</h3>
-                <p class="text-slate-400 text-xs mt-3 line-clamp-2 italic text-left">${b.summary}</p>
-            </div>
-        </div>
-    `).join('');
-}
+              const bRes = await fetch('blog.json');
+              if(bRes.ok) {
+                  const blogs = await bRes.json();
+                  // 渲染首页预览卡片
+                  document.getElementById('blogGrid').innerHTML = blogs.slice(0, 3).map(b => `
+                      <div class="group cursor-pointer" onclick="location.href='blog.html?id=${b.id}'">
+                          <div class="aspect-video bg-white rounded-[32px] overflow-hidden mb-6 shadow-sm border border-slate-100">
+                              <img src="${b.cover_img || b.coverImg}" class="w-full h-full object-cover transition duration-500 group-hover:scale-110" alt="${b.title}">
+                          </div>
+                          <div class="px-2">
+                              <h3 class="text-lg font-black leading-tight uppercase italic group-hover:text-orange-600 transition text-left">${b.title}</h3>
+                              <p class="text-slate-400 text-xs mt-3 line-clamp-2 italic text-left">${b.summary}</p>
+                          </div>
+                      </div>
+                  `).join('');
+              }
             } catch (e) { 
                 console.error("Home dynamic content failed to load:", e); 
             }
