@@ -117,75 +117,45 @@
     </footer>
 
 <script>
-    async function loadBlogDetail() {
+    (async function() {
         const contentContainer = document.getElementById('postContent');
         const blogNav = document.getElementById('blogNav');
-        const postCover = document.getElementById('postCover');
-        const postCategory = document.getElementById('postCategory');
-        const postTitle = document.getElementById('postTitle');
-
+        
         try {
-            const urlParams = new URLSearchParams(window.location.search);
-            const blogId = urlParams.get('id');
             const res = await fetch('blog.json');
-            if (!res.ok) return;
-
+            if (!res.ok) throw new Error("JSON not found");
             const blogs = await res.json();
 
+            const urlParams = new URLSearchParams(window.location.search);
+            const blogId = urlParams.get('id');
+
             if (blogId) {
-                // --- 1. 详情页逻辑 (Details Mode) ---
+                // --- 详情模式 ---
                 const post = blogs.find(b => b.id === blogId);
                 if (post) {
-                    document.title = post.title + " | Mekidulu";
-                    postCategory.innerText = post.category || "Insight";
-                    postTitle.innerText = post.title;
+                    document.getElementById('postTitle').innerText = post.title;
+                    document.getElementById('postCategory').innerText = post.category;
                     document.getElementById('postDate').innerText = post.date;
-                    postCover.innerHTML = `<img src="${post.cover_img}" class="w-full h-full object-cover shadow-2xl">`;
-                    
-                    // 渲染正文内容
+                    document.getElementById('postCover').innerHTML = `<img src="${post.cover_img}" class="w-full h-full object-cover">`;
                     contentContainer.innerHTML = post.content;
-
-                    // 底部交叉推荐 (只显示除了当前篇以外的)
-                    const otherPosts = blogs.filter(b => b.id !== blogId).slice(0, 5);
-                    blogNav.innerHTML = otherPosts.map(b => `
-                        <a href="blog.html?id=${b.id}" class="bg-white border border-slate-100 px-6 py-3 rounded-xl hover:text-orange-600 transition shadow-sm font-bold">
-                            ${b.title} →
-                        </a>
-                    `).join('');
                 }
             } else {
-                // --- 2. 列表页逻辑 (List Mode) ---
-                // 隐藏详情页专属的封面和日期行
-                postCover.style.display = "none";
-                document.querySelector('.flex.items-center.justify-center.space-x-6').style.display = "none";
-                
-                postCategory.innerText = "Mekidulu Journal";
-                postTitle.innerText = "Engineering & Design Insights";
-                
-                // 在内容区渲染整洁的卡片列表
+                // --- 列表模式 (如果没有 ID，显示整洁的网格) ---
+                document.getElementById('postTitle').innerText = "Mekidulu Journal";
                 contentContainer.innerHTML = `
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-10 mt-10">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-10">
                         ${blogs.map(b => `
-                            <a href="blog.html?id=${b.id}" class="group block bg-white p-6 rounded-[32px] border border-slate-100 hover:shadow-xl transition-all duration-300">
-                                <div class="aspect-video rounded-2xl overflow-hidden mb-6 bg-slate-50">
-                                    <img src="${b.cover_img}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-                                </div>
-                                <span class="text-orange-600 text-[10px] font-black uppercase tracking-widest">${b.category}</span>
-                                <h3 class="text-xl font-bold mt-2 leading-tight group-hover:text-orange-600 transition">${b.title}</h3>
-                                <p class="text-slate-400 text-sm mt-3 line-clamp-2 italic">${b.summary}</p>
+                            <a href="blog.html?id=${b.id}" class="block bg-white p-6 rounded-[32px] border border-slate-100 hover:shadow-lg transition">
+                                <img src="${b.cover_img}" class="rounded-2xl mb-4 aspect-video object-cover w-full">
+                                <h3 class="text-xl font-bold">${b.title}</h3>
                             </a>
                         `).join('')}
                     </div>
                 `;
-                // 列表页不需要底部的 More 按钮
-                blogNav.innerHTML = "";
             }
-            window.scrollTo(0, 0);
-        } catch (error) {
-            console.error("Critical Error:", error);
-            contentContainer.innerHTML = "<div class='py-20 text-center'>Failed to load journal. Please try again later.</div>";
+        } catch (e) {
+            contentContainer.innerHTML = "Content currently unavailable.";
         }
-    }
-    loadBlogDetail();
+    })();
 </script>
 </html>
