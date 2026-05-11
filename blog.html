@@ -67,47 +67,58 @@
         </article>
     </main>
 
-    <script>
-        (async function() {
-            const contentContainer = document.getElementById('postContent');
-            try {
-                const res = await fetch('blog.json');
-                if (!res.ok) throw new Error("JSON not found");
-                const blogs = await res.json();
+<script>
+    (async function() {
+        const contentContainer = document.getElementById('postContent');
+        const postCover = document.getElementById('postCover'); // 获取封面容器
+        
+        try {
+            const res = await fetch('blog.json?v=' + new Date().getTime());
+            if (!res.ok) throw new Error("JSON not found");
+            const blogs = await res.json();
 
-                const urlParams = new URLSearchParams(window.location.search);
-                const blogId = urlParams.get('id');
+            const urlParams = new URLSearchParams(window.location.search);
+            const blogId = urlParams.get('id');
 
-                if (blogId) {
-                    const post = blogs.find(b => String(b.id) === String(blogId));
-                    if (post) {
-                        document.title = `${post.title} | Mekidulu Journal`;
-                        document.getElementById('postTitle').innerText = post.title;
-                        document.getElementById('postCategory').innerText = post.category || "Insight";
-                        document.getElementById('postDate').innerText = post.date || "2026";
-                        document.getElementById('postCover').innerHTML = `<img src="${post.cover_img}" class="w-full h-full object-cover">`;
-                        contentContainer.innerHTML = post.content;
-                    } else {
-                        contentContainer.innerHTML = "<p class='text-center'>Post not found.</p>";
-                    }
-                } else {
-                    document.getElementById('postTitle').innerText = "Mekidulu Journal";
-                    contentContainer.innerHTML = `
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-10">
-                            ${blogs.map(b => `
-                                <a href="blog.html?id=${b.id}" class="block bg-white p-6 rounded-[32px] border border-slate-100 hover:shadow-lg transition">
-                                    <img src="${b.cover_img}" class="rounded-2xl mb-4 aspect-video object-cover w-full">
-                                    <h3 class="text-xl font-bold">${b.title}</h3>
-                                </a>
-                            `).join('')}
-                        </div>
-                    `;
+            if (blogId) {
+                // --- 详情模式 ---
+                const post = blogs.find(b => String(b.id) === String(blogId));
+                if (post) {
+                    // 1. 显示封面图容器并填充内容
+                    postCover.style.display = 'block'; 
+                    postCover.innerHTML = `<img src="${post.cover_img}" class="w-full h-full object-cover" onerror="this.style.display='none'">`;
+                    
+                    document.title = `${post.title} | Mekidulu Journal`;
+                    document.getElementById('postTitle').innerText = post.title;
+                    document.getElementById('postCategory').innerText = post.category || "Insight";
+                    document.getElementById('postDate').innerText = post.date || "2026";
+                    contentContainer.innerHTML = post.content;
                 }
-            } catch (e) {
-                console.error(e);
-                contentContainer.innerHTML = "<p class='text-center text-red-500'>Failed to load journal. Please check if blog.json exists.</p>";
+            } else {
+                // --- 列表模式 ---
+                // 2. 隐藏顶部大图容器，避免留白
+                postCover.style.display = 'none'; 
+                
+                document.getElementById('postTitle').innerText = "Mekidulu Journal";
+                contentContainer.innerHTML = `
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-10">
+                        ${blogs.map(b => `
+                            <a href="blog.html?id=${b.id}" class="group block bg-white p-6 rounded-[32px] border border-slate-100 hover:shadow-xl transition-all">
+                                <div class="aspect-video overflow-hidden rounded-2xl mb-4 bg-slate-50">
+                                    <img src="${b.cover_img}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                                </div>
+                                <h3 class="text-xl font-bold italic uppercase tracking-tighter group-hover:text-orange-600 transition">${b.title}</h3>
+                            </a>
+                        `).join('')}
+                    </div>
+                `;
             }
-        })();
-    </script>
+        } catch (e) {
+            console.error(e);
+            postCover.style.display = 'none';
+            contentContainer.innerHTML = "<p class='text-center text-red-500'>Connection lost. Please check blog.json.</p>";
+        }
+    })();
+</script>
 </body>
 </html>
