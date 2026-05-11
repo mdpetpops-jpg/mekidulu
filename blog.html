@@ -70,7 +70,8 @@
 <script>
     (async function() {
         const contentContainer = document.getElementById('postContent');
-        const postCover = document.getElementById('postCover'); // 获取封面容器
+        const titleEl = document.getElementById('postTitle');
+        const postCover = document.getElementById('postCover'); // 顶部大图容器
         
         try {
             const res = await fetch('blog.json?v=' + new Date().getTime());
@@ -81,33 +82,40 @@
             const blogId = urlParams.get('id');
 
             if (blogId) {
-                // --- 详情模式 ---
+                // ================= 博客详情页 (保持现状，不动) =================
                 const post = blogs.find(b => String(b.id) === String(blogId));
                 if (post) {
-                    // 1. 显示封面图容器并填充内容
-                    postCover.style.display = 'block'; 
-                    postCover.innerHTML = `<img src="${post.cover_img}" class="w-full h-full object-cover" onerror="this.style.display='none'">`;
-                    
+                    if(postCover) postCover.style.display = 'block'; // 详情页确保显示大图
                     document.title = `${post.title} | Mekidulu Journal`;
-                    document.getElementById('postTitle').innerText = post.title;
+                    titleEl.innerText = post.title;
                     document.getElementById('postCategory').innerText = post.category || "Insight";
                     document.getElementById('postDate').innerText = post.date || "2026";
+                    if(postCover) postCover.innerHTML = `<img src="${post.cover_img}" class="w-full h-full object-cover">`;
                     contentContainer.innerHTML = post.content;
                 }
             } else {
-                // --- 列表模式 ---
-                // 2. 隐藏顶部大图容器，避免留白
-                postCover.style.display = 'none'; 
+                // ================= 列表展示页 (精准优化) =================
+                // 1. 强制隐藏顶部的那个大空图容器
+                if(postCover) postCover.style.display = 'none'; 
                 
-                document.getElementById('postTitle').innerText = "Mekidulu Journal";
+                titleEl.innerText = "Mekidulu Journal";
+                
+                // 2. 渲染博客集合：小头图 + 标题
                 contentContainer.innerHTML = `
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-10">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-10 mt-10">
                         ${blogs.map(b => `
-                            <a href="blog.html?id=${b.id}" class="group block bg-white p-6 rounded-[32px] border border-slate-100 hover:shadow-xl transition-all">
-                                <div class="aspect-video overflow-hidden rounded-2xl mb-4 bg-slate-50">
-                                    <img src="${b.cover_img}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                            <a href="blog.html?id=${b.id}" class="group block bg-white p-6 rounded-[40px] border border-slate-100 hover:shadow-2xl transition-all duration-500">
+                                <div class="aspect-video overflow-hidden rounded-[24px] mb-6 bg-slate-50">
+                                    <img src="${b.cover_img}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" onerror="this.src='img/logo.png'">
                                 </div>
-                                <h3 class="text-xl font-bold italic uppercase tracking-tighter group-hover:text-orange-600 transition">${b.title}</h3>
+                                <div class="px-2">
+                                    <h3 class="text-2xl font-black italic uppercase leading-tight group-hover:text-orange-600 transition tracking-tighter">${b.title}</h3>
+                                    <p class="text-slate-400 mt-4 text-sm line-clamp-2 italic">${b.summary || ''}</p>
+                                    <div class="mt-6 flex items-center text-orange-600 font-bold text-xs uppercase tracking-widest">
+                                        Read Article 
+                                        <span class="ml-2 group-hover:ml-4 transition-all">→</span>
+                                    </div>
+                                </div>
                             </a>
                         `).join('')}
                     </div>
@@ -115,7 +123,7 @@
             }
         } catch (e) {
             console.error(e);
-            postCover.style.display = 'none';
+            if(postCover) postCover.style.display = 'none';
             contentContainer.innerHTML = "<p class='text-center text-red-500'>Connection lost. Please check blog.json.</p>";
         }
     })();
