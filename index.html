@@ -164,57 +164,49 @@
             <p class="text-[10px] uppercase tracking-[0.6em] opacity-20 italic">© 2026 Mekidulu Global Design Lab</p>
         </div>
     </footer>
-   <script>
-    async function loadMekiduluHome() {
-        console.log("Script start...");
+<script>
+    (async function() {
+        console.log("Mekidulu Engine Starting...");
+        const fetchJSON = async (url) => {
+            const r = await fetch(url);
+            return r.ok ? await r.json() : null;
+        };
+
         try {
-            // 1. 获取产品数据
-            const pRes = await fetch('products.json');
-            if (pRes.ok) {
-                const products = await pRes.json();
-                const productGrid = document.getElementById('homeProductGrid');
-                if (productGrid) {
-                    productGrid.innerHTML = products.slice(0, 3).map(p => `
-                        <div class="group cursor-pointer" onclick="location.href='products.html?id=${p.id}'">
-                            <div class="aspect-square bg-slate-50 rounded-[40px] mb-6 p-10 group-hover:shadow-xl transition-all border border-slate-100">
-                                <img src="${p.img}" class="w-full h-full object-contain" onerror="this.src='img/logo.png'">
-                            </div>
-                            <h3 class="text-xl font-black italic uppercase tracking-tighter text-left">${p.name}</h3>
+            // 1. 渲染产品预览
+            const products = await fetchJSON('products.json');
+            const pGrid = document.getElementById('homeProductGrid');
+            if (products && pGrid) {
+                pGrid.innerHTML = products.slice(0, 3).map(p => `
+                    <div class="group cursor-pointer" onclick="location.href='products.html?id=${p.id}'">
+                        <div class="aspect-square bg-slate-50 rounded-[40px] mb-6 p-10 group-hover:shadow-xl transition-all border border-slate-100">
+                            <img src="${p.img}" class="w-full h-full object-contain">
                         </div>
-                    `).join('');
-                }
+                        <h3 class="text-xl font-black italic uppercase tracking-tighter text-left">${p.name}</h3>
+                    </div>
+                `).join('');
             }
 
-            // 2. 获取博文数据
-            const bRes = await fetch('blog.json');
-            if (bRes.ok) {
-                const blogs = await bRes.json();
-                const blogGrid = document.getElementById('blogGrid');
-                if (blogGrid) {
-                    blogGrid.innerHTML = blogs.slice(0, 3).map(b => `
-                        <div class="group cursor-pointer" onclick="location.href='blog.html?id=${b.id}'">
-                            <div class="aspect-video bg-white rounded-[32px] overflow-hidden mb-6 shadow-sm border border-slate-100">
-                                <img src="${b.cover_img}" class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
-                            </div>
-                            <div class="px-2 text-left">
-                                <h3 class="text-lg font-black leading-tight uppercase italic group-hover:text-orange-600 transition">${b.title}</h3>
-                                <p class="text-slate-400 text-xs mt-3 line-clamp-2 italic">${b.summary}</p>
-                            </div>
+            // 2. 渲染博客预览 (核心修正：对齐 blog.json 字段)
+            const blogs = await fetchJSON('blog.json');
+            const bGrid = document.getElementById('blogGrid');
+            if (blogs && bGrid) {
+                bGrid.innerHTML = blogs.slice(0, 3).map(b => `
+                    <div class="group cursor-pointer" onclick="location.href='blog.html?id=${b.id}'">
+                        <div class="aspect-video bg-white rounded-[32px] overflow-hidden mb-6 shadow-sm border border-slate-100">
+                            <img src="${b.cover_img}" class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
                         </div>
-                    `).join('');
-                }
+                        <div class="px-2 text-left">
+                            <h3 class="text-lg font-black leading-tight uppercase italic group-hover:text-orange-600 transition">${b.title}</h3>
+                            <p class="text-slate-400 text-xs mt-3 line-clamp-2 italic">${b.summary}</p>
+                        </div>
+                    </div>
+                `).join('');
             }
-        } catch (error) {
-            console.error("Critical Error:", error);
+        } catch (e) {
+            console.error("Initialization failed:", e);
         }
-    }
-
-    // 确保无论如何都能触发
-    if (document.readyState === "complete" || document.readyState === "interactive") {
-        loadMekiduluHome();
-    } else {
-        window.addEventListener('DOMContentLoaded', loadMekiduluHome);
-    }
+    })();
 </script>
 </body>
 </html>
