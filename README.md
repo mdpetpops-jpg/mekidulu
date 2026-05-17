@@ -1,2 +1,2 @@
 # mekidulu
-Official brand site for Mekidulu cat tree - Pet supplies on Amazon and Walmart.
+Wood cat tree Official brand site of Mekidulu- Pet supplies on Amazon and Walmart.
