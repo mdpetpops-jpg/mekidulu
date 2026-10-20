@@ -19,6 +19,8 @@
 | 更新产品画册 PDF | 运行 `scripts/build-catalogue.py` |
 | 改 AI 客服说话方式 | GitHub → `lib/chat/prompt.ts` |
 | 改自动回复 / 开发信内容 | GitHub → `lib/outreach/copy.ts` |
+| 手动触发一次开发信 | 见 §6.2 的命令 |
+| 看最近一次部署是谁触发的 | Vercel → Deployments（来源列 `main` = GitHub，`api` = 手动上传） |
 | 看部署是否成功 | Vercel → 项目 `mekidulu` → Deployments |
 | 换密钥 | Vercel → Settings → Environment Variables |
 | 看发信记录 / 退信 | Brevo → Transactional → Logs |
@@ -94,7 +96,7 @@
 | `BREVO_SMTP_USER` | SMTP 登录名 | `bf204c001@smtp-brevo.com` |
 | `BREVO_API_KEY` | （当前无用） | 现在存的是 SMTP key，代码会自动忽略；换成 `xkeysib-…` 才会走 API 通道 |
 | `CRON_SECRET` | 保护定时任务接口 | 随机 48 位；手动触发任务时要带 |
-| `NEXT_PUBLIC_SITE_URL` | 站点规范地址（未设置） | 建议设为 `https://www.mekidulu.com`，影响 canonical / OG / 退订链接 |
+| `NEXT_PUBLIC_SITE_URL` | 站点规范地址 | **已设为 `https://www.mekidulu.com`**，影响 canonical / OG / 退订链接 |
 
 **改完环境变量必须重新部署才生效**（`NEXT_PUBLIC_*` 是构建时写死的）。
 
@@ -289,26 +291,18 @@ CRON_SECRET=xxx node -e "fetch('https://www.mekidulu.com/api/cron/outreach?force
 
 ---
 
-## 7. 发布上线：目前有两条路
+## 7. 发布上线：现在只有一条主路
 
-### 路线 A：直接部署（现在实际在用）
-
-不需要 git，直接打包上传到 Vercel：
-
-```bash
-VERCEL_TOKEN=你的Vercel令牌 node scripts/deploy-vercel.mjs
-```
-
-约 3–4 分钟，输出 `READY → https://...` 即成功。
-**目前的线上版本都是这样发出去的。**
-
-### 路线 B：GitHub 推送（**已启用**）
+### 路线 B：GitHub 推送（**已启用，日常用这个**）
 
 代码在 GitHub（`mdpetpops-jpg/mekidulu`），Vercel 项目**已于 2026-10-20 连接该仓库**，
 生产分支为仓库默认分支 `main`。
 
 之后每次在 GitHub 上改完东西（网页改、或 `git push`），Vercel 自动构建上线，约 2–3 分钟。
-不需要再手动部署。
+不需要再手动部署。2026-10-20 已用 commit `460eee04` 验证过整条链路。
+
+**怎么确认部署成功**：Vercel → 项目 `mekidulu` → **Deployments**，最新一条来源显示 `main`
+和 commit 短哈希，状态 `Ready` 即成功。
 
 > 没有 git 也可以推：`GITHUB_TOKEN=你的令牌 node scripts/push-to-github.mjs`
 > 推完到 Vercel → Deployments 能看到一次来源标记为 GitHub 的部署。
@@ -345,8 +339,11 @@ BASE_URL=https://www.mekidulu.com node scripts/smoke.mjs
 | 发信 503 "Brevo credentials are not usable" | 缺 `BREVO_SMTP_USER`，或 key 类型不对 | 确认是 SMTP key（`xsmtpsib-`）+ Login 邮箱；或换 API key（`xkeysib-`） |
 | 发信 401 "sender not verified" | 发件人没在 Brevo 验证 | Brevo → Senders → 验证 `sales@mekidulu.com` |
 | 开发信接口 401 | `CRON_SECRET` 不对 | 从 Vercel 变量里取正确值 |
-| 开发信接口 502 "Could not read the prospect queue" | `prospects` 表没建 | 执行 `0002` SQL |
-| 定时任务没跑 | 计划限制 / 时间没到 | 看 Vercel → 项目 → Cron Jobs；注意是 **UTC** 13:00 |
+| 开发信接口 502 "Could not read the prospect queue" | `prospects` 表没建 | 执行 `0002` SQL（**已于 2026-10-20 建好**，除非换了 Supabase 项目） |
+| 部署报错 "Hobby accounts are limited to daily cron jobs" | `vercel.json` 里 cron 频率高于每天一次 | Hobby 版只能一天一次；写 `0 13 * * *`，不要写 `0 13,14 * * *` |
+| 连 Git 时报 "install the GitHub integration first" | 没装 Vercel 的 GitHub App | 浏览器里装一次：https://github.com/apps/vercel ，然后在 Settings → Git 连接 |
+| Vercel 显示部署失败在 `patchBuild` | 通常是 `vercel.json` 或环境变量格式问题 | 看 Build Logs 最后 20 行，多半是 cron 表达式或变量名拼错 |
+| 定时任务没跑 | 计划限制 / 时间没到 | 看 Vercel → 项目 → Cron Jobs；注意是 **UTC** 13:00，且需纽约时间 8/9 点 |
 | 网站白屏 / 500 | 构建失败或运行时错误 | Vercel → Deployments → 点最新一次 → Build Logs |
 | 改了代码但线上没变 | 没部署 / 没连 Git | 走路线 A 手动部署，或先连接 Git |
 
@@ -373,6 +370,9 @@ BASE_URL=https://www.mekidulu.com node scripts/smoke.mjs
 3. `BREVO_SMTP_KEY`
 4. GitHub token（推送已用完，直接吊销）
 5. Vercel token（部署用，用完吊销）
+6. **Supabase Personal Access Token**（`sbp_…`，建表用的那个，权限很高 —— 它能执行任意 SQL）
+
+> `sbp_` 这个尤其要紧：它能对数据库执行任何命令，比 service_role 还高一级。建表用完立刻吊销。
 
 **轮换步骤**（以 DeepSeek 为例）：
 1. 到对应平台生成新 key，删掉旧的
@@ -400,6 +400,22 @@ BASE_URL=https://www.mekidulu.com node scripts/smoke.mjs
 | 10 | 开发信系统 | 每日 cron、自动回复、SMTP 发信、限流分片、QStash 兼容 |
 | 11 | 上线 | Vercel 生产部署、域名生效、`smoke` 50/50 |
 | 12 | 代码入库 | GitHub `main`，commit `2bc8ef12`，105 个文件 |
+| 13 | 打通自动部署 | Vercel 连接 GitHub，commit `460eee04` 验证 push → 自动构建 → READY |
+| 14 | 建 `prospects` 表 | Supabase Management API 执行 DDL，插入测试名单 |
+| 15 | 开发信实测 | cron `?force=1` → 发送成功 → 状态回写 `sent` → 清理测试数据 |
+| 16 | 手册定稿 | 本文档，随时可改；改完 push 即自动发布 |
+
+### 当前线上状态（2026-10-20 收尾时）
+
+| 项目 | 状态 |
+|---|---|
+| 站点 | ✅ 全部页面在线，`smoke` 50/50 |
+| 留资 → 数据库 | ✅ 实测入库，页面路径记录正确 |
+| 留资 → 自动回复邮件 | ✅ 实测发出（DeepSeek 生成） |
+| AI 客服 | ✅ 中英文实测正常，会自动附对应说明书 PDF |
+| 开发信 | ✅ 表已建、发送实测成功、状态回写正常；每天 13:00 UTC 自动跑 |
+| 退订 | ✅ `/unsubscribe` 上线，邮件带 `List-Unsubscribe` |
+| 自动部署 | ✅ push 即部署 |
 
 ---
 
