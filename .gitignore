@@ -1,0 +1,32 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Next.js
+.next/
+out/
+next-env.d.ts
+*.tsbuildinfo
+
+# Environment
+.env
+.env.local
+.env*.local
+.env.vercel
+
+# Vercel
+.vercel/
+
+# Legacy static site import + local scratch (never deploy)
+_legacy/
+_legacy.zip
+_shots/
+.tmp/
+_*.mjs
+_*.py
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

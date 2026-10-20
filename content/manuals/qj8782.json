@@ -1,0 +1,83 @@
+{
+  "manualId": "8782",
+  "model": "QJ8782",
+  "displayName": "MEKI-8782 Galaxy View (73 in, 7 levels)",
+  "productId": "meki-8782",
+  "sourcePdf": "/manuals/8782.pdf",
+  "reviewed": false,
+  "reviewNote": "Draft transcribed from the one-page illustrated sheet (QJ8782). Part letters and step order must be confirmed by the factory before this is served to customers as authoritative guidance.",
+  "tools": ["Allen key (part C)"],
+  "parts": [
+    { "code": "A", "name": "Screw", "qty": "12 pcs" },
+    { "code": "B", "name": "Cam fitting", "qty": "12 pcs" },
+    { "code": "C", "name": "Allen key", "qty": "1 pc" },
+    { "code": "P1", "name": "Sisal column, 40 cm", "qty": "6 pcs" },
+    { "code": "P2", "name": "Sisal column, 50 cm", "qty": "4 pcs" },
+    { "code": "P3", "name": "Sisal column, 20 cm", "qty": "2 pcs" },
+    { "code": "P4", "name": "Sisal column, 30 cm", "qty": "4 pcs" },
+    { "code": "D", "name": "Base plate", "qty": "1 pc" },
+    { "code": "E", "name": "Lower hideout board", "qty": "1 pc" },
+    { "code": "F", "name": "Front hideout board", "qty": "1 pc" },
+    { "code": "G", "name": "Right hideout board", "qty": "1 pc" },
+    { "code": "H", "name": "Left hideout board", "qty": "1 pc" },
+    { "code": "I", "name": "Rear hideout board", "qty": "1 pc" },
+    { "code": "J", "name": "Top hideout board", "qty": "1 pc" },
+    { "code": "K", "name": "Spaceship board", "qty": "1 pc" },
+    { "code": "L", "name": "Spaceship board", "qty": "1 pc" },
+    { "code": "M", "name": "Spaceship board", "qty": "1 pc" },
+    { "code": "N", "name": "Observatory bowl", "qty": "1 pc" },
+    { "code": "Q", "name": "Spaceship capsule", "qty": "3 pcs" },
+    { "code": "-", "name": "Wooden stick", "qty": "29 pcs" }
+  ],
+  "steps": [
+    {
+      "step": 1,
+      "title": "Bolt the base and lower board",
+      "detail": "Drive the B fittings into the base plate D from underneath, lay the lower hideout board E on top, and drive the A screws with the C Allen key. The sheet notes that spare screws may remain.",
+      "parts": ["B", "D", "E", "A", "C"]
+    },
+    {
+      "step": 2,
+      "title": "Stand the four 40 cm columns",
+      "detail": "Stand four P1 (40 cm) columns upright on the base plate and fasten each from below with an A screw.",
+      "parts": ["P1", "A", "D"]
+    },
+    {
+      "step": 3,
+      "title": "Lock the first deck",
+      "detail": "Seat board E onto the four P1 columns, tighten the B fittings, and prepare the P5 posts for the next level.",
+      "parts": ["E", "B", "P5"]
+    },
+    {
+      "step": 4,
+      "title": "Build the hideout box",
+      "detail": "Assemble the hideout from the front F, right G, left H, rear I and top J boards, fitting the K, L and M spaceship decks and the N observatory into the openings as shown on the sheet.",
+      "parts": ["F", "G", "H", "I", "J", "K", "L", "M", "N"]
+    },
+    {
+      "step": 5,
+      "title": "Raise the hideout level",
+      "detail": "Fit two P2 (50 cm) columns onto the hideout top and lock them with B fittings.",
+      "parts": ["P2", "B"]
+    },
+    {
+      "step": 6,
+      "title": "Mount the middle platform",
+      "detail": "Add the P3 (20 cm) and P1 columns that carry the middle platform, securing the deck with A screws and B fittings.",
+      "parts": ["P3", "P1", "A", "B"]
+    },
+    {
+      "step": 7,
+      "title": "Fit the top deck",
+      "detail": "Finish with board K and two P2 columns on the upper level, then check every fitting is snug before lifting the tower upright.",
+      "parts": ["K", "P2", "A", "B"]
+    }
+  ],
+  "safety": [
+    "Build the tower on the floor with two people, then lift it upright together — a 73 in tower is awkward to raise alone.",
+    "Tighten fittings by hand until snug; overtightening crushes the birch veneer and weakens the joint.",
+    "Fix the anti-topple strap to a wall stud before the first cat uses the tower.",
+    "Re-check all A and B fittings after the first week of use, then every few months.",
+    "Replace any sisal sleeve that has worn through to the core column instead of rewinding it."
+  ]
+}

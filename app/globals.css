@@ -1,0 +1,160 @@
+@import "tailwindcss";
+
+@theme {
+  /* Warm paper surfaces + deep ink type: the legacy brand palette, sharpened. */
+  --color-canvas: #faf7f2;
+  --color-paper: #ffffff;
+  --color-ink: #101613;
+  --color-ink-soft: #3b4640;
+  --color-muted: #6d776f;
+  --color-sand: #f2ece2;
+  --color-sand-deep: #e7dccb;
+  --color-line: #e3dacb;
+
+  /* Brand accent comes from the Mekidulu leaf mark. Swap these two values to
+     re-skin the whole site (the legacy static site used #ea580c). */
+  --color-brand: #5c7a3f;
+  --color-brand-deep: #465e2f;
+
+  --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-canvas);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background-color: var(--color-brand);
+    color: #fff;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-brand);
+    outline-offset: 3px;
+  }
+}
+
+@layer utilities {
+  /* Fine hairline divider used between trust metrics. */
+  .rule-vertical {
+    background-image: linear-gradient(
+      to bottom,
+      transparent,
+      var(--color-line),
+      transparent
+    );
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Journal article body (Markdown → HTML from remark).
+   Hand-rolled instead of @tailwindcss/typography so the article inherits the
+   site's own type scale and brand accent.
+--------------------------------------------------------------------------- */
+.prose-journal {
+  font-size: 1rem;
+  line-height: 1.75;
+  color: var(--color-ink-soft);
+}
+
+.prose-journal > * + * {
+  margin-top: 1.15em;
+}
+
+.prose-journal h2 {
+  margin-top: 2.6em;
+  font-size: 1.55rem;
+  line-height: 1.2;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--color-ink);
+}
+
+.prose-journal h3 {
+  margin-top: 2em;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--color-ink);
+}
+
+.prose-journal strong {
+  font-weight: 700;
+  color: var(--color-ink);
+}
+
+.prose-journal a {
+  color: var(--color-brand-deep);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.prose-journal ul,
+.prose-journal ol {
+  padding-left: 1.35em;
+}
+
+.prose-journal ul {
+  list-style: disc;
+}
+
+.prose-journal ol {
+  list-style: decimal;
+}
+
+.prose-journal li {
+  margin-top: 0.55em;
+  padding-left: 0.2em;
+}
+
+.prose-journal li::marker {
+  color: var(--color-brand);
+}
+
+.prose-journal img {
+  width: 100%;
+  height: auto;
+  margin: 2rem 0;
+  border-radius: 1rem;
+  border: 1px solid var(--color-line);
+}
+
+.prose-journal blockquote {
+  margin: 2rem 0;
+  border-left: 3px solid var(--color-brand);
+  padding: 0.35rem 0 0.35rem 1.15rem;
+  font-style: italic;
+  color: var(--color-ink);
+}
+
+.prose-journal hr {
+  margin: 2.5rem 0;
+  border: 0;
+  border-top: 1px solid var(--color-line);
+}
+

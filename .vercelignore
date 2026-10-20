@@ -1,0 +1,14 @@
+node_modules
+.next
+.git
+_shots
+.tmp
+_legacy
+_legacy.zip
+_*.mjs
+_*.py
+*.tar.gz
+tsconfig.tsbuildinfo
+.env.local
+.env
+_cron_secret.txt
