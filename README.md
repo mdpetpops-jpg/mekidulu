@@ -9,6 +9,9 @@ This repository currently implements **task 1 (homepage)** and **task 2
 static HTML build on GitHub Pages; its content, product data and imagery were
 carried over and re-optimised rather than rewritten from scratch.
 
+> **运营与维护手册（中文）**：[docs/OPERATIONS.md](docs/OPERATIONS.md) —
+> 改内容去哪里、怎么发布、出问题怎么查、密钥怎么轮换。
+
 ---
 
 ## Stack
