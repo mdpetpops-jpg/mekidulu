@@ -294,17 +294,27 @@ VERCEL_TOKEN=你的Vercel令牌 node scripts/deploy-vercel.mjs
 约 3–4 分钟，输出 `READY → https://...` 即成功。
 **目前的线上版本都是这样发出去的。**
 
-### 路线 B：GitHub 推送（推荐开启）
+### 路线 B：GitHub 推送（**已启用**）
 
-代码已经在 GitHub 上了（commit `2bc8ef12`），但 **Vercel 项目还没有连接 Git**，所以 push 不会自动部署。
+代码在 GitHub（`mdpetpops-jpg/mekidulu`），Vercel 项目**已于 2026-10-20 连接该仓库**，
+生产分支为仓库默认分支 `main`。
 
-一次性设置：
-> Vercel → 项目 `mekidulu` → **Settings** → **Git** → **Connect Git Repository**
-> → 选 `mdpetpops-jpg/mekidulu` → Production Branch 填 `main` → Save
-
-之后每次在 GitHub 上改完东西，Vercel 自动构建上线（2–3 分钟）。
+之后每次在 GitHub 上改完东西（网页改、或 `git push`），Vercel 自动构建上线，约 2–3 分钟。
+不需要再手动部署。
 
 > 没有 git 也可以推：`GITHUB_TOKEN=你的令牌 node scripts/push-to-github.mjs`
+> 推完到 Vercel → Deployments 能看到一次来源标记为 GitHub 的部署。
+
+### 路线 A：直接部署（备用，仍可用）
+
+不需要 git，直接打包上传到 Vercel：
+
+```bash
+VERCEL_TOKEN=你的Vercel令牌 node scripts/deploy-vercel.mjs
+```
+
+约 3–4 分钟，输出 `READY → https://...` 即成功。
+Git 连接建立之前，线上版本都是这样发出去的；现在仅作为紧急备用手段。
 
 ### 部署完必做：自检
 
