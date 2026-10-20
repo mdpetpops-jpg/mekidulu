@@ -265,15 +265,23 @@ CRON_SECRET=你的密钥 node scripts/test-outreach.mjs 收件邮箱
 
 留资线索。**开启了 RLS 且没有任何策略** —— 意味着只有服务端（service_role key）能读写，浏览器无论如何拿不到数据。这是故意的。
 
-### 6.2 `prospects`（**还没建**）
+### 6.2 `prospects`（已建好，2026-10-20）
 
-开发信名单。建表方法：
-
-> Supabase → SQL Editor → 粘贴 `supabase/migrations/0002_create_prospects.sql` 全文 → Run
-> 必须包含最后一句 `notify pgrst, 'reload schema';`，否则接口会缓存不到新表
+开发信名单。已通过 Supabase Management API 建表并实测发送成功（1 条测试记录 → `sent` → 已删除）。
 
 字段：`id / email / store_name / website / status / created_at / sent_at / last_error`
 状态：`pending`（待发）→ `sent`（已发）/ `failed`（失败）/ `unsubscribed`（已退订）
+
+如果以后要重建（比如换了 Supabase 项目），执行 `supabase/migrations/0002_create_prospects.sql`，
+最后一句 `notify pgrst, 'reload schema';` 不能省。
+
+**手动触发一次发送**（不等定时任务）：
+
+```bash
+CRON_SECRET=xxx node -e "fetch('https://www.mekidulu.com/api/cron/outreach?force=1',{method:'POST',headers:{'x-cron-secret':process.env.CRON_SECRET}}).then(r=>r.text()).then(console.log)"
+```
+
+返回 `{"ok":true,"mode":"inline","sent":1,...}` 即成功；`?force=1` 用于绕过"只在纽约时间 8/9 点发送"的闸门。
 
 ### 6.3 改表结构
 
@@ -399,15 +407,15 @@ BASE_URL=https://www.mekidulu.com node scripts/smoke.mjs
 
 | # | 事项 | 谁来做 | 说明 |
 |---|---|---|---|
-| 1 | 建 `prospects` 表 | 你 | 跑 `0002_create_prospects.sql`，然后才能发开发信 |
-| 2 | Vercel 连接 GitHub | 你 | Settings → Git → Connect，之后 push 即部署 |
+| 1 | ~~建 `prospects` 表~~ | ✅ 已完成 | 2026-10-20 建表并实测发送成功 |
+| 2 | ~~Vercel 连接 GitHub~~ | ✅ 已完成 | push 即自动部署，已验证 |
 | 3 | 轮换所有暴露的密钥 | 你 | 见第 10 节 |
 | 4 | `MEKI-Y18` 缺说明书 | 你 | 旧站就没有这份文件 |
 | 5 | 4 份损坏的 PDF | 你 | `8782 / YN105 / B12 / T04`，建议从原始设计文件重导出 |
 | 6 | 确认 8782 装配步骤 | 你 | `content/manuals/qj8782.json` 里标了 `reviewed: false`，确认后改成 `true`，AI 才敢逐步讲解 |
 | 7 | 美国站 listing 标题 | 你 | 现在开头是 `Yinanroa Mekidulu…`，建议改成 `Mekidulu` 开头 |
 | 8 | Cdiscount 单品链接 | 你 | 现在只有品牌搜索页，单品链接转化更好 |
-| 9 | 夏令时调整 | 可选 | 11 月后 cron 会变成美东 8:00 |
+| 9 | 启用 QStash（可选） | 可选 | 加 `QSTASH_TOKEN` 后自动切成 3–8 分钟间隔；不加则每次 2 封、间隔 12 秒 |
 
 ---
 
