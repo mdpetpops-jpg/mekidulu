@@ -8,12 +8,12 @@ import { formatJournalDate, getPostMeta } from "@/lib/journal";
 export const metadata: Metadata = {
   title: "Journal",
   description:
-    "Engineering notes, maintenance guides and feline behaviour research from the Mekidulu design lab.",
+    "Engineering notes from the Mekidulu design lab: why cat trees wobble, how to clean wood furniture, sisal grades and feline behaviour research for buyers and owners.",
   alternates: { canonical: "/blog" },
   openGraph: {
     title: "Mekidulu Journal",
     description:
-      "Engineering notes, maintenance guides and feline behaviour research from the Mekidulu design lab.",
+      "Engineering notes on cat tree stability, hygiene and feline behaviour, from the Mekidulu design lab.",
     url: "/blog",
   },
 };
