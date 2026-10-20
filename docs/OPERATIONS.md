@@ -456,3 +456,68 @@ BASE_URL=https://www.mekidulu.com node scripts/smoke.mjs
 1. 立刻在对应平台吊销
 2. 生成新 key 写进 Vercel
 3. 重新部署
+
+---
+
+## 14. SEO / GEO：让搜索引擎和 AI 都能找到你
+
+### 14.1 现在有什么
+
+| 文件 / 机制 | 地址 | 作用 |
+|---|---|---|
+| `robots.txt` | `/robots.txt` | 允许抓取，禁止 `/api/` 和 `/unsubscribe`；**显式放行 GPTBot、ClaudeBot、PerplexityBot 等 AI 爬虫** |
+| `sitemap.xml` | `/sitemap.xml` | 自动生成：6 个页面 + 所有文章 + 12 份说明书 PDF，**新文章发布即自动收录**，不用手动改 |
+| `llms.txt` | `/llms.txt` | GEO 专用：给 AI 的纯文本品牌/产品摘要（材料、结构、MOQ、型号、价格、链接），AI 回答"谁做重型猫爬架"时会引用 |
+| 结构化数据 | 各页 `<script type="application/ld+json">` | 首页 Organization、商城 ItemList + Product（含价格/库存）、文章 BlogPosting |
+| canonical | 每页 `<link rel="canonical">` | 全部指向 `https://www.mekidulu.com/...`，避免重复内容 |
+
+### 14.2 元描述规则（以后新页面照这个写）
+
+- 长度 **120–160 字符**（中文字符算 2），太短浪费，太长被截断
+- 每页**唯一**，不要复制首页的
+- 必须包含该页的核心关键词（如 "wholesale"、"assembly manual"、"cat tree"）
+- 写"给谁解决什么问题"，不写形容词堆砌
+
+当前状态（已核对）：首页 166 / shop 145 / blog 97 / 文章 141 / manuals 117 / catalog 133 / wholesale 144 字符，全部唯一、全部有 canonical 和 og。
+
+> `/unsubscribe` 故意设了 `noindex`，不需要描述。
+
+### 14.3 重新提交搜索收录
+
+1. 打开 **Google Search Console** → 添加资源 `mekidulu.com`（已验证的话跳过）
+2. 左侧 **站点地图** → 输入 `sitemap.xml` → 提交
+3. 左侧 **URL 检查** → 粘贴 `https://www.mekidulu.com/blog` → 请求编入索引
+4. Bing 同样操作（Bing Webmaster Tools），Bing 的索引也会喂给 ChatGPT 搜索
+5. 新文章发出来后不用再提交：sitemap 会自动更新，Google 会定期回访
+
+### 14.4 内容怎么"自动生长"
+
+已经搭好一条半自动流水线，原则是：**AI 写草稿、人审一遍、发布后自动进 sitemap**。
+
+```
+content/journal/_topics.json      选题池（现在有 16 个已排好的题目）
+        │
+        ├─ node scripts/generate-post.mjs --list     看还剩哪些没写
+        ├─ node scripts/generate-post.mjs            取下一个题目 → 生成草稿
+        │                                            （写到 content/journal/_drafts/，不会被发布）
+        ├─ 你打开草稿改两句、换成真实细节
+        └─ 把文件移到 content/journal/  → commit → push
+                                          │
+                                          └─ 自动：出现在 /blog、进 sitemap、被 Google 抓取
+```
+
+生成器已经内置的约束（避免写出垃圾内容）：
+- 700–900 词、固定结构（导语 + 3–5 个小节 + 列表 + FAQ 三问）
+- 只用站点上真实存在的参数（桦木、25 mm 底板、10×10 cm 立柱、5 件起批…）
+- **不许编造承重数字、价格、交期**
+- 最多两次自然链接到 `/manuals` 或 `/shop`，不堆砌关键词
+- 会读现有文章标题，避免重复
+
+**建议节奏**：每周 1 篇。写完在群里发一下，或者直接看 `/blog`。
+选题池加题：编辑 `content/journal/_topics.json`，按同样格式加一行即可。
+
+### 14.5 每周花 10 分钟做的三件事
+
+1. 看 Search Console → **效果**：哪些词有曝光但没点击 → 说明标题/描述不够吸引，改文案
+2. 看 **覆盖率**：有没有页面"已抓取但未编入索引" → 通常是内容太薄，补两段
+3. 加一条真实客户问题进 `_topics.json`（客户问什么就写什么，这类文章最容易排名）

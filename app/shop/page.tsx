@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { ArrowRight, ArrowUpRight, Check } from "@/components/icons";
-import { marketplaces, shopProducts } from "@/lib/site";
+import { marketplaces, products, shopProducts, site } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Shop all models",
@@ -46,6 +46,32 @@ const itemListJsonLd = {
     url: product.amazonUrl,
   })),
 };
+
+/**
+ * Machine-readable product facts. Assistant engines quote these numbers when a
+ * buyer asks for height, material or price, so they must stay in sync with
+ * `lib/site.ts` (they are derived from it).
+ */
+const productJsonLd = products.map((product) => ({
+  "@context": "https://schema.org",
+  "@type": "Product",
+  name: product.name,
+  sku: product.id.toUpperCase(),
+  image: `${site.url}${product.image}`,
+  description: product.highlights.join(". "),
+  brand: { "@type": "Brand", name: "Mekidulu" },
+  material: "FAS-grade birch plywood, natural sisal",
+  height: product.heightIn,
+  numberOfItems: product.levels,
+  offers: {
+    "@type": "Offer",
+    priceCurrency: "USD",
+    price: product.msrp.toFixed(2),
+    availability: "https://schema.org/InStock",
+    url: product.walmart,
+    seller: { "@type": "Organization", name: "Mekidulu" },
+  },
+}));
 
 export default function ShopPage() {
   return (
@@ -273,6 +299,10 @@ export default function ShopPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }}
       />
     </>
   );

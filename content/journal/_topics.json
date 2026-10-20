@@ -1,0 +1,20 @@
+{
+  "topics": [
+    { "slug": "cat-tree-wobble-causes", "topic": "Why do cat trees wobble, and what structural changes actually fix it?", "category": "Feline Engineering" },
+    { "slug": "maine-coon-cat-tree-load", "topic": "How much load a cat tree must carry for Maine Coons, and how to test it", "category": "Feline Engineering" },
+    { "slug": "carpet-vs-wood-cat-furniture", "topic": "Carpet versus wood cat furniture: hygiene, lifespan and resale value", "category": "Maintenance Guide" },
+    { "slug": "choosing-sisal-rope", "topic": "Sisal rope grades and why cheap sisal fails within a year", "category": "Design Insights" },
+    { "slug": "cat-tree-shipping-carton", "topic": "How flat-pack cat tree cartons are designed for dropshipping", "category": "Wholesale & Logistics" },
+    { "slug": "anti-topple-anchor-guide", "topic": "Anti-topple anchoring for tall cat furniture: what retailers should tell buyers", "category": "Maintenance Guide" },
+    { "slug": "cat-tree-floor-protection", "topic": "Protecting hardwood floors from heavy cat furniture", "category": "Home Tips" },
+    { "slug": "multi-cat-household-layout", "topic": "Designing a vertical layout for a three-cat household", "category": "Home Tips" },
+    { "slug": "cat-cafe-furniture-spec", "topic": "What a cat cafe needs from commercial cat furniture", "category": "Design Insights" },
+    { "slug": "private-label-cat-tree-process", "topic": "Private label cat trees: from spec sheet to first container", "category": "Wholesale & Logistics" },
+    { "slug": "amazon-cat-tree-listing-photos", "topic": "Product photography for wood cat furniture on marketplace listings", "category": "Design Insights" },
+    { "slug": "cat-tree-assembly-time", "topic": "How long assembly should take, and where customers get stuck", "category": "Maintenance Guide" },
+    { "slug": "senior-cat-climbing-access", "topic": "Platform spacing for senior cats and kittens in the same home", "category": "Feline Engineering" },
+    { "slug": "cat-tree-material-voc", "topic": "Formaldehyde, VOC and indoor air quality in pet furniture", "category": "Maintenance Guide" },
+    { "slug": "ceiling-tension-cat-tree", "topic": "Ceiling-tensioned cat trees: where they work and where they fail", "category": "Feline Engineering" },
+    { "slug": "cat-tree-retail-margin", "topic": "Margin math: what factory-direct cat furniture does to a retailer's P&L", "category": "Wholesale & Logistics" }
+  ]
+}
