@@ -1,4 +1,4 @@
-﻿import { NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
 import { brevoConfigured, brevoDiagnostics } from "@/lib/brevo";
 import { enqueueOutreach, qstashConfigured } from "@/lib/outreach/qstash";
@@ -59,6 +59,23 @@ async function run(request: Request) {
 
   const url = new URL(request.url);
   const testEmail = url.searchParams.get("test");
+
+  // Vercel Hobby allows one cron per day, so this runs at 13:00 UTC — 09:00 in
+  // New York during daylight saving, 08:00 in winter. Both hours are accepted;
+  // any other hour means a stray manual trigger, which is refused.
+  // `?force=1` bypasses the window for deliberate re-runs.
+  if (!testEmail && !url.searchParams.has("force")) {
+    const etHour = Number(
+      new Intl.DateTimeFormat("en-US", {
+        timeZone: "America/New_York",
+        hour: "numeric",
+        hour12: false,
+      }).format(new Date()),
+    );
+    if (etHour !== 9 && etHour !== 8) {
+      return json({ ok: true, skipped: true, reason: `New York hour is ${etHour}, not 08/09.` });
+    }
+  }
 
   // Manual single test: sends one cold email to the given address, no DB write.
   if (testEmail) {
