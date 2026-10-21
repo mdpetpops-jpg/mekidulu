@@ -197,3 +197,20 @@ export async function requeueFetch(formData: FormData) {
 
   revalidatePath("/admin/sources");
 }
+
+/**
+ * Scanned leads land as `draft` so nothing is mailed without a human look.
+ * Approving flips them to `pending`, which the daily cron picks up.
+ */
+export async function approveProspect(formData: FormData) {
+  await requireAdmin();
+  const id = String(formData.get("id") ?? "");
+  const status = String(formData.get("status") ?? "pending");
+  if (!id) return;
+
+  const supabase = getSupabaseAdmin();
+  await supabase.from("outreach_emails").update({ send_status: status }).eq("id", id);
+
+  revalidatePath("/admin/sources");
+  revalidatePath("/admin/outreach");
+}

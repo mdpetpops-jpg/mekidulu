@@ -1,4 +1,4 @@
-import { importProspects, requeueFetch } from "@/app/admin/actions";
+import { approveProspect, importProspects, requeueFetch } from "@/app/admin/actions";
 import { getOutreachRows } from "@/lib/admin/data";
 
 export const dynamic = "force-dynamic";
@@ -80,12 +80,13 @@ export default async function AdminSourcesPage() {
               <th className="px-4 py-3 font-bold">邮箱</th>
               <th className="px-4 py-3 font-bold">抓取</th>
               <th className="px-4 py-3 font-bold">操作</th>
+              <th className="px-4 py-3 font-bold">发送</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-line/70">
             {rows.length === 0 ? (
               <tr>
-                <td colSpan={5} className="px-4 py-10 text-center text-[12px] text-muted">
+                <td colSpan={6} className="px-4 py-10 text-center text-[12px] text-muted">
                   还没有记录，先用上面的批量导入加几条
                 </td>
               </tr>
@@ -115,6 +116,22 @@ export default async function AdminSourcesPage() {
                       <input type="hidden" name="id" value={row.id} />
                       <button type="submit" className="rounded-lg border border-line px-2.5 py-1 text-[11px] font-semibold text-ink-soft hover:border-ink/30 hover:text-ink">
                         重新抓取
+                      </button>
+                    </form>
+                  </td>
+                  <td className="px-4 py-3">
+                    <form action={approveProspect} className="flex items-center gap-1.5">
+                      <input type="hidden" name="id" value={row.id} />
+                      <input type="hidden" name="status" value={row.send_status === "pending" ? "draft" : "pending"} />
+                      <button
+                        type="submit"
+                        className={`rounded-lg px-2.5 py-1 text-[11px] font-semibold ${
+                          row.send_status === "pending"
+                            ? "border border-line text-ink-soft hover:border-ink/30"
+                            : "bg-ink text-canvas hover:bg-brand-deep"
+                        }`}
+                      >
+                        {row.send_status === "pending" ? "撤回" : "批准发送"}
                       </button>
                     </form>
                   </td>

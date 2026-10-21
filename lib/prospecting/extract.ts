@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Domain → email extraction.
  *
  * Google scraping is unreliable (and against their terms), so prospecting works
@@ -53,14 +53,20 @@ function cleanEmails(text: string, domain: string): string[] {
   for (const match of text.matchAll(EMAIL_RE)) {
     const email = match[0].toLowerCase().replace(/\.$/, "");
     if (SKIP_EMAIL.some((skip) => email.includes(skip))) continue;
-    // Prefer addresses on the site's own domain, but keep other business domains.
     if (email.length > 90) continue;
     if (/\.(png|jpe?g|webp|gif|svg)$/i.test(email)) continue;
     found.add(email);
-    if (found.size >= 5) break;
+    if (found.size >= 40) break;
   }
-  const ownDomain = [...found].filter((email) => email.endsWith(`@${domain}`) || email.includes(domain.split(".")[0]));
-  return ownDomain.length > 0 ? ownDomain : [...found];
+
+  // Only keep addresses on the retailer's own domain. Anything else on the page
+  // (supplier, platform, agency) belongs to someone else and must not be mailed.
+  return [...found]
+    .filter((email) => {
+      const emailDomain = email.split("@")[1] ?? "";
+      return emailDomain === domain || emailDomain.endsWith(`.${domain}`);
+    })
+    .slice(0, 3);
 }
 
 export async function extractEmailsFromSite(site: string): Promise<Extraction> {
