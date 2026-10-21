@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 
 import { runAi } from "@/lib/ai";
 import { brevoConfigured, sendEmail } from "@/lib/brevo";
+import { extractEmailsFromSite } from "@/lib/prospecting/extract";
 import { getSupabaseAdmin } from "@/lib/supabase/admin";
 
 export const runtime = "nodejs";
@@ -63,10 +64,33 @@ async function run(request: Request) {
   const supabase = getSupabaseAdmin();
   const batchSize = Math.min(Number(process.env.OUTREACH_BATCH_SIZE ?? "3"), 10);
 
+  // Step 1 — fill in missing addresses by reading the prospect's own website.
+  // (Google scraping is unreliable; a retailer's /contact page is not.)
+  const { data: needEmail } = await supabase
+    .from("outreach_emails")
+    .select("id, website")
+    .or("fetch_status.is.null,fetch_status.eq.pending")
+    .not("website", "is", null)
+    .limit(5);
+
+  const fetchResults: { id: string; email?: string; error?: string }[] = [];
+  for (const row of (needEmail ?? []) as { id: string; website: string | null }[]) {
+    if (!row.website) continue;
+    const extraction = await extractEmailsFromSite(row.website);
+    const email = extraction.emails[0];
+    await supabase
+      .from("outreach_emails")
+      .update(email ? { email, fetch_status: "fetched" } : { fetch_status: "failed" })
+      .eq("id", row.id);
+    fetchResults.push({ id: row.id, email, error: extraction.error });
+  }
+
+  // Step 2 — send to rows that now have an address.
   const { data, error } = await supabase
     .from("outreach_emails")
     .select("id, email, store_name, website, send_status")
     .or("send_status.is.null,send_status.eq.pending")
+    .not("email", "is", null)
     .order("created_at", { ascending: true })
     .limit(batchSize);
 
@@ -76,7 +100,7 @@ async function run(request: Request) {
 
   const rows = (data ?? []) as OutreachRow[];
   if (rows.length === 0) {
-    return NextResponse.json({ ok: true, sent: 0, message: "No pending outreach." });
+    return NextResponse.json({ ok: true, sent: 0, fetched: fetchResults, message: "No pending outreach." });
   }
 
   const results: { id: string; ok: boolean; error?: string }[] = [];

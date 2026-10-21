@@ -15,6 +15,40 @@ type PostPageProps = {
   params: Promise<{ slug: string }>;
 };
 
+/** Pulls `### Question` + following paragraph pairs out of a Markdown body. */
+function extractFaq(markdown: string): { question: string; answer: string }[] {
+  const entries: { question: string; answer: string }[] = [];
+  let current: { question: string; body: string[] } | null = null;
+
+  const flush = () => {
+    if (!current) return;
+    const answer = current.body
+      .join(" ")
+      .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
+      .replace(/[*_`#>]/g, "")
+      .replace(/\s+/g, " ")
+      .trim();
+    if (current.question && answer.length > 30) {
+      entries.push({ question: current.question, answer: answer.slice(0, 600) });
+    }
+    current = null;
+  };
+
+  for (const line of markdown.split("\n")) {
+    if (/^###\s+/.test(line)) {
+      flush();
+      current = { question: line.replace(/^###\s+/, "").trim(), body: [] };
+    } else if (/^##\s+/.test(line)) {
+      flush();
+    } else if (current) {
+      current.body.push(line.trim());
+    }
+  }
+  flush();
+
+  return entries.slice(0, 6);
+}
+
 export const dynamic = "force-dynamic";
 
 export async function generateMetadata({
@@ -57,6 +91,30 @@ export default async function JournalPostPage({ params }: PostPageProps) {
     description: post.summary,
     image: post.cover,
     author: { "@type": "Organization", name: "Mekidulu Global Design Lab" },
+  };
+
+  // Q&A pairs let assistant engines quote the article directly.
+  const faq = extractFaq(post.content);
+  const faqJsonLd = faq.length
+    ? {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        mainEntity: faq.map((entry) => ({
+          "@type": "Question",
+          name: entry.question,
+          acceptedAnswer: { "@type": "Answer", text: entry.answer },
+        })),
+      }
+    : null;
+
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://www.mekidulu.com/" },
+      { "@type": "ListItem", position: 2, name: "Journal", item: "https://www.mekidulu.com/blog" },
+      { "@type": "ListItem", position: 3, name: post.title },
+    ],
   };
 
   return (
@@ -172,6 +230,16 @@ export default async function JournalPostPage({ params }: PostPageProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
       />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
+      {faqJsonLd ? (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+        />
+      ) : null}
     </>
   );
 }

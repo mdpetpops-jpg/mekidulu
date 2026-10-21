@@ -129,3 +129,71 @@ export async function setOutreachReply(formData: FormData) {
 
   revalidatePath("/admin/outreach");
 }
+
+/**
+ * Bulk import. One prospect per line, comma or pipe separated:
+ *   Store Name, https://store.com, buyer@store.com
+ *   https://store.com            (email left blank — the crawler fills it)
+ *   buyer@store.com              (email only)
+ */
+export async function importProspects(formData: FormData) {
+  await requireAdmin();
+  const raw = String(formData.get("bulk") ?? "");
+  const source = String(formData.get("source") ?? "manual").trim() || "manual";
+
+  const lines = raw
+    .split("\n")
+    .map((line) => line.trim())
+    .filter(Boolean)
+    .slice(0, 200);
+
+  if (lines.length === 0) return;
+
+  const rows = lines
+    .map((line) => {
+      const parts = line.split(/[|,;\t]/).map((part) => part.trim()).filter(Boolean);
+      let storeName: string | null = null;
+      let website: string | null = null;
+      let email: string | null = null;
+
+      for (const part of parts) {
+        if (/^https?:\/\//i.test(part) || /^[\w-]+\.[a-z]{2,}(\/.*)?$/i.test(part)) {
+          website = /^https?:\/\//i.test(part) ? part : `https://${part}`;
+        } else if (/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(part)) {
+          email = part.toLowerCase();
+        } else if (!storeName) {
+          storeName = part;
+        }
+      }
+
+      if (!website && !email) return null;
+      return {
+        store_name: storeName,
+        website,
+        email: email ?? null,
+        source,
+        fetch_status: email ? "fetched" : "pending",
+        send_status: email ? "pending" : "pending",
+      };
+    })
+    .filter(Boolean) as Record<string, unknown>[];
+
+  if (rows.length === 0) return;
+
+  const supabase = getSupabaseAdmin();
+  await supabase.from("outreach_emails").insert(rows);
+
+  revalidatePath("/admin/sources");
+  revalidatePath("/admin/outreach");
+}
+
+export async function requeueFetch(formData: FormData) {
+  await requireAdmin();
+  const id = String(formData.get("id") ?? "");
+  if (!id) return;
+
+  const supabase = getSupabaseAdmin();
+  await supabase.from("outreach_emails").update({ fetch_status: "pending" }).eq("id", id);
+
+  revalidatePath("/admin/sources");
+}

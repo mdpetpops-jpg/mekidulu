@@ -246,6 +246,57 @@ export async function getAiLogs(limit = 30): Promise<AiLogRow[]> {
   }
 }
 
+export type AiUsage = {
+  totalCalls: number;
+  totalTokens: number;
+  todayCalls: number;
+  todayTokens: number;
+  byScenario: [string, { calls: number; tokens: number; errors: number }][];
+};
+
+export async function getAiUsage(limit = 1000): Promise<AiUsage> {
+  try {
+    const supabase = getSupabaseAdmin();
+    const { data } = await supabase
+      .from("ai_logs")
+      .select("scenario, tokens_used, status, created_at")
+      .order("created_at", { ascending: false })
+      .limit(limit);
+
+    const rows = (data ?? []) as { scenario: string; tokens_used: number | null; status: string | null; created_at: string }[];
+    const since = startOfTodayUtc();
+    const byScenario = new Map<string, { calls: number; tokens: number; errors: number }>();
+
+    let totalTokens = 0;
+    let todayCalls = 0;
+    let todayTokens = 0;
+
+    for (const row of rows) {
+      const tokens = row.tokens_used ?? 0;
+      totalTokens += tokens;
+      if (row.created_at >= since) {
+        todayCalls += 1;
+        todayTokens += tokens;
+      }
+      const entry = byScenario.get(row.scenario) ?? { calls: 0, tokens: 0, errors: 0 };
+      entry.calls += 1;
+      entry.tokens += tokens;
+      if (row.status === "error") entry.errors += 1;
+      byScenario.set(row.scenario, entry);
+    }
+
+    return {
+      totalCalls: rows.length,
+      totalTokens,
+      todayCalls,
+      todayTokens,
+      byScenario: [...byScenario.entries()].sort((a, b) => b[1].calls - a[1].calls),
+    };
+  } catch {
+    return { totalCalls: 0, totalTokens: 0, todayCalls: 0, todayTokens: 0, byScenario: [] };
+  }
+}
+
 export async function getBlogRows(): Promise<BlogRow[]> {
   try {
     const supabase = getSupabaseAdmin();

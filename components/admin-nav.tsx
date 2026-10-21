@@ -6,6 +6,7 @@ import { usePathname, useRouter } from "next/navigation";
 const LINKS = [
   { href: "/admin", label: "仪表盘", hint: "总览" },
   { href: "/admin/leads", label: "线索池", hint: "留资" },
+  { href: "/admin/sources", label: "邮箱获取", hint: "拓客" },
   { href: "/admin/outreach", label: "开发信追踪", hint: "外呼" },
   { href: "/admin/blog", label: "博客管理", hint: "内容" },
   { href: "/admin/traffic", label: "流量分析", hint: "来源" },

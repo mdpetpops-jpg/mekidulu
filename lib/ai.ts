@@ -52,10 +52,18 @@ export async function runAi(options: {
   input: string;
   maxTokens?: number;
   temperature?: number;
+  /** Extra context appended to the stored prompt (e.g. live product facts). */
+  systemSuffix?: string;
+  /** Full chat history for conversational scenarios; overrides `input`. */
+  messages?: { role: "user" | "assistant"; content: string }[];
 }): Promise<AiResult> {
   const apiKey = process.env.DEEPSEEK_API_KEY?.trim();
-  const system = await getPrompt(options.scenario);
+  const baseSystem = await getPrompt(options.scenario);
+  const system = options.systemSuffix ? `${baseSystem}\n\n${options.systemSuffix}` : baseSystem;
   const maxTokens = Math.min(options.maxTokens ?? 500, 1600);
+  const history = options.messages?.length
+    ? options.messages
+    : [{ role: "user" as const, content: options.input }];
 
   if (!apiKey) {
     return { ok: false, text: "", tokens: 0, error: "DEEPSEEK_API_KEY missing" };
@@ -74,10 +82,7 @@ export async function runAi(options: {
         model: "deepseek-chat",
         temperature: options.temperature ?? 0.6,
         max_tokens: maxTokens,
-        messages: [
-          { role: "system", content: system },
-          { role: "user", content: options.input },
-        ],
+        messages: [{ role: "system", content: system }, ...history],
       }),
       signal: AbortSignal.timeout(45_000),
     });
@@ -99,9 +104,13 @@ export async function runAi(options: {
 
   try {
     const supabase = getSupabaseAdmin();
+    const loggedInput =
+      options.messages?.length
+        ? options.messages.map((message) => `${message.role}: ${message.content}`).join("\n\n")
+        : options.input;
     await supabase.from("ai_logs").insert({
       scenario: options.scenario,
-      input_prompt: options.input.slice(0, 4000),
+      input_prompt: loggedInput.slice(0, 4000),
       output_response: (text || error || "").slice(0, 8000),
       tokens_used: tokens,
       status: error ? "error" : "success",

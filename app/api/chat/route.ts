@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 
+import { runAi } from "@/lib/ai";
 import { buildSystemPrompt } from "@/lib/chat/prompt";
 import { manualFiles, manualPdfPath } from "@/lib/manuals";
 import { rateLimit } from "@/lib/rate-limit";
@@ -10,7 +11,6 @@ export const dynamic = "force-dynamic";
 
 const MAX_MESSAGES = 12;
 const MAX_TOTAL_CHARS = 6000;
-const UPSTREAM_TIMEOUT_MS = 25_000;
 
 const messageSchema = z.object({
   role: z.enum(["user", "assistant"]),
@@ -96,59 +96,26 @@ export async function POST(request: Request) {
   const lastUserMessage = [...messages].reverse().find((m) => m.role === "user");
   const manual = lastUserMessage ? detectManual(lastUserMessage.content) : undefined;
 
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), UPSTREAM_TIMEOUT_MS);
+  // Routed through runAi so every chat turn is logged to `ai_logs` and the
+  // persona comes from `ai_prompts.support_chat` (editable in /admin/ai).
+  const result = await runAi({
+    scenario: "support_chat",
+    input: lastUserMessage?.content ?? "",
+    messages,
+    maxTokens: 600,
+    temperature: 0.35,
+    systemSuffix: buildSystemPrompt(locale),
+  });
 
-  try {
-    const upstream = await fetch("https://api.deepseek.com/chat/completions", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${apiKey}`,
-      },
-      body: JSON.stringify({
-        model: "deepseek-chat",
-        temperature: 0.35,
-        max_tokens: 600,
-        messages: [
-          { role: "system", content: buildSystemPrompt(locale) },
-          ...messages,
-        ],
-      }),
-      signal: controller.signal,
-    });
-
-    if (!upstream.ok) {
-      const detail = (await upstream.text()).slice(0, 300);
-      console.error("[api/chat] upstream error:", upstream.status, detail);
-      return jsonError(
-        "The assistant is unavailable right now. Please use the wholesale form.",
-        upstream.status === 429 ? 429 : 502,
-      );
-    }
-
-    const payload = (await upstream.json()) as {
-      choices?: { message?: { content?: string } }[];
-    };
-    const reply = payload.choices?.[0]?.message?.content?.trim();
-
-    if (!reply) {
-      return jsonError("The assistant returned an empty answer. Please retry.", 502);
-    }
-
-    return NextResponse.json({ ok: true, reply, manual });
-  } catch (error) {
-    const aborted = error instanceof Error && error.name === "AbortError";
-    console.error("[api/chat] request failed:", aborted ? "timeout" : error);
+  if (!result.ok || !result.text) {
+    console.error("[api/chat] generation failed:", result.error);
     return jsonError(
-      aborted
-        ? "The assistant took too long to answer. Please try again."
-        : "The assistant is unavailable right now.",
-      aborted ? 504 : 502,
+      "The assistant is unavailable right now. Please use the wholesale form.",
+      502,
     );
-  } finally {
-    clearTimeout(timeout);
   }
+
+  return NextResponse.json({ ok: true, reply: result.text, manual });
 }
 
 export async function GET() {

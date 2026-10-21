@@ -1,13 +1,13 @@
 import { savePrompt } from "@/app/admin/actions";
-import { getAiLogs, getPrompts } from "@/lib/admin/data";
+import { getAiLogs, getAiUsage, getPrompts } from "@/lib/admin/data";
 import { DEFAULT_PROMPTS } from "@/lib/ai";
 
 export const dynamic = "force-dynamic";
 
-const SCENARIOS = ["outreach_email", "blog_generation", "support_reply", "lead_thankyou"];
+const SCENARIOS = ["outreach_email", "blog_generation", "support_chat", "support_reply", "lead_thankyou"];
 
 export default async function AdminAiPage() {
-  const [prompts, logs] = await Promise.all([getPrompts(), getAiLogs(30)]);
+  const [prompts, logs, usage] = await Promise.all([getPrompts(), getAiLogs(30), getAiUsage()]);
   const known = new Set(prompts.map((prompt) => prompt.scenario));
 
   return (
@@ -18,6 +18,42 @@ export default async function AdminAiPage() {
           提示词可在线修改（写入 `ai_prompts`）· 每次调用都会记入 `ai_logs`
         </p>
       </header>
+
+      <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        <div className="rounded-2xl border border-line bg-paper p-4">
+          <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-muted">今日调用</p>
+          <p className="mt-2 text-[26px] font-extrabold leading-none text-ink">{usage.todayCalls}</p>
+        </div>
+        <div className="rounded-2xl border border-line bg-paper p-4">
+          <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-muted">今日 Token</p>
+          <p className="mt-2 text-[26px] font-extrabold leading-none text-ink">{usage.todayTokens.toLocaleString()}</p>
+        </div>
+        <div className="rounded-2xl border border-line bg-paper p-4">
+          <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-muted">累计调用</p>
+          <p className="mt-2 text-[26px] font-extrabold leading-none text-ink">{usage.totalCalls}</p>
+        </div>
+        <div className="rounded-2xl border border-line bg-paper p-4">
+          <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-muted">累计 Token</p>
+          <p className="mt-2 text-[26px] font-extrabold leading-none text-ink">{usage.totalTokens.toLocaleString()}</p>
+        </div>
+      </section>
+
+      {usage.byScenario.length > 0 ? (
+        <section className="rounded-2xl border border-line bg-paper">
+          <h2 className="border-b border-line/80 px-5 py-3.5 text-[13px] font-bold text-ink">按场景统计</h2>
+          <ul className="divide-y divide-line/70">
+            {usage.byScenario.map(([scenario, stats]) => (
+              <li key={scenario} className="flex items-center justify-between px-5 py-2.5 text-[12px]">
+                <span className="font-mono text-[11.5px] text-ink">{scenario}</span>
+                <span className="text-muted">
+                  {stats.calls} 次 · {stats.tokens.toLocaleString()} tokens
+                  {stats.errors > 0 ? <span className="ml-2 text-red-700">· {stats.errors} 错误</span> : null}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
 
       <section className="space-y-4">
         <h2 className="text-[13px] font-bold text-ink">提示词</h2>

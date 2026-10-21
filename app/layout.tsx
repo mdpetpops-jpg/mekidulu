@@ -30,7 +30,10 @@ export const metadata: Metadata = {
     "dropshipping cat trees",
     "OEM cat tree",
   ],
-  alternates: { canonical: "/" },
+  alternates: {
+    canonical: "/",
+    types: { "application/rss+xml": "/feed.xml" },
+  },
   openGraph: {
     type: "website",
     siteName: site.name,
