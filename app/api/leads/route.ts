@@ -1,10 +1,10 @@
 import { NextResponse } from "next/server";
 import { after } from "next/server";
 
+import { runAi } from "@/lib/ai";
 import { brevoConfigured, sendEmail } from "@/lib/brevo";
 import { deepseekConfigured } from "@/lib/deepseek";
 import { fieldErrors, leadSchema } from "@/lib/leads/schema";
-import { buildThankYouEmail } from "@/lib/outreach/copy";
 import { rateLimit } from "@/lib/rate-limit";
 import { getSupabaseAdmin, SupabaseConfigError } from "@/lib/supabase/admin";
 
@@ -16,6 +16,8 @@ const MAX_BODY_BYTES = 8 * 1024;
 
 /**
  * Runs after the response is flushed, so a slow provider never delays the form.
+ * The prompt comes from `ai_prompts` (editable in /admin/ai) and the call is
+ * logged to `ai_logs`.
  */
 async function sendAutoReply(lead: {
   businessEmail: string;
@@ -27,17 +29,23 @@ async function sendAutoReply(lead: {
     return;
   }
 
-  const copy = await buildThankYouEmail({
-    email: lead.businessEmail,
-    companyName: lead.companyName,
-    estimatedVolume: lead.estimatedVolume,
+  const ai = await runAi({
+    scenario: "lead_thankyou",
+    input: `Company: ${lead.companyName || "unknown"}; email: ${lead.businessEmail}; estimated volume: ${lead.estimatedVolume ?? "not specified"}.`,
+    maxTokens: 260,
+    temperature: 0.5,
   });
+
+  if (!ai.ok || !ai.text) {
+    console.error("[api/leads] auto-reply generation failed:", ai.error);
+    return;
+  }
 
   const result = await sendEmail({
     to: lead.businessEmail,
     toName: lead.companyName || undefined,
-    subject: copy.subject,
-    text: copy.text,
+    subject: "Your Mekidulu wholesale inquiry",
+    text: ai.text,
     replyTo: "sales@mekidulu.com",
   });
 

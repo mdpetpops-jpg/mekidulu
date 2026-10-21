@@ -3,7 +3,9 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { ArrowRight } from "@/components/icons";
-import { formatJournalDate, getPostMeta } from "@/lib/journal";
+import { formatJournalDate, listPublishedPosts } from "@/lib/blog";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Journal",
@@ -18,8 +20,8 @@ export const metadata: Metadata = {
   },
 };
 
-export default function JournalPage() {
-  const posts = getPostMeta();
+export default async function JournalPage() {
+  const posts = await listPublishedPosts();
   const [lead, ...rest] = posts;
 
   return (

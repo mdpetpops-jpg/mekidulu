@@ -1,23 +1,23 @@
 import { NextResponse } from "next/server";
 
-import { brevoConfigured, brevoDiagnostics } from "@/lib/brevo";
-import { enqueueOutreach, qstashConfigured } from "@/lib/outreach/qstash";
-import {
-  randomDelaySeconds,
-  sendColdEmailTo,
-  siteOrigin,
-  type Prospect,
-} from "@/lib/outreach/sender";
+import { runAi } from "@/lib/ai";
+import { brevoConfigured, sendEmail } from "@/lib/brevo";
 import { getSupabaseAdmin } from "@/lib/supabase/admin";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 export const maxDuration = 60;
 
-/** How many prospects one run may handle. Kept small on purpose. */
-const BATCH_SIZE = Number(process.env.OUTREACH_BATCH_SIZE ?? "2");
-/** Gap between sends when QStash is not configured (function time budget). */
-const INLINE_GAP_MS = Number(process.env.OUTREACH_GAP_MS ?? "12000");
+/** Hard ceiling on generation length — keeps the token bill tiny. */
+const MAX_TOKENS = 150;
+
+type OutreachRow = {
+  id: string;
+  email: string;
+  store_name: string | null;
+  website: string | null;
+  send_status: string | null;
+};
 
 function authorised(request: Request): boolean {
   const secret = process.env.CRON_SECRET?.trim();
@@ -29,42 +29,25 @@ function authorised(request: Request): boolean {
   return header === secret;
 }
 
-function json(body: unknown, status = 200) {
-  return NextResponse.json(body, { status });
-}
-
-export async function GET(request: Request) {
-  return run(request);
-}
-
-export async function POST(request: Request) {
-  return run(request);
+function unsubscribeUrl(email: string): string {
+  const base = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.mekidulu.com").replace(/\/$/, "");
+  return `${base}/unsubscribe?email=${encodeURIComponent(email)}`;
 }
 
 async function run(request: Request) {
   if (!authorised(request)) {
-    return json({ ok: false, error: "Unauthorized." }, 401);
+    return NextResponse.json({ ok: false, error: "Unauthorized." }, { status: 401 });
   }
 
   if (!brevoConfigured()) {
-    return json(
-      {
-        ok: false,
-        error: "Brevo credentials are not usable in this environment.",
-        brevo: brevoDiagnostics(),
-      },
-      503,
-    );
+    return NextResponse.json({ ok: false, error: "Brevo credentials are not usable." }, { status: 503 });
   }
 
   const url = new URL(request.url);
-  const testEmail = url.searchParams.get("test");
 
-  // Vercel Hobby allows one cron per day, so this runs at 13:00 UTC — 09:00 in
-  // New York during daylight saving, 08:00 in winter. Both hours are accepted;
-  // any other hour means a stray manual trigger, which is refused.
-  // `?force=1` bypasses the window for deliberate re-runs.
-  if (!testEmail && !url.searchParams.has("force")) {
+  // 13:00 UTC is 09:00 New York in summer and 08:00 in winter; anything else is
+  // a stray manual trigger. ?force=1 bypasses this for deliberate runs.
+  if (!url.searchParams.has("force")) {
     const etHour = Number(
       new Intl.DateTimeFormat("en-US", {
         timeZone: "America/New_York",
@@ -73,81 +56,90 @@ async function run(request: Request) {
       }).format(new Date()),
     );
     if (etHour !== 9 && etHour !== 8) {
-      return json({ ok: true, skipped: true, reason: `New York hour is ${etHour}, not 08/09.` });
+      return NextResponse.json({ ok: true, skipped: true, reason: `New York hour is ${etHour}.` });
     }
-  }
-
-  // Manual single test: sends one cold email to the given address, no DB write.
-  if (testEmail) {
-    const prospect: Prospect = {
-      id: "test",
-      email: testEmail,
-      store_name: "Test Store",
-      website: "https://example.com",
-      status: "pending",
-    };
-    const result = await sendColdEmailTo({ ...prospect, id: "00000000-0000-0000-0000-000000000000" });
-    return json({ ok: result.ok, mode: "test", to: testEmail, error: result.error }, result.ok ? 200 : 502);
   }
 
   const supabase = getSupabaseAdmin();
+  const batchSize = Math.min(Number(process.env.OUTREACH_BATCH_SIZE ?? "3"), 10);
+
   const { data, error } = await supabase
-    .from("prospects")
-    .select("id, email, store_name, website, status")
-    .eq("status", "pending")
+    .from("outreach_emails")
+    .select("id, email, store_name, website, send_status")
+    .or("send_status.is.null,send_status.eq.pending")
     .order("created_at", { ascending: true })
-    .limit(BATCH_SIZE);
+    .limit(batchSize);
 
   if (error) {
-    console.error("[cron/outreach] query failed:", error.code, error.message);
-    return json({ ok: false, error: "Could not read the prospect queue." }, 502);
+    return NextResponse.json({ ok: false, error: "Could not read outreach_emails.", code: error.code }, { status: 502 });
   }
 
-  const prospects = (data ?? []) as Prospect[];
-  if (prospects.length === 0) {
-    return json({ ok: true, mode: "idle", queued: 0, sent: 0, message: "No pending prospects." });
+  const rows = (data ?? []) as OutreachRow[];
+  if (rows.length === 0) {
+    return NextResponse.json({ ok: true, sent: 0, message: "No pending outreach." });
   }
 
-  // Preferred path: one delayed job per prospect, 3–8 minutes apart.
-  if (qstashConfigured()) {
-    const origin = url.origin || siteOrigin();
-    let queued = 0;
-    for (const [index, prospect] of prospects.entries()) {
-      const delay = (index + 1) * randomDelaySeconds();
-      const ok = await enqueueOutreach({
-        prospectId: prospect.id,
-        delaySeconds: delay,
-        origin,
-        forwardAuthorization: `Bearer ${process.env.CRON_SECRET}`,
-      });
-      if (ok) queued += 1;
-    }
-    return json({ ok: true, mode: "qstash", queued, candidates: prospects.length });
-  }
-
-  // Fallback: small sequential batch inside this invocation.
-  const started = Date.now();
   const results: { id: string; ok: boolean; error?: string }[] = [];
 
-  for (const [index, prospect] of prospects.entries()) {
-    if (index > 0) {
-      if (Date.now() - started > 240_000) {
-        results.push({ id: prospect.id, ok: false, error: "skipped: time budget" });
-        continue;
-      }
-      await new Promise((resolve) => setTimeout(resolve, INLINE_GAP_MS));
+  for (const row of rows) {
+    const store = row.store_name || "your store";
+    const input = `Store: ${store}
+Website: ${row.website ?? "unknown"}
+
+Write the email body only (no subject line). End with a blank line then: "Unsubscribe: ${unsubscribeUrl(row.email)}"`;
+
+    const ai = await runAi({
+      scenario: "outreach_email",
+      input,
+      maxTokens: MAX_TOKENS,
+      temperature: 0.7,
+    });
+
+    if (!ai.ok || !ai.text) {
+      await supabase
+        .from("outreach_emails")
+        .update({ send_status: "failed", fetch_status: "failed" })
+        .eq("id", row.id);
+      results.push({ id: row.id, ok: false, error: ai.error ?? "AI failed" });
+      continue;
     }
-    const result = await sendColdEmailTo(prospect);
-    results.push({ id: prospect.id, ok: result.ok, error: result.error });
+
+    const result = await sendEmail({
+      to: row.email,
+      toName: row.store_name ?? undefined,
+      subject: `Wood cat trees for ${store} — factory direct, from 5 units`,
+      text: ai.text,
+      replyTo: "sales@mekidulu.com",
+      headers: {
+        "List-Unsubscribe": `<${unsubscribeUrl(row.email)}>`,
+        "List-Unsubscribe-Post": "List-Unsubscribe=One-Button",
+      },
+    });
+
+    await supabase
+      .from("outreach_emails")
+      .update({
+        send_status: result.ok ? "sent" : "failed",
+        reply_status: result.ok ? "waiting" : null,
+      })
+      .eq("id", row.id);
+
+    results.push({ id: row.id, ok: result.ok, error: result.ok ? undefined : result.error });
+
+    // Breathing room between messages inside one invocation.
+    if (row !== rows[rows.length - 1]) {
+      await new Promise((resolve) => setTimeout(resolve, 3000));
+    }
   }
 
-  const sent = results.filter((r) => r.ok).length;
-  return json({
-    ok: sent > 0,
-    mode: "inline",
-    candidates: prospects.length,
-    sent,
-    failed: results.length - sent,
-    results,
-  });
+  const sent = results.filter((entry) => entry.ok).length;
+  return NextResponse.json({ ok: true, candidates: rows.length, sent, failed: results.length - sent, results });
+}
+
+export async function GET(request: Request) {
+  return run(request);
+}
+
+export async function POST(request: Request) {
+  return run(request);
 }

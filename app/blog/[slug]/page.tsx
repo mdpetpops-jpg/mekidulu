@@ -6,24 +6,22 @@ import { notFound } from "next/navigation";
 import { ArrowRight } from "@/components/icons";
 import {
   formatJournalDate,
-  getAllPosts,
-  getPost,
+  getPublishedPost,
+  listPublishedPosts,
   renderMarkdown,
-} from "@/lib/journal";
+} from "@/lib/blog";
 
 type PostPageProps = {
   params: Promise<{ slug: string }>;
 };
 
-export function generateStaticParams() {
-  return getAllPosts().map((post) => ({ slug: post.slug }));
-}
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({
   params,
 }: PostPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const post = getPost(slug);
+  const post = await getPublishedPost(slug);
   if (!post) return { title: "Article not found" };
 
   return {
@@ -43,11 +41,11 @@ export async function generateMetadata({
 
 export default async function JournalPostPage({ params }: PostPageProps) {
   const { slug } = await params;
-  const post = getPost(slug);
+  const post = await getPublishedPost(slug);
   if (!post) notFound();
 
-  const content = await renderMarkdown(post.body);
-  const related = getAllPosts()
+  const content = await renderMarkdown(post.content);
+  const related = (await listPublishedPosts())
     .filter((entry) => entry.slug !== post.slug)
     .slice(0, 2);
 

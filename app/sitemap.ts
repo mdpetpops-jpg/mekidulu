@@ -1,15 +1,17 @@
 import type { MetadataRoute } from "next";
 
-import { getPostMeta } from "@/lib/journal";
+import { listPublishedPosts } from "@/lib/blog";
 import { manualFiles, manualPdfPath } from "@/lib/manuals";
-import { products, site } from "@/lib/site";
+import { site } from "@/lib/site";
+
+export const dynamic = "force-dynamic";
 
 /**
- * Sitemap for crawlers. Blog entries come from the Markdown files themselves,
- * so publishing a new article updates the sitemap automatically — nothing to
- * maintain by hand.
+ * Sitemap for crawlers. Blog entries come from the database (published posts)
+ * plus the legacy Markdown files, so publishing from /admin updates this
+ * automatically.
  */
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const base = site.url.replace(/\/$/, "");
   const now = new Date();
 
@@ -22,25 +24,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${base}/manuals`, lastModified: now, changeFrequency: "monthly", priority: 0.6 },
   ];
 
-  const posts: MetadataRoute.Sitemap = getPostMeta().map((post) => ({
+  const posts: MetadataRoute.Sitemap = (await listPublishedPosts()).map((post) => ({
     url: `${base}/blog/${post.slug}`,
     lastModified: new Date(post.date),
     changeFrequency: "yearly",
     priority: 0.7,
   }));
 
-  // Product pages do not exist individually yet; the line card is on the
-  // homepage and the full range on /shop.
-  const productsWithPages: MetadataRoute.Sitemap = products
-    .filter(() => false)
-    .map((product) => ({
-      url: `${base}/shop/${product.id}`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.6,
-    }));
-
-  // Assembly PDFs are useful, indexable resources and rank for model numbers.
   const manuals: MetadataRoute.Sitemap = manualFiles.map((manual) => ({
     url: `${base}${manualPdfPath(manual.id)}`,
     lastModified: now,
@@ -48,5 +38,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.4,
   }));
 
-  return [...staticRoutes, ...posts, ...productsWithPages, ...manuals];
+  return [...staticRoutes, ...posts, ...manuals];
 }
