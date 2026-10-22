@@ -1,7 +1,8 @@
-import { NextResponse } from "next/server";
+﻿import { NextResponse } from "next/server";
 
 import { runAi } from "@/lib/ai";
 import { brevoConfigured, sendEmail } from "@/lib/brevo";
+import { OUTREACH_FACTS, validateOutreachCopy, withUnsubscribe } from "@/lib/outreach/validate";
 import { extractEmailsFromSite } from "@/lib/prospecting/extract";
 import { getSupabaseAdmin } from "@/lib/supabase/admin";
 
@@ -112,19 +113,35 @@ Website: ${row.website ?? "unknown"}
 
 Write the email body only (no subject line). End with a blank line then: "Unsubscribe: ${unsubscribeUrl(row.email)}"`;
 
-    const ai = await runAi({
-      scenario: "outreach_email",
-      input,
-      maxTokens: MAX_TOKENS,
-      temperature: 0.7,
-    });
+    // Generate, then verify the hard numbers before anything is sent. One retry
+    // with the facts restated; a second failure marks the row and moves on.
+    const checks: string[] = [];
+    let body = "";
+    for (let attempt = 0; attempt < 2; attempt += 1) {
+      const ai = await runAi({
+        scenario: "outreach_email",
+        input: attempt === 0 ? input : `${input}\n\n${OUTREACH_FACTS}`,
+        maxTokens: MAX_TOKENS,
+        temperature: 0.7,
+      });
+      if (!ai.ok || !ai.text) {
+        checks.push(ai.error ?? "AI failed");
+        continue;
+      }
+      const verdict = validateOutreachCopy(ai.text);
+      if (verdict.ok) {
+        body = withUnsubscribe(ai.text, unsubscribeUrl(row.email));
+        break;
+      }
+      checks.push(verdict.reason ?? "invalid copy");
+    }
 
-    if (!ai.ok || !ai.text) {
+    if (!body) {
       await supabase
         .from("outreach_emails")
-        .update({ send_status: "failed", fetch_status: "failed" })
+        .update({ send_status: "failed" })
         .eq("id", row.id);
-      results.push({ id: row.id, ok: false, error: ai.error ?? "AI failed" });
+      results.push({ id: row.id, ok: false, error: checks.join("; ") });
       continue;
     }
 
@@ -132,7 +149,7 @@ Write the email body only (no subject line). End with a blank line then: "Unsubs
       to: row.email,
       toName: row.store_name ?? undefined,
       subject: `Wood cat trees for ${store} — factory direct, from 5 units`,
-      text: ai.text,
+      text: body,
       replyTo: "sales@mekidulu.com",
       headers: {
         "List-Unsubscribe": `<${unsubscribeUrl(row.email)}>`,
