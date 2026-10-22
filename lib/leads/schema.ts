@@ -27,7 +27,7 @@ export const leadSchema = z.object({
     (value) =>
       typeof value === "string" && value.trim() === "" ? undefined : value,
     z
-      .enum(["5-50", "50-200", "200+"], {
+      .enum(["10-50", "50-200", "200+"], {
         error: "Choose one of the listed volume bands.",
       })
       .optional(),

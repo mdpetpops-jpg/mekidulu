@@ -382,7 +382,7 @@ export const shopProducts: readonly ShopProduct[] = [
  * Volume bands offered on the wholesale form. Kept in one place so the API
  * validation, the select control and the SQL check constraint stay aligned.
  */
-export const volumeBands = ["5-50", "50-200", "200+"] as const;
+export const volumeBands = ["10-50", "50-200", "200+"] as const;
 export type VolumeBand = (typeof volumeBands)[number];
 
 export const trustMetrics = [
@@ -392,7 +392,7 @@ export const trustMetrics = [
     detail: "Factory-direct pricing versus retail-first brands.",
   },
   {
-    value: "5–200+",
+    value: "10–200+",
     label: "Units per order",
     detail: "Sample boxes through to full container loads.",
   },

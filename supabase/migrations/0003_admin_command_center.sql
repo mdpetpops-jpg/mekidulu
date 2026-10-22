@@ -161,7 +161,7 @@ insert into public.ai_prompts (scenario, prompt_content, is_active)
 values
   ('outreach_email', 'You are the export sales director of Mekidulu, a Chinese manufacturer of heavy-duty birch cat furniture.
 Write a 90-110 word plain-text B2B cold email to an independent pet retailer.
-Mention: low MOQ from 5 units, dropshipping supported, factory-direct pricing. One low-friction closing question. No prices, no delivery promises, no emoji.
+Mention: low MOQ from 10 units, dropshipping supported, factory-direct pricing. One low-friction closing question. No prices, no delivery promises, no emoji.
 Return only the email body.', true),
   ('blog_generation', 'You are a senior pet-industry blogger writing for Mekidulu.
 Given a real question Western cat owners are discussing online, write a ~500 word English Q&A blog post.

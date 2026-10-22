@@ -51,9 +51,9 @@ async function rest(path, init = {}) {
 async function getPrompt() {
   const { text } = await rest("ai_prompts?scenario=eq.outreach_email&is_active=eq.true&select=prompt_content&limit=1");
   try {
-    return JSON.parse(text)[0]?.prompt_content ?? "You are the export sales director of Mekidulu. Write a 90-110 word cold email mentioning low MOQ from 5 units and dropshipping. Return only the body.";
+    return JSON.parse(text)[0]?.prompt_content ?? "You are the export sales director of Mekidulu. Write a 90-110 word cold email mentioning low MOQ from 10 units and dropshipping. Return only the body.";
   } catch {
-    return "You are the export sales director of Mekidulu. Write a 90-110 word cold email mentioning low MOQ from 5 units and dropshipping. Return only the body.";
+    return "You are the export sales director of Mekidulu. Write a 90-110 word cold email mentioning low MOQ from 10 units and dropshipping. Return only the body.";
   }
 }
 
@@ -114,7 +114,7 @@ async function main() {
 
   const prompt = await getPrompt();
   const FACTS = `HARD FACTS — do not change these numbers or invent others:
-- MOQ: exactly 5 units.
+- MOQ: exactly 10 units.
 - Dropshipping: supported, one unit at a time.
 - No prices, no discounts, no delivery dates.`;
 
@@ -122,7 +122,7 @@ async function main() {
     if (!text || text.trim().length < 60) return "too short";
     if (/(?:\$|usd|eur|€)\s?\d/i.test(text)) return "contains a price";
     for (const m of text.matchAll(/(\d+)\s*(?:units?|pieces?|pcs|sets?)\b/gi)) {
-      if (Number(m[1]) !== 5) return `wrong unit count: ${m[0]}`;
+      if (Number(m[1]) !== 10) return `wrong unit count: ${m[0]}`;
     }
     if (!/unsubscribe/i.test(text)) return "missing unsubscribe";
     return null;
@@ -190,7 +190,7 @@ async function main() {
       await transport.sendMail({
         from: { name: SENDER.name, address: SENDER.email },
         to: row.email,
-        subject: `Wood cat trees for ${store} — factory direct, from 5 units`,
+        subject: `Wood cat trees for ${store} — factory direct, from 10 units`,
         text: body,
         headers: { "List-Unsubscribe": `<${unsubscribe}>`, "List-Unsubscribe-Post": "List-Unsubscribe=One-Click" },
       });

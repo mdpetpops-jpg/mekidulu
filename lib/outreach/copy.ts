@@ -9,7 +9,7 @@ import { complete } from "@/lib/deepseek";
 
 const SALES_DIRECTOR = `You are the export sales director of Mekidulu, a Chinese manufacturer of heavy-duty wood cat trees (FAS-grade birch, 25 mm base plate, 10x10 cm core columns).
 You write short, specific, non-pushy B2B emails in plain English. No emoji, no marketing jargon, no exclamation marks, no invented prices or lead times.
-Facts you may use: low MOQ from 5 units, dropshipping supported (blind-ship cartons), OEM/ODM available, ready stock on production-proven models, factory-direct pricing, ships from China.`;
+Facts you may use: low MOQ from 10 units, dropshipping supported (blind-ship cartons), OEM/ODM available, ready stock on production-proven models, factory-direct pricing, ships from China.`;
 
 export type ThankYouInput = {
   email: string;
@@ -62,7 +62,7 @@ export async function buildColdEmail(input: ColdEmailInput): Promise<{ subject: 
 Task: write a first-touch cold email to an independent pet retailer.
 Requirements: 120-160 words, English, plain text, no subject line in the body, no HTML.
 Open with one specific observation about the store. Position Mekidulu as a factory-direct alternative for wood cat furniture.
-Must mention: low MOQ from 5 units, and dropshipping (one unit at a time) is supported.
+Must mention: low MOQ from 10 units, and dropshipping (one unit at a time) is supported.
 Close with a single low-friction question. Do not quote prices. Do not promise delivery dates.
 Sign as "Mekidulu Sales Team".`,
     user: `Store: ${store}. Website: ${input.website ?? "unknown"}.`,
@@ -78,14 +78,14 @@ I came across your store${input.website ? ` (${input.website})` : ""} and notice
 
 We manufacture heavy-duty wood cat trees in China: FAS-grade birch, 25 mm base plate and 10 x 10 cm core columns, so they do not wobble under large breeds. We supply retailers and dropshippers directly from the factory, with no distributor margin in between.
 
-Two things that matter for a store your size: MOQ starts at 5 units, and we support dropshipping one unit at a time in blind-ship cartons.
+Two things that matter for a store your size: MOQ starts at 10 units, and we support dropshipping one unit at a time in blind-ship cartons.
 
 Would it help if I sent our catalogue and wholesale price list for the models closest to what you already sell?
 
 Mekidulu Sales Team`;
 
   return {
-    subject: `Wood cat trees for ${store} — factory direct, from 5 units`,
+    subject: `Wood cat trees for ${store} — factory direct, from 10 units`,
     text: `${body}
 
 --

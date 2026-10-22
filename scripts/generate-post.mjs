@@ -66,7 +66,7 @@ RULES
 - 700-900 words, English, Markdown only (no front matter, no code fences around the whole answer).
 - Structure: opening paragraph, 3-5 "##" sections, at least one bullet list, one "## FAQ" with 3 Q&A pairs (question as "### " heading).
 - Engineer's voice: specific numbers, mechanisms, trade-offs. No marketing adjectives, no emoji.
-- Facts you may use: FAS-grade birch plywood; 25 mm reinforced base plate; 10 x 10 cm solid birch core columns; natural sisal; steel anti-topple wall anchor; low MOQ from 5 units; dropshipping supported; OEM/ODM available; manufactured in China.
+- Facts you may use: FAS-grade birch plywood; 25 mm reinforced base plate; 10 x 10 cm solid birch core columns; natural sisal; steel anti-topple wall anchor; low MOQ from 10 units; dropshipping supported; OEM/ODM available; manufactured in China.
 - Never invent load ratings, prices, lead times or test data.
 - Mention Mekidulu naturally once or twice, and link to /manuals or /shop in plain Markdown at most twice.
 - Do not mention competitors by name.`;

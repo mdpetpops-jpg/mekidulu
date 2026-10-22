@@ -69,7 +69,7 @@ async function run() {
   ]) {
     expectContains(wholesale.text, needle, `wholesale: field "${needle}"`);
   }
-  for (const band of ["5-50", "50-200", "200+"]) {
+  for (const band of ["10-50", "50-200", "200+"]) {
     record(
       `wholesale: volume option "${band}"`,
       wholesale.text.includes(`value="${band}"`),

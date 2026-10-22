@@ -20,9 +20,9 @@ export function validateOutreachCopy(text: string): CopyCheck {
     return { ok: false, reason: "contains a price" };
   }
 
-  // Any unit count other than the real MOQ (5) is a factual error.
+  // Any unit count other than the real MOQ (10) is a factual error.
   for (const match of text.matchAll(UNIT_RE)) {
-    if (Number(match[1]) !== 5) {
+    if (Number(match[1]) !== 10) {
       return { ok: false, reason: `wrong unit count: ${match[0]}` };
     }
   }
@@ -40,7 +40,7 @@ export function validateOutreachCopy(text: string): CopyCheck {
 }
 
 export const OUTREACH_FACTS = `HARD FACTS — do not change these numbers or invent others:
-- MOQ: exactly 5 units.
+- MOQ: exactly 10 units.
 - Dropshipping: supported, one unit at a time.
 - Material: FAS-grade birch plywood, 25 mm base plate, 10x10 cm columns.
 - No prices, no discounts, no delivery dates.

@@ -31,7 +31,7 @@ create table if not exists public.leads (
   constraint leads_business_email_length
     check (char_length(business_email) <= 254),
   constraint leads_estimated_volume_allowed
-    check (estimated_volume is null or estimated_volume in ('5-50', '50-200', '200+')),
+    check (estimated_volume is null or estimated_volume in ('10-50', '50-200', '200+')),
   constraint leads_status_allowed
     check (status in ('new', 'contacted', 'qualified', 'won', 'lost'))
 );
@@ -39,7 +39,7 @@ create table if not exists public.leads (
 comment on table  public.leads is
   'B2B wholesale inquiries submitted from /wholesale. Rows are created by the Next.js API route using the service_role key.';
 comment on column public.leads.estimated_volume is
-  'Volume band chosen on the form: 5-50 | 50-200 | 200+.';
+  'Volume band chosen on the form: 10-50 | 50-200 | 200+.';
 comment on column public.leads.status is
   'Manual sales-pipeline state: new | contacted | qualified | won | lost.';
 

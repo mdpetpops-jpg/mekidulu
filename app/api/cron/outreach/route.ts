@@ -63,7 +63,7 @@ async function run(request: Request) {
   }
 
   const supabase = getSupabaseAdmin();
-  const batchSize = Math.min(Number(process.env.OUTREACH_BATCH_SIZE ?? "3"), 10);
+  const batchSize = Math.min(Number(process.env.OUTREACH_BATCH_SIZE ?? "6"), 30);
 
   // Step 1 — fill in missing addresses by reading the prospect's own website.
   // (Google scraping is unreliable; a retailer's /contact page is not.)
@@ -148,7 +148,7 @@ Write the email body only (no subject line). End with a blank line then: "Unsubs
     const result = await sendEmail({
       to: row.email,
       toName: row.store_name ?? undefined,
-      subject: `Wood cat trees for ${store} — factory direct, from 5 units`,
+      subject: `Wood cat trees for ${store} — factory direct, from 10 units`,
       text: body,
       replyTo: "sales@mekidulu.com",
       headers: {

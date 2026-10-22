@@ -231,7 +231,7 @@ python scripts/build-catalogue.py
 2. 字段含义：
    - `business_email` 邮箱（已自动转小写）
    - `company_name` 公司名
-   - `estimated_volume` 体量（5-50 / 50-200 / 200+）
+   - `estimated_volume` 体量（10-50 / 50-200 / 200+）
    - `notes` 客户留言
    - `status` 状态（new / contacted / qualified / won / lost）——**跟进后手动改**
    - `page_path` 客户从哪个页面提交的

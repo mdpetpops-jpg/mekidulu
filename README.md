@@ -72,7 +72,7 @@ returns `503` instead of leaking configuration details to the browser.
 - contact columns (`business_email` required, `company_name`, `estimated_volume`, `notes`)
 - pipeline `status` (`new → contacted → qualified → won/lost`) and attribution
   (`source`, `page_path`, `referrer`, `user_agent`)
-- check constraints mirroring the form (`5-50`, `50-200`, `200+`)
+- check constraints mirroring the form (`10-50`, `50-200`, `200+`)
 - indexes for the newest-first queue and email lookup
 - an `updated_at` trigger
 - **RLS enabled with zero policies** + `revoke all` from `anon`/`authenticated`,
@@ -90,7 +90,7 @@ Run it once in the Supabase SQL editor; it is idempotent.
 {
   "businessEmail": "buyer@company.com",   // required, lower-cased server-side
   "companyName": "Acme Retail",           // optional, <= 160 chars
-  "estimatedVolume": "50-200",            // optional: 5-50 | 50-200 | 200+
+  "estimatedVolume": "50-200",            // optional: 10-50 | 50-200 | 200+
   "notes": "Launching in Q1.",            // optional, <= 2000 chars
   "companyUrl": ""                        // honeypot — must stay empty
 }
