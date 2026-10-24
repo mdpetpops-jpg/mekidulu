@@ -1,22 +1,47 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 
 import { createBlogPost, generateBlogDraftAction } from "@/app/admin/actions";
-import { getBlogRows } from "@/lib/admin/data";
+import { getBlogRows, type BlogRow } from "@/lib/admin/data";
 import { getAllPosts } from "@/lib/journal";
 
 export const dynamic = "force-dynamic";
 
-function Row({ row }: { row: { id: string; slug: string; title: string; status: string; created_at: string } }) {
+const BADGE: Record<string, string> = {
+  B: "bg-blue-50 text-blue-700 ring-blue-200",
+  C: "bg-emerald-50 text-emerald-700 ring-emerald-200",
+};
+
+const TABS = [
+  { key: "all", label: "全部" },
+  { key: "B", label: "B端文章(买手)" },
+  { key: "C", label: "C端文章(流量)" },
+] as const;
+
+function AudienceTag({ audience }: { audience: string | null }) {
+  const key = audience === "B" ? "B" : "C";
+  return (
+    <span
+      className={`shrink-0 rounded-full px-2 py-0.5 text-[9.5px] font-bold uppercase tracking-[0.1em] ring-1 ${BADGE[key]}`}
+    >
+      {key === "B" ? "B 买手" : "C 流量"}
+    </span>
+  );
+}
+
+function Row({ row }: { row: BlogRow }) {
   const published = row.status === "published";
   return (
     <li className="flex items-center justify-between gap-3 px-4 py-3 hover:bg-canvas/60">
-      <div className="min-w-0">
-        <Link href={`/admin/blog/${row.id}`} className="block truncate text-[13px] font-semibold text-ink hover:text-brand-deep">
-          {row.title}
-        </Link>
-        <p className="truncate font-mono text-[10.5px] text-muted">
-          /blog/{row.slug} · {new Date(row.created_at).toLocaleDateString("zh-CN")}
-        </p>
+      <div className="flex min-w-0 items-center gap-2.5">
+        <AudienceTag audience={row.target_audience} />
+        <div className="min-w-0">
+          <Link href={`/admin/blog/${row.id}`} className="block truncate text-[13px] font-semibold text-ink hover:text-brand-deep">
+            {row.title}
+          </Link>
+          <p className="truncate font-mono text-[10.5px] text-muted">
+            /blog/{row.slug} · {new Date(row.created_at).toLocaleDateString("zh-CN")}
+          </p>
+        </div>
       </div>
       <div className="flex shrink-0 items-center gap-2">
         <span
@@ -34,11 +59,23 @@ function Row({ row }: { row: { id: string; slug: string; title: string; status: 
   );
 }
 
-export default async function AdminBlogPage() {
-  const rows = await getBlogRows();
+export default async function AdminBlogPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ audience?: string }>;
+}) {
+  const { audience } = await searchParams;
+  const active = audience === "B" || audience === "C" ? audience : "all";
+
+  const allRows = await getBlogRows();
+  const rows = active === "all" ? allRows : allRows.filter((row) => (row.target_audience ?? "C") === active);
+
   const drafts = rows.filter((row) => row.status !== "published");
   const published = rows.filter((row) => row.status === "published");
   const legacy = getAllPosts();
+
+  const countB = allRows.filter((row) => row.target_audience === "B").length;
+  const countC = allRows.filter((row) => (row.target_audience ?? "C") === "C").length;
 
   return (
     <div className="space-y-8">
@@ -46,7 +83,7 @@ export default async function AdminBlogPage() {
         <div>
           <h1 className="text-[22px] font-extrabold tracking-tight text-ink">博客管理</h1>
           <p className="mt-1 text-[12px] text-muted">
-            草稿箱 {drafts.length} · 已发布 {published.length} · 旧站文件文章 {legacy.length}
+            草稿箱 {drafts.length} · 已发布 {published.length} · B端 {countB} / C端 {countC} · 旧站文件文章 {legacy.length}
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-2">
@@ -66,10 +103,34 @@ export default async function AdminBlogPage() {
         </div>
       </header>
 
+      <nav className="flex flex-wrap items-center gap-2">
+        {TABS.map((tab) => {
+          const selected = active === tab.key;
+          return (
+            <Link
+              key={tab.key}
+              href={tab.key === "all" ? "/admin/blog" : `/admin/blog?audience=${tab.key}`}
+              className={`rounded-full px-4 py-1.5 text-[12px] font-semibold transition-colors ${
+                selected
+                  ? "bg-ink text-canvas"
+                  : "border border-line text-ink-soft hover:border-ink/30 hover:text-ink"
+              }`}
+            >
+              {tab.label}
+              <span className={`ml-1.5 text-[10px] ${selected ? "text-canvas/70" : "text-muted"}`}>
+                {tab.key === "all" ? allRows.length : tab.key === "B" ? countB : countC}
+              </span>
+            </Link>
+          );
+        })}
+      </nav>
+
       <section className="rounded-2xl border border-line bg-paper">
         <h2 className="border-b border-line/80 px-4 py-3 text-[13px] font-bold text-ink">草稿箱</h2>
         {drafts.length === 0 ? (
-          <p className="px-4 py-6 text-[12px] text-muted">没有草稿。每天 12:00（UTC）的 cron 会自动写一篇草稿；也可以点上面的「立即生成一篇」。</p>
+          <p className="px-4 py-6 text-[12px] text-muted">
+            没有草稿。每天 12:00（UTC）的 cron 会自动写一篇：双日 C 端（引流），单日 B 端（买手）。
+          </p>
         ) : (
           <ul className="divide-y divide-line/70">
             {drafts.map((row) => (

@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Blog topic sourcing, cheapest-first.
  *
  *   1. rss      — Reddit's public Atom feed. The `.json` API returns 403 to
@@ -27,7 +27,10 @@ export type Topic = {
 
 type Seed = { title: string; excerpt: string };
 
-const FEEDS = ["CatAdvice", "cats", "CatTraining"];
+const FEEDS: Record<"C" | "B", string[]> = {
+  C: ["CatAdvice"],
+  B: ["smallbusiness", "ecommerce"],
+};
 const TIMEOUT_MS = 8_000;
 const MAX_ITEMS = 5;
 const EXCERPT_CHARS = 150;
@@ -106,8 +109,9 @@ async function redditRss(subreddit: string, attempts: Attempt[]): Promise<Seed[]
 }
 
 const CAT_WORDS = /cat|kitten|feline|scratch|climb|litter|purr/i;
+const BIZ_WORDS = /retail|store|ecommerce|margin|supplier|wholesale|inventory|return|shipping|profit/i;
 
-async function googleTrends(attempts: Attempt[]): Promise<Seed[]> {
+async function googleTrends(attempts: Attempt[], audience: "C" | "B"): Promise<Seed[]> {
   const xml = await fetchXml(
     "https://trends.google.com/trends/trendingsearches/daily/rss?geo=US",
     "trends:US",
@@ -115,12 +119,18 @@ async function googleTrends(attempts: Attempt[]): Promise<Seed[]> {
   );
   if (!xml) return [];
 
+  const filter = audience === "C" ? CAT_WORDS : BIZ_WORDS;
+  const suffix =
+    audience === "C"
+      ? "— what should cat owners actually do?"
+      : "— what does this mean for pet retail margins?";
+
   return blocks(xml, "item")
     .map((item) => plainText(innerTag(item, "title")))
-    .filter((title) => CAT_WORDS.test(title))
+    .filter((title) => filter.test(title))
     .slice(0, 3)
     .map((title) => ({
-      title: `${title} — what should cat owners actually do?`,
+      title: `${title} ${suffix}`,
       excerpt: `Trending search in the US: ${title}`,
     }));
 }
@@ -149,16 +159,31 @@ export const FALLBACK_QUESTIONS: { title: string; excerpt: string }[] = [
   { title: "Cat tree arrived wobbly and the seller says it is normal", excerpt: "It sways a good five centimetres when the cat lands on it." },
 ];
 
-export function pickFallback(seed = Date.now()): Seed & { source: TopicSource } {
-  const index = Math.floor(seed / 86_400_000) % FALLBACK_QUESTIONS.length;
-  const question = FALLBACK_QUESTIONS[index];
+/** Ten commercial pain points for the B side. */
+export const B_FALLBACK_QUESTIONS: { title: string; excerpt: string }[] = [
+  { title: "Why cat furniture has the highest return rate in our store", excerpt: "Wobbly towers and wrong-size platforms come back more than anything else we sell." },
+  { title: "How do independent pet shops compete with Amazon on cat trees?", excerpt: "We cannot match the price, so we need a reason to exist." },
+  { title: "Is heavy solid wood actually a higher-margin product for retailers?", excerpt: "Cheaper particle-board towers sell faster but come back more often." },
+  { title: "Freight per cubic metre is killing our cat tree margins", excerpt: "Cartons are bulky and the shipping cost eats the markup." },
+  { title: "What MOQ should a small pet retailer accept for furniture?", excerpt: "Suppliers quote 200 units and we sell 12 a month." },
+  { title: "How do you reduce damage claims on cat furniture shipments?", excerpt: "Corners arrive crushed and customers photograph everything." },
+  { title: "Dropshipping cat furniture: does it actually work?", excerpt: "Blind-ship cartons sound good but the delivery experience worries me." },
+  { title: "How much shelf space should cat furniture get in a 200 m² store?", excerpt: "We are deciding between one display tower and a flat-pack wall." },
+  { title: "Selling private-label cat trees: what does OEM actually cost?", excerpt: "Minimums, tooling and packaging changes all add up." },
+  { title: "Why do customers return cat trees they assembled once?", excerpt: "Mostly wobble and missing parts, but the reviews hurt us more than the refund." },
+];
+
+export function pickFallback(audience: "C" | "B" = "C", seed = Date.now()): Seed & { source: TopicSource } {
+  const bank = audience === "B" ? B_FALLBACK_QUESTIONS : FALLBACK_QUESTIONS;
+  const index = Math.floor(seed / 86_400_000) % bank.length;
+  const question = bank[index];
   return { title: question.title, excerpt: question.excerpt, source: "fallback" };
 }
 
-export async function findTopic(): Promise<Topic> {
+export async function findTopic(audience: "C" | "B" = "C"): Promise<Topic> {
   const attempts: Attempt[] = [];
 
-  for (const subreddit of FEEDS) {
+  for (const subreddit of FEEDS[audience]) {
     const items = await redditRss(subreddit, attempts);
     if (items.length > 0) {
       const chosen = items[Math.floor(Math.random() * items.length)];
@@ -166,12 +191,12 @@ export async function findTopic(): Promise<Topic> {
     }
   }
 
-  const trends = await googleTrends(attempts);
+  const trends = await googleTrends(attempts, audience);
   if (trends.length > 0) {
     const chosen = trends[Math.floor(Math.random() * trends.length)];
     return { title: chosen.title, excerpt: chosen.excerpt, source: "trends", attempts };
   }
 
-  const fallback = pickFallback();
+  const fallback = pickFallback(audience);
   return { title: fallback.title, excerpt: fallback.excerpt, source: "fallback", attempts };
 }

@@ -52,6 +52,7 @@ export type BlogRow = {
   status: string;
   cover_image: string | null;
   created_at: string;
+  target_audience: string | null;
 };
 
 function startOfTodayUtc(): string {
@@ -348,11 +349,19 @@ export async function getAiUsage(limit = 1000): Promise<AiUsage> {
 export async function getBlogRows(): Promise<BlogRow[]> {
   try {
     const supabase = getSupabaseAdmin();
-    const { data } = await supabase
+    const { data, error } = await supabase
+      .from("blog_posts")
+      .select("id, slug, title, status, cover_image, created_at, target_audience")
+      .order("created_at", { ascending: false });
+
+    if (!error) return (data ?? []) as BlogRow[];
+
+    // Migration 0007 not run yet — still show the list, default to C.
+    const fallback = await supabase
       .from("blog_posts")
       .select("id, slug, title, status, cover_image, created_at")
       .order("created_at", { ascending: false });
-    return (data ?? []) as BlogRow[];
+    return ((fallback.data ?? []) as BlogRow[]).map((row) => ({ ...row, target_audience: "C" }));
   } catch {
     return [];
   }
@@ -363,7 +372,7 @@ export async function getBlogRow(id: string): Promise<(BlogRow & { content: stri
     const supabase = getSupabaseAdmin();
     const { data } = await supabase
       .from("blog_posts")
-      .select("id, slug, title, status, cover_image, created_at, content")
+      .select("id, slug, title, status, cover_image, created_at, content, target_audience")
       .eq("id", id)
       .maybeSingle();
     return (data as (BlogRow & { content: string }) | null) ?? null;

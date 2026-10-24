@@ -69,17 +69,33 @@ export default async function BlogEditorPage({ params }: { params: Promise<{ id:
           </div>
         </div>
 
-        <div>
-          <label htmlFor="cover_image" className="text-[11px] font-bold uppercase tracking-[0.12em] text-muted">
-            封面图路径（可选）
-          </label>
-          <input
-            id="cover_image"
-            name="cover_image"
-            defaultValue={post.cover_image ?? ""}
-            placeholder="/images/journal-8782.webp"
-            className="mt-1.5 h-10 w-full rounded-lg border border-line bg-canvas px-3 font-mono text-[12px] text-ink"
-          />
+        <div className="grid gap-4 md:grid-cols-[2fr_1fr]">
+          <div>
+            <label htmlFor="cover_image" className="text-[11px] font-bold uppercase tracking-[0.12em] text-muted">
+              封面图路径（可选）
+            </label>
+            <input
+              id="cover_image"
+              name="cover_image"
+              defaultValue={post.cover_image ?? ""}
+              placeholder="/images/journal-8782.webp"
+              className="mt-1.5 h-10 w-full rounded-lg border border-line bg-canvas px-3 font-mono text-[12px] text-ink"
+            />
+          </div>
+          <div>
+            <label htmlFor="target_audience" className="text-[11px] font-bold uppercase tracking-[0.12em] text-muted">
+              受众分类
+            </label>
+            <select
+              id="target_audience"
+              name="target_audience"
+              defaultValue={post.target_audience === "B" ? "B" : "C"}
+              className="mt-1.5 h-10 w-full rounded-lg border border-line bg-canvas px-3 text-[12px] text-ink"
+            >
+              <option value="C">C 端 — 流量文章</option>
+              <option value="B">B 端 — 买手文章</option>
+            </select>
+          </div>
         </div>
 
         <div>

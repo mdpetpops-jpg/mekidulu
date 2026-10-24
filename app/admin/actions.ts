@@ -73,19 +73,25 @@ export async function saveBlogPost(formData: FormData) {
   const rawSlug = String(formData.get("slug") ?? "").trim();
   const content = String(formData.get("content") ?? "");
   const cover = String(formData.get("cover_image") ?? "").trim();
+  const audienceRaw = String(formData.get("target_audience") ?? "");
+  const targetAudience = audienceRaw === "B" ? "B" : "C";
 
   if (!id || !title) return;
 
   const supabase = getSupabaseAdmin();
-  await supabase
-    .from("blog_posts")
-    .update({
-      title,
-      slug: slugify(rawSlug || title),
-      content,
-      cover_image: cover || null,
-    })
-    .eq("id", id);
+  const update: Record<string, unknown> = {
+    title,
+    slug: slugify(rawSlug || title),
+    content,
+    cover_image: cover || null,
+  };
+
+  const first = await supabase.from("blog_posts").update({ ...update, target_audience: targetAudience }).eq("id", id);
+
+  // Column missing (migration 0007 not run) — save everything else anyway.
+  if (first.error && /target_audience|PGRST204|42703/i.test(`${first.error.message} ${first.error.code}`)) {
+    await supabase.from("blog_posts").update(update).eq("id", id);
+  }
 
   revalidatePath("/admin/blog");
   revalidatePath(`/admin/blog/${id}`);

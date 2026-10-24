@@ -24,13 +24,16 @@ export async function GET() {
   });
 }
 
-/** "Generate now" from the admin UI — no cron secret needed. */
-export async function POST() {
+/** "Generate now" from the admin UI — no cron secret needed. ?audience=B forces a track. */
+export async function POST(request: Request) {
   if (!(await isAdmin())) {
     return NextResponse.json({ ok: false, error: "Unauthorized." }, { status: 401 });
   }
 
-  const result = await generateBlogDraft();
+  const requested = new URL(request.url).searchParams.get("audience");
+  const force = requested === "B" || requested === "C" ? requested : undefined;
+
+  const result = await generateBlogDraft(force);
   if (!result.ok) {
     return NextResponse.json(result, { status: 502 });
   }

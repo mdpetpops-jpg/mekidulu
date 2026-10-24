@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import { B2bBanner } from "@/components/b2b-banner";
 import { ArrowRight } from "@/components/icons";
 import {
   formatJournalDate,
@@ -78,7 +79,12 @@ export default async function JournalPostPage({ params }: PostPageProps) {
   const post = await getPublishedPost(slug);
   if (!post) notFound();
 
-  const content = await renderMarkdown(post.content);
+  // C-side articles carry the wholesale banner as literal HTML; strip it and
+  // render the equivalent component instead of trusting raw markup.
+  const hasBanner = /<div class="b2b-banner">[\s\S]*?<\/div>/.test(post.content);
+  const markdown = post.content.replace(/<div class="b2b-banner">[\s\S]*?<\/div>/, "").trim();
+  const content = await renderMarkdown(markdown);
+
   const related = (await listPublishedPosts())
     .filter((entry) => entry.slug !== post.slug)
     .slice(0, 2);
@@ -178,6 +184,8 @@ export default async function JournalPostPage({ params }: PostPageProps) {
             className="prose-journal mt-12 pb-16"
             dangerouslySetInnerHTML={{ __html: content }}
           />
+
+          {hasBanner ? <B2bBanner /> : null}
         </div>
       </article>
 
