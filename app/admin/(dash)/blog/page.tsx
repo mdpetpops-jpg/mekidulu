@@ -1,6 +1,6 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 
-import { createBlogPost } from "@/app/admin/actions";
+import { createBlogPost, generateBlogDraftAction } from "@/app/admin/actions";
 import { getBlogRows } from "@/lib/admin/data";
 import { getAllPosts } from "@/lib/journal";
 
@@ -49,17 +49,27 @@ export default async function AdminBlogPage() {
             草稿箱 {drafts.length} · 已发布 {published.length} · 旧站文件文章 {legacy.length}
           </p>
         </div>
-        <form action={createBlogPost}>
-          <button type="submit" className="h-9 rounded-full bg-ink px-5 text-[12px] font-semibold text-canvas hover:bg-brand-deep">
-            + 新建文章
-          </button>
-        </form>
+        <div className="flex flex-wrap items-center gap-2">
+          <form action={generateBlogDraftAction}>
+            <button
+              type="submit"
+              className="h-9 rounded-full border border-line px-4 text-[12px] font-semibold text-ink hover:bg-canvas"
+            >
+              ⚡ 立即生成一篇
+            </button>
+          </form>
+          <form action={createBlogPost}>
+            <button type="submit" className="h-9 rounded-full bg-ink px-5 text-[12px] font-semibold text-canvas hover:bg-brand-deep">
+              + 新建文章
+            </button>
+          </form>
+        </div>
       </header>
 
       <section className="rounded-2xl border border-line bg-paper">
         <h2 className="border-b border-line/80 px-4 py-3 text-[13px] font-bold text-ink">草稿箱</h2>
         {drafts.length === 0 ? (
-          <p className="px-4 py-6 text-[12px] text-muted">没有草稿。每天 22:00（UTC）的 cron 会自动把 Reddit 热门问题写成草稿。</p>
+          <p className="px-4 py-6 text-[12px] text-muted">没有草稿。每天 12:00（UTC）的 cron 会自动写一篇草稿；也可以点上面的「立即生成一篇」。</p>
         ) : (
           <ul className="divide-y divide-line/70">
             {drafts.map((row) => (

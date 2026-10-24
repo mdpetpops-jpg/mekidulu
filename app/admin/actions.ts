@@ -58,6 +58,14 @@ export async function createBlogPost() {
   if (data?.id) redirect(`/admin/blog/${data.id}`);
 }
 
+/** Same pipeline as the 12:00 UTC cron, triggered by hand. */
+export async function generateBlogDraftAction() {
+  await requireAdmin();
+  const { generateBlogDraft } = await import("@/lib/blog/generate");
+  await generateBlogDraft();
+  revalidatePath("/admin/blog");
+}
+
 export async function saveBlogPost(formData: FormData) {
   await requireAdmin();
   const id = String(formData.get("id") ?? "");
