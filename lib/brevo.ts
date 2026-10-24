@@ -25,6 +25,8 @@ export type SendEmailInput = {
   html?: string;
   replyTo?: string;
   headers?: Record<string, string>;
+  /** Audit label: outreach | lead_reply | test */
+  type?: string;
 };
 
 export type SendEmailResult =
@@ -154,6 +156,12 @@ async function sendViaSmtp(
 }
 
 export async function sendEmail(input: SendEmailInput): Promise<SendEmailResult> {
+  const result = await deliver(input);
+  await audit(input, result).catch(() => undefined);
+  return result;
+}
+
+async function deliver(input: SendEmailInput): Promise<SendEmailResult> {
   const key = apiKey();
   if (key) return sendViaApi(key, input);
 
@@ -165,4 +173,17 @@ export async function sendEmail(input: SendEmailInput): Promise<SendEmailResult>
     error:
       "No Brevo credential: set BREVO_API_KEY (xkeysib-…) or BREVO_SMTP_KEY + BREVO_SMTP_USER.",
   };
+}
+
+/** Every send — success or failure — is written to `email_logs`. */
+async function audit(input: SendEmailInput, result: SendEmailResult): Promise<void> {
+  const { getSupabaseAdmin } = await import("@/lib/supabase/admin");
+  const supabase = getSupabaseAdmin();
+  await supabase.from("email_logs").insert({
+    recipient_email: input.to,
+    subject: input.subject,
+    email_body: input.html ?? input.text,
+    email_type: input.type ?? "outreach",
+    status: result.ok ? "sent" : "failed",
+  });
 }

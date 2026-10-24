@@ -47,6 +47,7 @@ async function sendAutoReply(lead: {
     subject: "Your Mekidulu wholesale inquiry",
     text: ai.text,
     replyTo: "sales@mekidulu.com",
+    type: "lead_reply",
   });
 
   if (!result.ok) {

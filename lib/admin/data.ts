@@ -246,6 +246,54 @@ export async function getAiLogs(limit = 30): Promise<AiLogRow[]> {
   }
 }
 
+export type VisitorRow = {
+  id: string;
+  session_id: string | null;
+  country: string | null;
+  device_type: string | null;
+  path: string;
+  duration: number;
+  created_at: string;
+};
+
+export async function getVisitorRows(limit = 100): Promise<VisitorRow[]> {
+  try {
+    const supabase = getSupabaseAdmin();
+    const { data } = await supabase
+      .from("visitor_logs")
+      .select("id, session_id, country, device_type, path, duration, created_at")
+      .order("created_at", { ascending: false })
+      .limit(limit);
+    return (data ?? []) as VisitorRow[];
+  } catch {
+    return [];
+  }
+}
+
+export type EmailLogRow = {
+  id: string;
+  recipient_email: string;
+  subject: string | null;
+  email_body: string | null;
+  email_type: string;
+  status: string;
+  created_at: string;
+};
+
+export async function getEmailLogs(limit = 200): Promise<EmailLogRow[]> {
+  try {
+    const supabase = getSupabaseAdmin();
+    const { data } = await supabase
+      .from("email_logs")
+      .select("id, recipient_email, subject, email_body, email_type, status, created_at")
+      .order("created_at", { ascending: false })
+      .limit(limit);
+    return (data ?? []) as EmailLogRow[];
+  } catch {
+    return [];
+  }
+}
+
 export type AiUsage = {
   totalCalls: number;
   totalTokens: number;

@@ -4,6 +4,7 @@ import { Plus_Jakarta_Sans } from "next/font/google";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { SupportChat } from "@/components/support-chat";
+import { TrafficBeacon } from "@/components/traffic-beacon";
 import { site } from "@/lib/site";
 import "./globals.css";
 
@@ -94,6 +95,7 @@ export default function RootLayout({
         </main>
         <SiteFooter />
         <SupportChat />
+        <TrafficBeacon />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}

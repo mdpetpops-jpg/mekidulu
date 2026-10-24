@@ -31,11 +31,16 @@ function slugify(value: string): string {
 
 type RedditPost = { title: string; selftext?: string; permalink?: string; subreddit?: string };
 
+/** Token budget: 5 posts, title + 150 chars of body. No comments, ever. */
+const MAX_POSTS = 5;
+const SELFTEXT_CHARS = 150;
+
 async function fetchQuestions(): Promise<RedditPost[]> {
   const collected: RedditPost[] = [];
   for (const subreddit of SUBREDDITS) {
+    if (collected.length >= MAX_POSTS) break;
     try {
-      const response = await fetch(`https://www.reddit.com/r/${subreddit}/top.json?t=day&limit=8`, {
+      const response = await fetch(`https://www.reddit.com/r/${subreddit}/top.json?t=day&limit=5`, {
         headers: { "User-Agent": "mekidulu-content-bot/1.0 (site admin)" },
         signal: AbortSignal.timeout(15_000),
       });
@@ -46,14 +51,19 @@ async function fetchQuestions(): Promise<RedditPost[]> {
       for (const child of payload.data?.children ?? []) {
         const post = child.data;
         if (!post?.title) continue;
-        if (!/[?]/.test(post.title) && (post.title.match(/\?/g) ?? []).length === 0) continue;
-        collected.push(post);
+        collected.push({
+          title: post.title.slice(0, 200),
+          selftext: (post.selftext ?? "").slice(0, SELFTEXT_CHARS),
+          permalink: post.permalink,
+          subreddit: post.subreddit,
+        });
+        if (collected.length >= MAX_POSTS) break;
       }
     } catch {
       // one subreddit failing should not abort the run
     }
   }
-  return collected;
+  return collected.slice(0, MAX_POSTS);
 }
 
 function parseOutput(raw: string, fallbackTitle: string) {
@@ -102,20 +112,20 @@ async function run(request: Request) {
   }
 
   const input = `Reddit question: ${chosen.title}
-Context from the thread: ${(chosen.selftext ?? "").slice(0, 1200) || "(no body)"}
+Context: ${chosen.selftext || "(no body)"}
 Source: reddit.com${chosen.permalink ?? ""}
 
 Return exactly in this format:
-TITLE: <SEO title, under 65 characters>
+TITLE: <under 65 characters>
 SUMMARY: <one sentence, under 160 characters>
 ---
-<Markdown body with ## sections, a bullet list and a short FAQ>`;
+<300-word article in plain Markdown>`;
 
   if (dryRun) {
     return NextResponse.json({ ok: true, dryRun: true, question: chosen.title, slug });
   }
 
-  const result = await runAi({ scenario: "blog_generation", input, maxTokens: 1600, temperature: 0.7 });
+  const result = await runAi({ scenario: "blog_generation", input, maxTokens: 700, temperature: 0.8 });
   if (!result.ok || !result.text) {
     return NextResponse.json({ ok: false, error: result.error ?? "AI failed" }, { status: 502 });
   }

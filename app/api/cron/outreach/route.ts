@@ -1,4 +1,4 @@
-﻿import { NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
 import { runAi } from "@/lib/ai";
 import { brevoConfigured, sendEmail } from "@/lib/brevo";
@@ -151,6 +151,7 @@ Write the email body only (no subject line). End with a blank line then: "Unsubs
       subject: `Wood cat trees for ${store} — factory direct, from 10 units`,
       text: body,
       replyTo: "sales@mekidulu.com",
+      type: "outreach",
       headers: {
         "List-Unsubscribe": `<${unsubscribeUrl(row.email)}>`,
         "List-Unsubscribe-Post": "List-Unsubscribe=One-Button",

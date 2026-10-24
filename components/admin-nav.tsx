@@ -8,6 +8,7 @@ const LINKS = [
   { href: "/admin/leads", label: "线索池", hint: "留资" },
   { href: "/admin/sources", label: "邮箱获取", hint: "拓客" },
   { href: "/admin/outreach", label: "开发信追踪", hint: "外呼" },
+  { href: "/admin/emails", label: "邮件记录", hint: "审计" },
   { href: "/admin/blog", label: "博客管理", hint: "内容" },
   { href: "/admin/traffic", label: "流量分析", hint: "来源" },
   { href: "/admin/ai", label: "AI 调度", hint: "提示词" },
